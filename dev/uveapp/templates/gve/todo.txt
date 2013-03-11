@@ -1,0 +1,90 @@
+List of TODO
+============
+
+---------- VIP ----------
+
+vip_if
+	Complete the signals depending the DUV
+	Implement checks
+	Implement coverage
+	
+vip_transfer
+	Maybe define enum for transaction signals
+	Define transaction signals
+	Define constraints
+	Use Macro for transaction signals
+	
+vip_env
+	Maybe implement some configuration function for agents
+	
+vip_bus_monitor
+	Implement covergroup(s)
+	Instantiate covergroup(s)
+	Implement data collection
+	Implement checks
+	Implement coverage
+	
+vip_master_agent
+	<nothing to do>
+	
+vip_master_monitor
+	Implement covergroup(s)
+	Instantiate covergroup(s)
+	Implement data collection
+	Implement checks
+	Implement coverage
+
+vip_master_driver
+	reset all signals while reset signal is active
+	wait reset
+	drive transfer to interface
+
+vip_master_sequencer
+	<nothing to do>
+
+vip_master_seq_lib
+	Extends the base sequence
+
+vip_slave_agent
+	<nothing to do>
+	
+vip_slave_monitor
+	Implement covergroup(s)
+	Instantiate covergroup(s)
+	Implement data collection
+	Implement checks
+	Implement coverage
+
+vip_slave_driver
+	reset all signals while reset signal is active
+	wait reset
+	drive transfer to interface
+
+vip_slave_sequencer
+	<nothing to do>
+
+vip_slave_seq_lib
+	Prepare response
+	Update slave
+	Maybe declare other types of slave sequences
+
+---------- Testbench -----------
+
+tb_tb_top
+	<nothing to do>
+
+tb_tb
+	Maybe set some parameters, like agent address
+
+tb_scoreboard
+	Define scoreboard attributes
+	Use macros for scoreboard attributes
+	Implement functional checks
+
+tb_test_lib
+	Create scenario
+
+tb_master_seq_lib
+	Implement sequences
+
+

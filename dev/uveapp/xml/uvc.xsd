@@ -1,0 +1,206 @@
+﻿<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:element name="vip">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="generated" type="xs:string"/>
+        <xs:element name="svdir" type="xs:string" minOccurs="0" maxOccurs="1"/>
+        <xs:element name="shortName" type="xs:string" minOccurs="0"/>
+        <xs:element name="className" type="xs:string"/>
+        <xs:element name="svdir" type="xs:string" minOccurs="0"/>
+        <xs:element name="description" type="xs:string"/>
+        <xs:element name="headerFile" type="xs:string" minOccurs="0" maxOccurs="1"/>
+        <xs:element name="bodyFile" type="xs:string"/>
+        <xs:element name="otherFile" type="xs:string" minOccurs="0" maxOccurs="unbounded"/>
+        <xs:element name="components" type="components"/>
+        <xs:element name="connections" type="connections" minOccurs="0"/>
+      </xs:sequence>
+      <xs:attribute name="version" type="xs:string"/>
+    </xs:complexType>
+  </xs:element>
+  <xs:complexType name="components">
+    <xs:sequence>
+      <xs:element name="agent" type="agent" minOccurs="0" maxOccurs="unbounded"/>
+      <xs:element name="collector" type="collector" minOccurs="0" maxOccurs="1"/>
+      <xs:element name="configuration" type="configuration" minOccurs="0" maxOccurs="1"/>
+      <xs:element name="driver" type="driver" minOccurs="0" maxOccurs="1"/>
+      <xs:element name="interface" type="interface" minOccurs="0" maxOccurs="1"/>
+      <xs:element name="monitor" type="monitor" minOccurs="0" maxOccurs="1"/>
+      <xs:element name="package" type="package" minOccurs="0" maxOccurs="1"/>
+      <xs:element name="scoreboard" type="scoreboard" minOccurs="0" maxOccurs="1"/>
+      <xs:element name="sequence" type="sequence" minOccurs="0" maxOccurs="1"/>
+      <xs:element name="sequenceitem" type="sequenceitem" minOccurs="0" maxOccurs="unbounded"/>
+      <xs:element name="sequencer" type="sequenceitem" minOccurs="0" maxOccurs="1"/>
+      <xs:element name="virtualSequencer" type="virtualsequencer" minOccurs="0" maxOccurs="1"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="component">
+    <xs:sequence>
+      <xs:element name="shortName" type="xs:string" minOccurs="0"/>
+      <xs:element name="instName" type="xs:string" minOccurs="0"/>
+      <xs:element name="className" type="xs:string"/>
+      <xs:element name="headerFile" type="xs:string" minOccurs="0" maxOccurs="1"/>
+      <xs:element name="bodyFile" type="xs:string" minOccurs="1" maxOccurs="1"/>
+      <xs:element name="otherFile" type="xs:string" minOccurs="0"/>
+      <xs:element name="tlmports" type="tlmports" minOccurs="0"/>
+      <xs:element name="fakeports" type="fakeports" minOccurs="0"/>
+      <xs:element name="components" type="components" minOccurs="0" maxOccurs="1"/>
+      <xs:element name="connections" type="connections" minOccurs="0" maxOccurs="1"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="package">
+    <xs:complexContent>
+      <xs:extension base="component">
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="interface">
+    <xs:complexContent>
+      <xs:extension base="component">
+        <xs:sequence>
+          <xs:element name="physicalports" type="physicalports"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="configuration">
+    <xs:complexContent>
+      <xs:extension base="component">
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="agent">
+    <xs:complexContent>
+      <xs:extension base="component">
+        <xs:sequence>
+          <xs:element name="nbAgents" type="xs:int" minOccurs="0"/>
+          <xs:element name="svdir" type="xs:string" minOccurs="0"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="monitor">
+    <xs:complexContent>
+      <xs:extension base="component">
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="driver">
+    <xs:complexContent>
+      <xs:extension base="component">
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="sequencer">
+    <xs:complexContent>
+      <xs:extension base="component">
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="virtualsequencer">
+    <xs:complexContent>
+      <xs:extension base="component">
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="sequence">
+    <xs:complexContent>
+      <xs:extension base="component">
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="sequenceitem">
+    <xs:complexContent>
+      <xs:extension base="component">
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="collector">
+    <xs:complexContent>
+      <xs:extension base="component">
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="scoreboard">
+    <xs:complexContent>
+      <xs:extension base="component">
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="tlmports">
+    <xs:sequence>
+      <xs:element name="tlmport" type="tlmport" minOccurs="1" maxOccurs="unbounded"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="fakeports">
+    <xs:sequence>
+      <xs:element name="fakeport" type="fakeport" minOccurs="1" maxOccurs="unbounded"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="physicalports">
+    <xs:sequence>
+      <xs:element name="port" type="physicalport" minOccurs="0" maxOccurs="unbounded"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="tlmport">
+    <xs:sequence>
+      <xs:element name="className" type="xs:string"/>
+      <xs:element name="name" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="fakeport">
+    <xs:sequence>
+      <xs:element name="className" type="xs:string"/>
+      <xs:element name="name" type="xs:string"/>
+      <xs:element name="direction">
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:enumeration value="in"/>
+            <xs:enumeration value="out"/>
+            <xs:enumeration value="inout"/>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="physicalport">
+    <xs:sequence>
+      <xs:element name="name" type="xs:string"/>
+      <xs:element name="type" type="xs:string" minOccurs="0"/>
+      <xs:element name="mode" type="xs:string" minOccurs="0"/>
+      <xs:element name="direction" type="xs:string"/>
+      <xs:element name="category" minOccurs="0">
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:enumeration value="none"/>
+            <xs:enumeration value="reset"/>
+            <xs:enumeration value="clock"/>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+      <xs:element name="size" type="xs:int" minOccurs="0"/>
+      <xs:element name="duration" type="xs:string" minOccurs="0"/>
+      <xs:element name="frequency" type="xs:string" minOccurs="0"/>
+      <xs:element name="active" minOccurs="0">
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:enumeration value="high"/>
+            <xs:enumeration value="low"/>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="connections">
+    <xs:sequence>
+      <xs:element name="connection" type="connection" minOccurs="1" maxOccurs="unbounded"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="connection">
+    <xs:sequence>
+      <xs:element name="name" type="xs:string"/>
+      <xs:element name="srcPort" type="xs:string"/>
+      <xs:element name="dstPort" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+</xs:schema>

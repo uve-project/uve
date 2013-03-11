@@ -1,0 +1,12 @@
+/src/parser/lex.yy.c
+/src/parser/y.tab.cpp
+/src/parser/y.tab.h
+uve
+Makefile
+*kdev*
+*.orig
+build
+dist
+doxy
+
+*.Debug
