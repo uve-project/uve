@@ -1,10 +1,10 @@
     
-	UVE is a free open source software able to automatically generate
+    UVE is a free open source software able to automatically generate
     UVM/SystemVerilog testbenches
     
-	Copyright (C) 2012 HES-SO
+    Copyright 2013 HES-SO (www.hes-so.ch)
 
-	Contact: http://www.systemverilog.ch/contact/
+    Contact http://www.systemverilog.ch/contact/
 	
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by

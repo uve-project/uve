@@ -27,7 +27,7 @@
 
 // Webpage
 #define UVE_WEBPAGE "www.systemverilog.ch"
-#define UVE_WEBPAGE_TICKETS UVE_WEBPAGE "/support"
+#define UVE_WEBPAGE_TICKETS "https://github.com/uve-project/uve/issues/new"
 #define UVE_WEBPAGE_DOWNLOAD UVE_WEBPAGE "/downloads"
 #define UVE_WEBPAGE_FEED UVE_WEBPAGE "/feed"
 
