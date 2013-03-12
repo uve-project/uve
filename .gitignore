@@ -11,3 +11,12 @@
 *.lai
 *.la
 *.a
+
+# Qt generated files
+moc_*
+*.user
+qrc_*.cpp
+
+# Backup files
+*~
+

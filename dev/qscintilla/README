@@ -1,0 +1,3 @@
+In the framework of the UVE project, a new SystemVerilog/UVM lexer has been added to QScintilla.
+It allows to highlight the SystemVerilog syntax and the UVM class/methods.
+Here you can find the installation instructions for both Windows and Linux.
