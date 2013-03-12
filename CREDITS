@@ -1,0 +1,64 @@
+-------------------------------------------------------------------------------
+Accellera Universal Verification Methodology
+
+(C) Copyright 2007-2011 Mentor Graphics Corporation
+(C) Copyright 2007-2011 Cadence Design Systems, Incorporated
+(C) Copyright 2006-2011 Synopsys Inc.
+(C) Copyright 2011 Cypress Semiconductor Corp.
+All Rights Reserved Worldwide
+
+The UVM kit is licensed under the Apache-2.0 license. The full text of
+the licese is provided in this kit in the file LICENSE.APACHE2.
+-------------------------------------------------------------------------------
+QScintilla is Copyright (C) 2012 Riverbank Computing Limited
+										<info@riverbankcomputing.com>
+
+You may use, distribute and copy QScintilla under the terms of GNU
+General Public License version 3, which is provided in the file LICENSE.GNU2.
+-------------------------------------------------------------------------------
+/************** VHDL scanner in LEX format **********
+ *
+ * Version 0.2 Wed Aug 11, 1993
+ *
+ * This scanner is derived from a scanner of the ALLIANCE CAD toolset,
+ * release 1.1. That toolset was written from:
+ *   MASI/CAO-VLSI CAD Team
+ *   Laboratoire MASI/CAO-VLSI
+ *   Tour 55-65, 2eme etage, Porte 13
+ *   Universite Pierre et Marie Curie (PARIS VI)
+ *   4, place Jussieu 75252 PARIS Cedex 05, FRANCE
+ * The ALLIANCE CAD Toolset can be obtained from ftp site : ftp-masi.ibp.fr    
+ *
+ * This scanner is avail at: ftp.cs.utwente.nl in pub/src/VHDL/Grammar
+ * A corresponding Yacc grammar is available at the same site
+ *
+ * author of this derived scanner version:
+ * Thomas Dettmer
+ * Dortmund University
+ * Dept. of Computer Scienc, LS1
+ * PB 500 500
+ * D-44221 Dortmund (Germany)
+ * Phone: +49-231-755-6464
+ * e-mail: dettmer@ls1.informatik.uni-dortmund.de
+ *
+ * Please report discovered bugs, critics, suggestions
+ * and changes you make to dettmer@ls1.informatik.uni-dortmund.de
+ * a list of those that reported repaired (hopefully) errors can be found
+ * at the end
+ *
+ ****************************************************************
+ * 
+ * This file is intended not to be used for commercial purposes
+ * without permission of the University of Dortmund
+ *
+ * NOTE THAT THERE IS NO WARRANTY FOR CORRECTNES, COMPLETENESS, SUPPORT
+ * OR ANYTHING ELSE.
+ *******************************************************/
+	modifications :	Romain Cornaz
+	         		Etudiant HEIG-VD
+					Departement TIC
+	Date 		  :	28.07.2011
+
+	Le parser recupere tous les champs necessaires a la reconstruction des 
+	composants definit par le projet
+-------------------------------------------------------------------------------
