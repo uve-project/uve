@@ -2,7 +2,7 @@
 /src/parser/y.tab.cpp
 /src/parser/y.tab.h
 uve
-Makefile
+Makefile*
 *kdev*
 *.orig
 build
