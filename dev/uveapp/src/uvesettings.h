@@ -55,7 +55,6 @@ public:
     static QString generator_gvip_folder() { return
                       //generator_gve_folder() +
                       QString("gvip") + QDir::separator();}
-
 };
 
 #endif // UVESETTINGS_H

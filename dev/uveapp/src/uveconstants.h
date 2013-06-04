@@ -50,5 +50,8 @@
 #define CONF_VIPFOLDER      "envdialogview/vippath"
 #define CONF_TEMPLATEFOLDER "projectdialogview/templatefolder"
 #define CONF_LASTPROJECTFOLDER "mainwindow/lastprojectfolder"
+#define CONF_FONT           "mdichild/font"
+
+#define DEFAULT_FONT        QFont("Courier",9)
 
 #endif // UVECONSTANTS_H

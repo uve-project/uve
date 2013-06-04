@@ -1045,6 +1045,11 @@ void MainWindow::createActions()
     pasteAct->setStatusTip(tr("Paste the clipboard's contents into the current selection"));
     CONNECT(pasteAct, SIGNAL(triggered()), this, SLOT(paste()));
 
+
+    fontAct = new QAction(QIcon(), tr("&Font selection"), this);
+    fontAct->setStatusTip(tr("Choose the editor font"));
+    CONNECT(fontAct, SIGNAL(triggered()), this, SLOT(fontDialog()));
+
     // Project
     newProjectAct = new QAction(QIcon(":/images/projectNew.png"),tr("&New Project"),this);
     newProjectAct->setShortcut(Qt::CTRL + Qt::ALT + Qt::Key_N);
@@ -1185,6 +1190,8 @@ void MainWindow::createMenus()
     editMenu->addAction(cutAct);
     editMenu->addAction(copyAct);
     editMenu->addAction(pasteAct);
+    editMenu->addSeparator();
+    editMenu->addAction(fontAct);
 
     /** Project menu */
     projectMenu = menuBar()->addMenu(tr("&Project"));
@@ -1352,6 +1359,27 @@ void MainWindow::setActiveSubWindow(QWidget *window)
     if(!window)
         return;
     mdiArea->setActiveSubWindow(qobject_cast<QMdiSubWindow *>(window));
+}
+
+#include <QFont>
+
+void MainWindow::fontDialog()
+{
+
+    bool ok;
+
+    QVariant var=UVESettings::getInstance()->value(CONF_FONT,DEFAULT_FONT);
+    QFont font=var.value<QFont>();
+
+    font = QFontDialog::getFont(
+                     &ok, font, this);
+    if (ok) {
+        foreach (QMdiSubWindow *window, mdiArea->subWindowList()) {
+            MdiChild *mdiChild = qobject_cast<MdiChild *>(window->widget());
+            mdiChild->setLexerFont(font);
+        }
+        UVESettings::getInstance()->setValue(CONF_FONT,font);
+    }
 }
 
 void MainWindow::setCurrentFile(const QString &fileName)

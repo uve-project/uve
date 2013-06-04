@@ -92,6 +92,7 @@ private slots:
     void regenerateProjects();
     void simulateInUve();
     void simulateExt();
+    void fontDialog();
 
     void saveProject(const UvmProject *project);
     void exportAsPNG();
@@ -180,6 +181,7 @@ private:
     QAction *cutAct;
     QAction *copyAct;
     QAction *pasteAct;
+    QAction *fontAct;
     QAction *closeAct;
     QAction *closeAllAct;
     QAction *closeProjectAct;

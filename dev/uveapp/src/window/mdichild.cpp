@@ -35,6 +35,16 @@ MdiChild::MdiChild()
     setAutoCompletionThreshold(2);
 }
 
+#include <QFontDialog>
+#include "uvesettings.h"
+#include "uveconstants.h"
+#include <QFont>
+
+void MdiChild::setLexerFont(const QFont &font)
+{
+    if (lexer)
+        lexer->setFont(font,-1);
+}
 
 void MdiChild::newFile()
 {
@@ -43,7 +53,9 @@ void MdiChild::newFile()
     curFile = tr("document%1.sv").arg(sequenceNumber++);
     lexer=new QsciLexerSystemVerilog();
 
-    lexer->setFont(QFont("Courier", 9),-1);
+     QVariant var=UVESettings::getInstance()->value(CONF_FONT,DEFAULT_FONT);
+     lexer->setFont(var.value<QFont>());
+
     setLexer(lexer);
 
     //setCurrentFile(curFile);
@@ -284,7 +296,8 @@ void MdiChild::setCurrentFile(const QString &fileName)
         }
     }
 
-    lexer->setFont(QFont("Courier", 9),-1);
+    QVariant var=UVESettings::getInstance()->value(CONF_FONT,QVariant(DEFAULT_FONT));
+    lexer->setFont(var.value<QFont>());
     setLexer(lexer);
 }
 

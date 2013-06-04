@@ -43,6 +43,8 @@ class MdiChild : public QsciScintilla
         void goToSearchResult(int line, int index, QString term);
         void replace(QString term, QString newTerm, int atLine, int atIndex, bool cs);
         void checkModifiedFromOutside();
+        void setLexerFont(const QFont &font);
+
     public slots:
         void closeWithoutSaving();
         void closeAndSave();
