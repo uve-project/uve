@@ -11,3 +11,4 @@ doxy
 tmp
 
 *.Debug
+*.Release

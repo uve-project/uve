@@ -76,8 +76,8 @@ VCDialogView::~VCDialogView()
 //Set the fields
 void VCDialogView::setModel(VCViewData *vc, TestBenchViewData *parent, VHDLFileContent *dut,const QString &dutEntityName)
 {
-    //Set to true if the models are different
-    bool firstLoad = _vc != vc;
+    //Set to true if model exists
+    bool firstLoad = vc->name == NULL;
 
     //Save the models
     _vc = vc;

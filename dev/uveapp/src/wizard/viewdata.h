@@ -74,7 +74,7 @@ struct AgentViewData {
     QString name;
     int nbAgents;
     bool monitor;
-    int monitorCoverage;
+    bool monitorCoverage;
     bool monitorLink; //Sequencer to monitor link
     bool sequencer;
     bool sequencerCoverage;
@@ -87,7 +87,7 @@ struct AgentViewData {
     AgentViewData () :
         monitor(false),
         nbAgents(1),
-        monitorCoverage(0),
+        monitorCoverage(false),
         monitorLink(false),
         sequencer(false),
         sequencerCoverage(false),

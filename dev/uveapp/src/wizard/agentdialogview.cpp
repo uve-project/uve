@@ -75,19 +75,18 @@ void AgentDialogView::setModel(AgentViewData *agent, VCViewData *parent)
     ui->name->setText(_agent->name);
 
     //Modules
-    ui->collector->setChecked(_agent->collector);
-    ui->driver->setChecked(_agent->driver);
     ui->monitor->setChecked(_agent->monitor);
     ui->sequencer->setChecked(_agent->sequencer);
+    ui->collector->setChecked(_agent->collector);
+    ui->driver->setChecked(_agent->driver);
 
-    //Monitor coverage
-    ui->monitorCoverage->setChecked(_agent->monitorCoverage > 0);
-
-    //Monitor to sequencer
+    //Links
     ui->monitorToSequencer->setChecked(_agent->monitorLink);
-
-    //Virtual sequencer to sequencer
     ui->virtualToSequencer->setChecked(_agent->sequencerLink);
+    ui->driverToMonitor->setChecked(_agent->driver2monitorLink);
+
+    //Coverage
+    ui->monitorCoverage->setChecked(_agent->monitorCoverage);
 
     //Enable/disable the necessary values
     checkMonToSeq();
@@ -108,17 +107,16 @@ void AgentDialogView::save()
     //Modules
     _agent->monitor = ui->monitor->isChecked();
     _agent->sequencer = ui->sequencer->isChecked();
-    _agent->driver = ui->driver->isChecked() && ui->driver->isEnabled();
     _agent->collector = ui->collector->isChecked() && ui->collector->isEnabled();
+    _agent->driver = ui->driver->isChecked() && ui->driver->isEnabled();
 
     //Links
     _agent->monitorLink = ui->monitorToSequencer->isChecked();
     _agent->sequencerLink = ui->virtualToSequencer->isChecked();
-
     _agent->driver2monitorLink = ui->driverToMonitor->isChecked();
 
-    //Monitor coverage
-    _agent->monitorCoverage = ui->monitorCoverage ? 1:0;
+    //Coverage
+    _agent->monitorCoverage = ui->monitorCoverage->isChecked();
 }
 
 //Save and check the name
