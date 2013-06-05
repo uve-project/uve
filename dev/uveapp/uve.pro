@@ -18,8 +18,9 @@ win32{
     OBJECTS_DIR = tmp/obj/win
     MOC_DIR = tmp/moc/win
     CONFIG(release) {
-        DESTDIR = ../tools/win/installer/bin/bin
+        DESTDIR = ./bin/win/release
         CONFIG -= console
+        message(Win32 release build!)
     }
 }
 unix{
