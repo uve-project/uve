@@ -77,13 +77,7 @@ mon_item_port = new("mon_item_port", this);
 
         // Reset signals
         virtual protected task reset_signals();
-                forever begin
-                    $@ driver_resets
-/*---------------------------------------------------------------------------
- * @TODO : reset all signals while reset signal is active
- *--------------------------------------------------------------------------*/
-
-                end
+                $@ driver_resets
         endtask : reset_signals
 
         // Get and drive item

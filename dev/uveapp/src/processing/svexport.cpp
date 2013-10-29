@@ -1197,15 +1197,27 @@ void SVExport::visit(const UvmDriver *comp){
     map.insert("driver_drive",line);
 
     line = "";
+    bool hasReset = false;
     foreach(PhysicalPort *p, comp->getParentVip()->getInterface()->getPhysicalPorts()) {
         if (p->getCategory()==UvmPort::RESET) {
             line += "@(posedge vif.";
             line += p->getName();
             line += ");\n";
+            hasReset = true;
         }
     }
+    QString theLine = "";
+    if (hasReset) {
+        theLine += "forever begin\n";
+        theLine += line;
+        theLine +="/*---------------------------------------------------------------------------\n";
+        theLine +="* @TODO : reset all signals while reset signal is active\n";
+        theLine +="*--------------------------------------------------------------------------*/\n";
+        theLine +="\n";
+        theLine += "end\n";
+    }
 
-    map.insert("driver_resets",line);
+    map.insert("driver_resets",theLine);
 
     generateFile(comp,map);
 

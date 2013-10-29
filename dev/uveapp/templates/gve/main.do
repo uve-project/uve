@@ -105,7 +105,7 @@ proc do_sim {} {
         puts "** SIMULATING **"
         puts ""
 
-        vsim +UVM_TESTNAME=$testcase +UVM_VERBOSITY=$verbosity -L $tb_lib -L $duv_lib  $tb_top
+        vsim -novopt +UVM_TESTNAME=$testcase +UVM_VERBOSITY=$verbosity -L $tb_lib -L $duv_lib  $tb_top
 
         do wave.do
         restart -f
