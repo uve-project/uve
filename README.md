@@ -66,7 +66,8 @@ with the [latest Windows installer from their website]
 ### Flex and Bison 
 
 Install Bison with the installer from [their website]
-(https://www.gnu.org/software/bison/) (recommended: v2.4.1) in a folder without
+(https://www.gnu.org/software/bison/) (recommended: v2.4.1) or [Bison for Windows](http://gnuwin32.sourceforge.net/packages/bison.htm)
+(recommended: v2.4.1) in a folder without
 spaces in it's name and location (recommended: _C:\GnuWin32_), else it will not
 work. Then add the location of the bin folder in the installation directory to
 the environment variable PATH (e.g. _C:\GnuWin32\bin_).
