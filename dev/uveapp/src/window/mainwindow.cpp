@@ -728,9 +728,8 @@ void MainWindow::simulateExt()
 
 void MainWindow::simulateInUve()
 {
-/*
 #ifdef TARGET_WIN
-    QString script=_project->getFolder() + UVESettings::generator_run_bat_file();
+    QString script=currentProject->getFolder() + UVESettings::generator_run_bat_file();
 #else
     QString script=currentProject->getFolder() + UVESettings::generator_run_sh_file();
 #endif
@@ -741,8 +740,9 @@ void MainWindow::simulateInUve()
 
     consoleDockWidget->show();
 
-    script+= " all";
-    simProcess->start(script);
+    QStringList arguments;
+    arguments << "all";
+    simProcess->start(script,arguments);
     if (!simProcess->waitForStarted(3000))
     {
         QMessageBox::warning(0, "UVE",
@@ -750,7 +750,7 @@ void MainWindow::simulateInUve()
         return;
     }
 
-    updateMenus();*/
+    updateMenus();
 }
 
 void MainWindow::regenerateProjects()
