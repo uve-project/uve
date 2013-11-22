@@ -1076,12 +1076,12 @@ void MainWindow::createActions()
 //    generateProjectsAct->setStatusTip(tr("Regenerate a set of projects"));
 //    CONNECT(generateProjectsAct, SIGNAL(triggered()), this, SLOT(regenerateProjects()));
 
-    simulateInUveAct = new QAction(QIcon(":/images/start.png"),tr("Simulate in UVE"), this);
+    simulateInUveAct = new QAction(QIcon(":/images/startInUVE.png"),tr("Simulate in UVE"), this);
     //simulateAct->setShortcut(tr("Ctrl+D"));
     simulateInUveAct->setStatusTip(tr("Starts the simulation of the current project"));
     CONNECT(simulateInUveAct, SIGNAL(triggered()), this, SLOT(simulateInUve()));
 
-    simulateExtAct = new QAction(QIcon(":/images/start.png"),tr("Simulate in simulator"), this);
+    simulateExtAct = new QAction(QIcon(":/images/startInSimulator.png"),tr("Simulate in simulator"), this);
     //simulateAct->setShortcut(tr("Ctrl+D"));
     simulateExtAct->setStatusTip(tr("Starts the simulation of the current project in the simulator GUI"));
     CONNECT(simulateExtAct, SIGNAL(triggered()), this, SLOT(simulateExt()));
