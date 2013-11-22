@@ -1007,7 +1007,7 @@ void SVExport::visit(const UvmVerificationComponent *comp){
         line += "if(has_bus_monitor == 1) begin\n";
         line += "bus_monitor = ";
         line += comp->getBusMonitor()->getClassName();
-        line += "::type_id::create(\"bus_monitor\", this);";
+        line += "::type_id::create(\"bus_monitor\", this);\n";
         line += "end\n";
     }
 
