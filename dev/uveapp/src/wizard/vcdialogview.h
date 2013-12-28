@@ -77,6 +77,9 @@ private slots:
 
     void checkAgentSequenceLinks();
 
+    // Check if the scoreboard comparator should be enabled or not
+    void checkScoreboard();
+
     /* Create a new agent
      The new agent is created and its configuration dialog is shown.
      */

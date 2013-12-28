@@ -79,7 +79,7 @@ void UvmMonitorView::placePorts()
     if(topPV.empty())
         ;
     else if(topPV.length()==1)
-        topPV.at(0)->setPos(rect.width()/2, 0);
+        topPV.at(0)->setPos(rect.width()/2, -5);
     else
     {
         qreal spaceNeeded = (topPV.length() - 1) * (topPV.at(0)->boundingRect().width() + INTER_X);

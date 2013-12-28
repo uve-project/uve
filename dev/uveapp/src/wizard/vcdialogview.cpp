@@ -61,6 +61,8 @@ VCDialogView::VCDialogView(NewProjectWizard *parent) :
     CONNECT(ui->agents, SIGNAL(activated(int)), this, SLOT(showAgent(int)));
     CONNECT(ui->agents, SIGNAL(removeName(QString)), this, SLOT(removeName(QString)));
 
+    CONNECT(ui->scoreboard, SIGNAL(toggled(bool)), this, SLOT(checkScoreboard()));
+
     //Name collision check
     CONNECT(ui->vcname, SIGNAL(textChanged(QString)), this, SLOT(checkName()));
 
@@ -128,6 +130,8 @@ void VCDialogView::setModel(VCViewData *vc, TestBenchViewData *parent, VHDLFileC
 
     //Default checks
     checkSequencer();
+
+    checkScoreboard();
 
     //By default, check all the signals
     if (firstLoad)
@@ -344,6 +348,22 @@ void VCDialogView::checkAgentSequenceLinks()
         {
             ui->agents->paintItemRed(i, false);
         }
+    }
+}
+
+void VCDialogView::checkScoreboard()
+{
+    if (ui->scoreboard->isChecked())
+    {
+        ui->radioButtonComparator0->setEnabled(true);
+        ui->radioButtonComparator1->setEnabled(true);
+        ui->radioButtonComparator2->setEnabled(true);
+    }
+    else
+    {
+        ui->radioButtonComparator0->setEnabled(false);
+        ui->radioButtonComparator1->setEnabled(false);
+        ui->radioButtonComparator2->setEnabled(false);
     }
 }
 

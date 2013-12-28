@@ -1109,7 +1109,7 @@ void SVExport::visit(const UvmVerificationComponent *comp){
         line += "void'(uvm_config_db#(int)::get(this, \"\", \""+agent_num+"\", "+agent_num+"));\n";
         line += "\n";
 
-        line += tab +agent->getInstName() + " = new["+ agent_num + "];\n";
+        line += agent->getInstName() + " = new["+ agent_num + "];\n";
 
         line += "// Build agent(s) of type "+ agent->getClassName() + "\n";
         line += "for(int i = 0; i < "+ agent_num +"; i++) begin\n";
