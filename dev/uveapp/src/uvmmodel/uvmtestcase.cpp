@@ -91,7 +91,7 @@ QString UvmTestCase::getRelativeTemplateFileName() const
     return QString(UVESettings::generator_gtb_folder() + "gtb_test_lib.sv");
 }
 
-ComponentType UvmTestCase::getComponentType()
+ComponentType UvmTestCase::getComponentType() const
 {
     return TESTCASE;
 }

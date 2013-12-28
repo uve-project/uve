@@ -41,7 +41,7 @@ class UvmInterface: public UvmComponent, public PhysicalPortList
         QList<NonPhysicalPort*> getVCTODUTInterfacePorts();
 
         virtual QString getRelativeTemplateFileName() const;
-        virtual ComponentType getComponentType();
+        virtual ComponentType getComponentType() const;
 };
 
 #endif // UVMINTERFACE_H

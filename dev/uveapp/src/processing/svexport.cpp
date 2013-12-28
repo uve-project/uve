@@ -814,6 +814,7 @@ void SVExport::visit(const UvmScoreboard *comp){
 
     QString line;
 
+
     // If the scoreboard is a VIP scoreboard, then we do not import the VIPs packages
     // It basically erase what was put in initMap(map,comp)
     if (comp->getParentVip())
@@ -827,25 +828,71 @@ void SVExport::visit(const UvmScoreboard *comp){
         vips=comp->getProject()->getTop()->getVips();
 
 
-    line = "";
-
+    bool hasTransformer=false;
+    QString seq_item_class1="";
+    QString seq_item_class2="";
     foreach (UvmVerificationComponent *vip, vips) {
         foreach (UvmAgent *agent, vip->getAgents()) {
             for (int i=0;i<agent->getNbAgents();i++) {
-                line += "// Implementation of the write methode of the ";
-                line += vip->getClassName() + "_port\n";
-                line += "virtual function void write_"+scoreboardAgentPortName(agent,i)+"_pkt("+vip->getSequenceItem()->getClassName()+" trans);\n";
-                line += tab + "if(!disable_scoreboard) begin\n";
-                line += tab + "/*---------------------------------------------------------------------------\n";
-                line += tab + "* @TODO : Implement functional checks. The bit sbd_error must be set to 1\n";
-                line += tab + "* if an error occur. The test cannot be succeed if this bit is set to 1.\n";
-                line += tab + "*--------------------------------------------------------------------------*/\n";
-                line += tab + "// Display transfer\n";
-                line += tab + "`uvm_info(get_type_name(),\n";
-                line += tab + "$psprintf(\"Transfer collected :\\n\%s\", trans.sprint()),\n";
-                line += tab + "          UVM_HIGH)\n";
-                line += tab + "end\n";
-                line += "endfunction : write_"+scoreboardAgentPortName(agent,i)+"_pkt\n\n";
+                if (seq_item_class1.isEmpty())
+                    seq_item_class1 = vip->getSequenceItem()->getClassName();
+                if (seq_item_class1 != vip->getSequenceItem()->getClassName())
+                    if (seq_item_class2.isEmpty()) {
+                        seq_item_class2 = vip->getSequenceItem()->getClassName();
+                        hasTransformer = true;
+                    }
+            }
+        }
+    }
+
+
+
+    line = "";
+
+    if (comp->getComparatorType()!=UvmScoreboard::ONLYCOMPARATOR)
+    {
+        int agent_nb = 0;
+        foreach (UvmVerificationComponent *vip, vips) {
+            foreach (UvmAgent *agent, vip->getAgents()) {
+                for (int i=0;i<agent->getNbAgents();i++) {
+                    line += "// Implementation of the write method of the ";
+                    line += vip->getClassName() + "_port\n";
+                    line += "virtual function void write_"+scoreboardAgentPortName(agent,i)+"_pkt("+vip->getSequenceItem()->getClassName()+" trans);\n";
+                    line += tab + "if(!disable_scoreboard) begin\n";
+                    line += tab + "/*---------------------------------------------------------------------------\n";
+                    line += tab + "* @TODO : Implement functional checks. The bit sbd_error must be set to 1\n";
+                    line += tab + "* if an error occur. The test cannot be succeed if this bit is set to 1.\n";
+                    line += tab + "*--------------------------------------------------------------------------*/\n";
+                    line += tab + "// Display transfer\n";
+                    line += tab + "`uvm_info(get_type_name(),\n";
+                    line += tab + "$psprintf(\"Transfer collected :\\n\%s\", trans.sprint()),\n";
+                    line += tab + "          UVM_HIGH)\n";
+                    if (comp->hasComparator())
+                    {
+                        line += tab + "\n";
+                        if (agent_nb==0)
+                        {
+                            line += tab + "// Send transfer to the comparator\n";
+                            line += tab + "comparator.before_export.write(trans);\n\n";
+                        }
+                        else if (agent_nb == 1)
+                        {
+                            line += tab + "// Send transfer to the comparator\n";
+                            line += tab + "comparator.after_export.write(trans);\n\n";
+
+                        }
+                        else
+                        {
+                            line += tab + "// TODO: Send transfer to the comparator\n";
+                            line += tab + "// comparator.before_export.write(trans);\n\n";
+                            line += tab + "// comparator.before_export.write(trans);\n\n";
+                        }
+                        agent_nb ++;
+                    }
+
+                    line += tab + "end\n";
+                    line += "endfunction : write_"+scoreboardAgentPortName(agent,i)+"_pkt\n\n";
+                }
             }
         }
     }
@@ -861,32 +908,103 @@ void SVExport::visit(const UvmScoreboard *comp){
             }
         }
     }
+    if (hasTransformer) {
+        line += "transformer = new;\n";
+        if (comp->hasComparator()) {
+            line += "comparator = new(\"Comparator\",this,transformer);\n";
+        }
+    }
+    else if (comp->hasComparator()) {
+        line += "comparator = new(\"Comparator\",this);\n";
+    }
     map.insert("create_ports",line);
 
 
 
 
     line = "";
-    foreach (UvmVerificationComponent *vip, vips) {
-        foreach (UvmAgent *agent, vip->getAgents()) {
-            for (int i=0;i<agent->getNbAgents();i++) {
-                QString name = scoreboardAgentPortName(agent,i);
-                line += "`uvm_analysis_imp_decl(_"+name+"_pkt)\n";
+    if (comp->getComparatorType()!=UvmScoreboard::ONLYCOMPARATOR)
+        foreach (UvmVerificationComponent *vip, vips) {
+            foreach (UvmAgent *agent, vip->getAgents()) {
+                for (int i=0;i<agent->getNbAgents();i++) {
+                    QString name = scoreboardAgentPortName(agent,i);
+                    line += "`uvm_analysis_imp_decl(_"+name+"_pkt)\n";
+                }
             }
         }
-    }
     map.insert("decl_ports_types",line);
 
 
     line = "";
+
     foreach (UvmVerificationComponent *vip, vips) {
         foreach (UvmAgent *agent, vip->getAgents()) {
             for (int i=0;i<agent->getNbAgents();i++) {
-                line += "uvm_analysis_imp_"+scoreboardAgentPortName(agent,i)+"_pkt#("+vip->getSequenceItem()->getClassName()+", "+comp->getClassName()+") "+scoreboardAgentPortName(agent,i)+"_port;\n";
+                if (comp->getComparatorType()!=UvmScoreboard::ONLYCOMPARATOR)
+                    line += "uvm_analysis_imp_"+scoreboardAgentPortName(agent,i)+"_pkt#("+vip->getSequenceItem()->getClassName()+", "+comp->getClassName()+") "+scoreboardAgentPortName(agent,i)+"_port;\n";
+                else
+                    line += "uvm_analysis_export#("+vip->getSequenceItem()->getClassName()+") "+scoreboardAgentPortName(agent,i)+"_port;\n";
             }
         }
     }
+
+    if (comp->hasComparator()) {
+        line += "\n";
+
+        if (hasTransformer) {
+
+            line += "class transformer_t;\n";
+            line += tab + "// TODO : We assumed an input and an output class, but you have to choose the \n";
+            line += tab + "//        right direction\n";
+            line += tab + "function "+seq_item_class2+ " transform ("+seq_item_class1+" trans);\n";
+            line += tab + tab + seq_item_class2 + " result=new;\n";
+            line += tab + tab + "// TODO Implement the translation\n";
+            line += tab + tab + "return result;\n";
+            line += tab + "endfunction : transform\n";
+            line += "endclass : transformer_t\n";
+            line += "\n";
+            line += "transformer_t transformer;\n";
+            line += "\n";
+            line += "typedef uvm_algorithmic_comparator#("+seq_item_class1+","+seq_item_class2+",transformer_t) comparator_t;\n";
+            line += "comparator_t comparator;\n";
+        }
+        else
+        {
+
+            line += "typedef uvm_in_order_class_comparator#("+seq_item_class1+") comparator_t;\n";
+            line += "comparator_t comparator;\n";
+
+        }
+    }
+
     map.insert("decl_ports",line);
+
+
+    line = "";
+    if (comp->getComparatorType()==UvmScoreboard::ONLYCOMPARATOR) {
+        line += "function void connect_phase(uvm_phase phase);\n";
+
+        int number = 0;
+        foreach (UvmVerificationComponent *vip, vips) {
+            foreach (UvmAgent *agent, vip->getAgents()) {
+                for (int i=0;i<agent->getNbAgents();i++) {
+                    if (number == 0)
+                        line += tab + scoreboardAgentPortName(agent,i) + "_port"+".connect(comparator.before_export);\n";
+                    else if (number == 1)
+                        line += tab + scoreboardAgentPortName(agent,i) + "_port"+".connect(comparator.after_export);\n";
+                    else {
+                        line += tab + "// It seems that you have more than two analysis ports. You should choose how\n";
+                        line += tab + "// to connect them to the comparator\n";
+                    }
+                    number ++;
+                }
+            }
+        }
+        line += "endfunction\n";
+
+    }
+
+    map.insert("connect_phase",line);
 
     generateFile(comp,map);
 }
@@ -946,6 +1064,10 @@ void SVExport::visit(const UvmVerificationComponent *comp){
 
     if (comp->getBusMonitor() != NULL) {
         line += comp->getBusMonitor()->getClassName() + " bus_monitor;\n";
+    }
+
+    foreach(UvmScoreboard *scoreboard,comp->getScoreboards()) {
+        line += scoreboard->getClassName() + " " + scoreboard->getInstName() + ";\n";
     }
 
     foreach(UvmAgent *agent, comp->getAgents()) {
@@ -1011,7 +1133,19 @@ void SVExport::visit(const UvmVerificationComponent *comp){
         line += "end\n";
     }
 
+    foreach(UvmScoreboard *scoreboard,comp->getScoreboards()) {
+        line += "// Build scoreboard\n";
+        line += scoreboard->getInstName() +" = ";
+        line += scoreboard->getClassName();
+        line += "::type_id::create(\""+scoreboard->getInstName()+"\", this);";
+    }
+
     map.insert("vip_build_components",line);
+
+
+    line = "";
+
+    map.insert("vip_connect_phase",line);
 
     generateFile(comp,map);
 

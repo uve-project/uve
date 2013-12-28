@@ -65,6 +65,11 @@ EnvDialogView::EnvDialogView(NewProjectWizard *parent) :
 
     CONNECT(ui->sequencer, SIGNAL(toggled(bool)), this, SLOT(checkVCSequencerLink()));
 
+    _comparatorTypeGroup = new QButtonGroup(this);
+    _comparatorTypeGroup->addButton(ui->radioButtonComparator0,0);
+    _comparatorTypeGroup->addButton(ui->radioButtonComparator1,1);
+    _comparatorTypeGroup->addButton(ui->radioButtonComparator2,2);
+    _comparatorTypeGroup->setExclusive(true);
 }
 
 EnvDialogView::~EnvDialogView()
@@ -89,6 +94,12 @@ void EnvDialogView::setModels(TestBenchViewData *testbench, TestCaseViewData *te
     //TestBench modules
     ui->sequencer->setChecked(_testbench->virtualSequencer);
     ui->scoreboard->setChecked(_testbench->scoreboard);
+    switch(_testbench->scoreboardComparatorType)
+    {
+    case 0: ui->radioButtonComparator0->setChecked(true);break;
+    case 1: ui->radioButtonComparator1->setChecked(true);break;
+    case 2: ui->radioButtonComparator2->setChecked(true);break;
+    }
 
     //VC list
     foreach (VCViewData *vc, _testbench->vcs)
@@ -135,6 +146,7 @@ void EnvDialogView::save()
 
     //Modules
     _testbench->scoreboard = ui->scoreboard->isChecked();
+    _testbench->scoreboardComparatorType = _comparatorTypeGroup->checkedId();
     _testbench->virtualSequencer = ui->sequencer->isChecked();
 
     //Save the VC (remove the old, add the new)

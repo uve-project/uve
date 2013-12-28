@@ -156,7 +156,7 @@ QString UvmTop::getRelativeTemplateFileName() const
     return QString(UVESettings::generator_gtb_folder() + "gtb_tb_top.sv");
 }
 
-ComponentType UvmTop::getComponentType()
+ComponentType UvmTop::getComponentType() const
 {
     return TOP;
 }

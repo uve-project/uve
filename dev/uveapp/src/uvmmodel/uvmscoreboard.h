@@ -29,11 +29,26 @@ class UvmScoreboard: public UvmComponent
     UVMCOMPONENT_UTILS
 
     public :
+
+        enum ComparatorType {
+                 NOCOMPARATOR=0,
+                 ONLYCOMPARATOR,
+                 PORTANDCOMPARATOR
+        };
+
         UvmScoreboard(UvmComponent *parent=0);
         UvmScoreboard(QString shortName, UvmComponent *parent=0);
 
         virtual QString getRelativeTemplateFileName() const;
-        virtual ComponentType getComponentType();
+        virtual ComponentType getComponentType() const;
+
+        virtual void setComparatorType(ComparatorType type);
+        virtual ComparatorType getComparatorType() const;
+        virtual bool hasComparator() const;
+
+    protected:
+
+        ComparatorType comparator;
 };
 
 #endif // UVMSCOREBOARD_H

@@ -48,6 +48,13 @@ VCDialogView::VCDialogView(NewProjectWizard *parent) :
     _ports = new CheckableStringListModel();
     ui->connections->setModel(_ports);
 
+
+    _comparatorTypeGroup = new QButtonGroup(this);
+    _comparatorTypeGroup->addButton(ui->radioButtonComparator0,0);
+    _comparatorTypeGroup->addButton(ui->radioButtonComparator1,1);
+    _comparatorTypeGroup->addButton(ui->radioButtonComparator2,2);
+    _comparatorTypeGroup->setExclusive(true);
+
     //New agent
     CONNECT(ui->agents, SIGNAL(addClicked()), this, SLOT(newAgent()));
     //Pop-up agent
@@ -93,6 +100,13 @@ void VCDialogView::setModel(VCViewData *vc, TestBenchViewData *parent, VHDLFileC
     //Modules
     ui->sequencer->setChecked(_vc->virtualSequencer);
     ui->scoreboard->setChecked(_vc->scoreboard);
+    switch(_vc->scoreboardComparatorType)
+    {
+    case 0: ui->radioButtonComparator0->setChecked(true);break;
+    case 1: ui->radioButtonComparator1->setChecked(true);break;
+    case 2: ui->radioButtonComparator2->setChecked(true);break;
+    }
+
     ui->monitor->setChecked(_vc->busMonitor);
 
     //Link between virtual sequencer
@@ -135,6 +149,7 @@ void VCDialogView::save()
     _vc->busMonitor = ui->monitor->isChecked();
     _vc->virtualSequencer = ui->sequencer->isChecked();
     _vc->scoreboard = ui->scoreboard->isChecked();
+    _vc->scoreboardComparatorType = _comparatorTypeGroup->checkedId();
 
     //Sequencer link
     _vc->virtualSequencerLink = ui->linkSequencer->isChecked();

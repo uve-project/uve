@@ -752,7 +752,25 @@ UvmConfig* UveXmlImport::getConfig(QDomElement source, UvmComponent *parent)
 UvmScoreboard* UveXmlImport::getScoreboard(QDomElement source, UvmComponent *parent)
 {
     UvmScoreboard *comp= new UvmScoreboard(parent);
-    getComponent(comp,source,parent);
+    QStringList ignoreList;
+    ignoreList << "comparator";
+    getComponent(comp,source,parent,ignoreList);
+
+    QDomElement n = source.firstChildElement("comparator");
+    if (!n.isNull()){
+        QString ctype = n.text();
+        if (ctype.compare("nocomparator")==0)
+            comp->setComparatorType(UvmScoreboard::NOCOMPARATOR);
+
+        else if (ctype.compare("onlycomparator")==0)
+            comp->setComparatorType(UvmScoreboard::ONLYCOMPARATOR);
+
+        else if (ctype.compare("portandcomparator")==0)
+            comp->setComparatorType(UvmScoreboard::PORTANDCOMPARATOR);
+        else
+            qDebug()<< tr("Unknown comparator type : ") << ctype << ". In file " << __FILE__ << " at line " << __LINE__;
+    }
+
     return comp;
 }
 

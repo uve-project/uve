@@ -67,7 +67,7 @@ class UvmTop: public UvmComponent
 
         const QList<UvmVerificationComponent*> getVips() const;
 
-        virtual ComponentType getComponentType();
+        virtual ComponentType getComponentType() const;
 
     private:
         UvmProject *project;

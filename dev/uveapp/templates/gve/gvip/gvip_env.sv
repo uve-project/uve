@@ -91,6 +91,14 @@ class $@ClassName@$ extends uvm_env;
 
         endfunction : build_phase
 
+
+        // Connect phase
+        function void connect_phase(uvm_phase phase);
+
+                $@ vip_connect_phase
+
+        endfunction : connect_phase
+
 /*---------------------------------------------------------------------------
  * @TODO : Maybe implement some configuration functions for agents. In example
  * if each agent have a different attributes like address.

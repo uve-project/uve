@@ -36,7 +36,7 @@ QString UvmDriver::getRelativeTemplateFileName() const
     return QString(UVESettings::generator_gvip_folder() + "gvip_agent_driver.sv");
 }
 
-ComponentType UvmDriver::getComponentType()
+ComponentType UvmDriver::getComponentType() const
 {
     return DRIVER;
 }

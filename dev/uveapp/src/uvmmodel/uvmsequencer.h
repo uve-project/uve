@@ -34,7 +34,7 @@ class UvmSequencer : public UvmComponent
         UvmSequencer(QString shortName, UvmComponent *parent=0);
 
         virtual QString getRelativeTemplateFileName() const;
-        virtual ComponentType getComponentType();
+        virtual ComponentType getComponentType() const;
 };
 
 #endif // UVMSEQUENCER_H

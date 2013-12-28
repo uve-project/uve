@@ -35,7 +35,7 @@ class UvmVirtualSequencer: public UvmComponent
         QList<NonPhysicalPort*> getSubSequencersPorts() const;
 
         virtual QString getRelativeTemplateFileName() const;
-        virtual ComponentType getComponentType();
+        virtual ComponentType getComponentType() const;
 };
 
 #endif // UVMVIRTUALSEQUENCER_H

@@ -204,7 +204,7 @@ class UvmComponent : public QObject
 
         virtual UvmPort* findPortForName(const QString &name) const;
 
-        virtual ComponentType getComponentType()=0;
+        virtual ComponentType getComponentType() const=0;
         ComponentType getConnectedComponentType(UvmPort* throughThis);
 
         void sortChildren(bool recursive);

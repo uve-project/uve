@@ -114,6 +114,8 @@ private:
     QString _dutEntityName;
     //The ports list
     CheckableStringListModel *_ports;
+
+    QButtonGroup *_comparatorTypeGroup;
 };
 
 

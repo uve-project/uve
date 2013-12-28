@@ -53,7 +53,7 @@ QList<NonPhysicalPort *> UvmVirtualSequencer::getSubSequencersPorts() const
     return outPorts;
 }
 
-ComponentType UvmVirtualSequencer::getComponentType()
+ComponentType UvmVirtualSequencer::getComponentType() const
 {
     return VIRTUAL_SEQUENCER;
 }

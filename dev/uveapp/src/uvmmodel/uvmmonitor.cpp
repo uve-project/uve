@@ -58,7 +58,7 @@ int UvmMonitor::getCoverage() const
     return _coverage;
 }
 
-ComponentType UvmMonitor::getComponentType()
+ComponentType UvmMonitor::getComponentType() const
 {
     return MONITOR;
 }

@@ -77,7 +77,7 @@ QList<NonPhysicalPort*> UvmDesign::getInterfacePorts() const
 }
 
 
-ComponentType UvmDesign::getComponentType()
+ComponentType UvmDesign::getComponentType() const
 {
     return DESIGN;
 }

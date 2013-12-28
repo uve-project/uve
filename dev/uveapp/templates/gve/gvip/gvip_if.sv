@@ -35,14 +35,14 @@
 
 interface $@ClassName@$;
 
-        // Checks and coverage control bits
-        bit has_checks = 1;
-        bit has_coverage = 1;
+    // Checks and coverage control bits
+    bit has_checks = 1;
+    bit has_coverage = 1;
 
-        // Interface signals
-        $@ interface_signals
+    // Interface signals
+    $@ interface_signals
 
-        // Checks
+    // Checks
 /*---------------------------------------------------------------------------
  * @TODO : Implement checks
  * see UVM User Guide - 4.12 Implementing Checks and Coverage

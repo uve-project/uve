@@ -176,7 +176,7 @@ QList<UvmVirtualSequencer*> UvmVerificationComponent::getVirtualSequencers() con
 
 
 // Get the list of *UvmScoreboard contained in the verifcomp
-QList<UvmScoreboard*> UvmVerificationComponent::getScoreboards()
+QList<UvmScoreboard*> UvmVerificationComponent::getScoreboards() const
 {
     QList<UvmScoreboard*> scoreboards;
     UvmComponent* comp;
@@ -392,7 +392,7 @@ UvmPackage* UvmVerificationComponent::getPackage() const
     return 0;
 }
 
-ComponentType UvmVerificationComponent::getComponentType()
+ComponentType UvmVerificationComponent::getComponentType() const
 {
     return VERIFICATION_COMPONENT;
 }

@@ -54,7 +54,7 @@ class UvmTestbench: public UvmComponent
         UvmConfig* getConfig();
 
         virtual QString getRelativeTemplateFileName() const;
-        virtual ComponentType getComponentType();
+        virtual ComponentType getComponentType() const;
 
 };
 

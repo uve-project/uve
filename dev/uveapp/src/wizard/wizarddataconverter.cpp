@@ -108,6 +108,7 @@ bool WizardDataConverter::data2Project(const ProjectViewData *d_project, const T
     UvmScoreboard *m_testbenchScoreboard;
     if (d_testbench->scoreboard) {
         m_testbenchScoreboard = new UvmScoreboard("Scoreboard",m_testbench);
+        m_testbenchScoreboard->setComparatorType((UvmScoreboard::ComparatorType)d_testbench->scoreboardComparatorType);
         m_testbench->addScoreboard(m_testbenchScoreboard);
     }
 
@@ -333,6 +334,7 @@ bool WizardDataConverter::data2Project(const ProjectViewData *d_project, const T
             UvmScoreboard *m_vcScoreboard;
             if (d_vc->scoreboard) {
                 m_vcScoreboard = new UvmScoreboard("Scoreboard",m_vc);
+                m_vcScoreboard->setComparatorType((UvmScoreboard::ComparatorType)d_vc->scoreboardComparatorType);
                 m_vc->addScoreboard(m_vcScoreboard);
             }
 

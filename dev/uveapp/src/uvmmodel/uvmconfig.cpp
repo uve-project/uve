@@ -30,7 +30,7 @@ UvmConfig::UvmConfig(QString name, UvmComponent *parent) : UvmComponent(name, pa
 {
 }
 
-ComponentType UvmConfig::getComponentType()
+ComponentType UvmConfig::getComponentType() const
 {
     return CONFIG;
 }

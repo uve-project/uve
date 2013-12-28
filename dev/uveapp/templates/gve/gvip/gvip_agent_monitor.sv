@@ -130,7 +130,7 @@ class $@ClassName@$ extends uvm_monitor;
             if (get_from_driver == 1)
                 return;
                 fork
-            //            collect_transactions();
+                    collect_transactions();
                 join
         endtask : run_phase
 

@@ -168,7 +168,7 @@ UvmConfig* UvmTestbench::getConfig()
     return 0;
 }
 
-ComponentType UvmTestbench::getComponentType()
+ComponentType UvmTestbench::getComponentType() const
 {
     return TESTBENCH;
 }

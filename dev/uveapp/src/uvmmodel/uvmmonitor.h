@@ -37,7 +37,7 @@ class UvmMonitor: public UvmComponent
         int getCoverage () const;
 
         QString getRelativeTemplateFileName() const;
-        virtual ComponentType getComponentType();
+        virtual ComponentType getComponentType() const;
 
     private:
         int _coverage;

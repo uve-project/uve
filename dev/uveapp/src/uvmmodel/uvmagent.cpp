@@ -203,7 +203,7 @@ UvmAgent::AgentType UvmAgent::getType() const
     return type;
 }
 
-ComponentType UvmAgent::getComponentType()
+ComponentType UvmAgent::getComponentType() const
 {
     return AGENT;
 }

@@ -32,7 +32,7 @@ class UvmConfig : public UvmComponent
     public:
         UvmConfig(UvmComponent *parent=0);
         UvmConfig(QString shortName, UvmComponent *parent=0);
-        virtual ComponentType getComponentType();
+        virtual ComponentType getComponentType() const;
 
 //        void setInterfacePort(UvmPort* newPort);
 //        UvmPort* getInterfacePort();

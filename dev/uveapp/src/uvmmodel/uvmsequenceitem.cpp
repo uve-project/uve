@@ -37,7 +37,7 @@ QString UvmSequenceItem::getRelativeTemplateFileName() const
     return QString(UVESettings::generator_gvip_folder() + "gvip_transfer.sv");
 }
 
-ComponentType UvmSequenceItem::getComponentType()
+ComponentType UvmSequenceItem::getComponentType() const
 {
     return SEQUENCE_ITEM;
 }

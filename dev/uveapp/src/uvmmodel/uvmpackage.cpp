@@ -34,7 +34,7 @@ QString UvmPackage::getRelativeTemplateFileName() const
     return QString(UVESettings::generator_gvip_folder() + "gvip_pkg.sv");
 }
 
-ComponentType UvmPackage::getComponentType()
+ComponentType UvmPackage::getComponentType() const
 {
     return PACKAGE;
 }

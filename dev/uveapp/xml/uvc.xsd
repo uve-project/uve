@@ -124,6 +124,9 @@
   <xs:complexType name="scoreboard">
     <xs:complexContent>
       <xs:extension base="component">
+        <xs:sequence>
+          <xs:element name="comparator" type="xs:string" minOccurs="0"/>
+        </xs:sequence>
       </xs:extension>
     </xs:complexContent>
   </xs:complexType>

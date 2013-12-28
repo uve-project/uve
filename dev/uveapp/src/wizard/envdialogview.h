@@ -98,6 +98,8 @@ private:
    VHDLFileContent *_dut;
    // The project DUT entity name
    QString _dutEntityName;
+
+   QButtonGroup *_comparatorTypeGroup;
 };
 
 #endif // ENVDIALOGVIEW_H

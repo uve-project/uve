@@ -22,12 +22,14 @@
 // Constructor of the scoreboard
 UvmScoreboard::UvmScoreboard(UvmComponent *parent) : UvmComponent(parent)
 {
+    comparator = UvmScoreboard::NOCOMPARATOR;
 }
 
 
 // Constructor of the scoreboard
 UvmScoreboard::UvmScoreboard(QString name, UvmComponent *parent) : UvmComponent(name, parent)
 {
+    comparator = UvmScoreboard::NOCOMPARATOR;
 }
 
 #include "uvesettings.h"
@@ -37,7 +39,24 @@ QString UvmScoreboard::getRelativeTemplateFileName() const
     return QString(UVESettings::generator_gtb_folder() + "gtb_scoreboard.sv");
 }
 
-ComponentType UvmScoreboard::getComponentType()
+ComponentType UvmScoreboard::getComponentType() const
 {
     return SCOREBOARD;
+}
+
+
+void UvmScoreboard::setComparatorType(UvmScoreboard::ComparatorType type)
+{
+    comparator = type;
+}
+
+UvmScoreboard::ComparatorType UvmScoreboard::getComparatorType() const
+{
+    return comparator;
+}
+
+bool UvmScoreboard::hasComparator() const
+{
+    return (comparator == UvmScoreboard::ONLYCOMPARATOR) ||
+            (comparator == UvmScoreboard::PORTANDCOMPARATOR);
 }

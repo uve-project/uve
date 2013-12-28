@@ -105,6 +105,7 @@ public:
     bool virtualSequencer;
     bool virtualSequencerLink;
     bool scoreboard;
+    int scoreboardComparatorType;
     bool busMonitor;
     QList<AgentViewData*> agents;
     QList<BaseConnection> connections;
@@ -115,19 +116,24 @@ public:
         virtualSequencer(false),
         virtualSequencerLink(false),
         scoreboard(false),
-        busMonitor(false) { }
+        busMonitor(false),
+        scoreboardComparatorType(0)
+    { }
 };
 
 struct TestBenchViewData : public NamespaceViewData {
     QString name;
     bool virtualSequencer;
     bool scoreboard;
+    int scoreboardComparatorType;
     QList<VCViewData*> vcs;
 
     //Default data
     TestBenchViewData() :
         virtualSequencer(false),
-        scoreboard(true) { }
+        scoreboard(true),
+        scoreboardComparatorType(0)
+    { }
 };
 
 struct SignalsViewData {

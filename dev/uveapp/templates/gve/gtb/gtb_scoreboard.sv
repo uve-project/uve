@@ -83,6 +83,8 @@ class $@ClassName@$ extends uvm_scoreboard;
         $@ create_ports
     endfunction
 
+    $@ connect_phase
+
     $@ write_methods
 
     // Report_phase

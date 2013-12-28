@@ -61,7 +61,7 @@ class UvmAgent: public UvmComponent
 
         int getNbAgents() const;
 
-        virtual ComponentType getComponentType();
+        virtual ComponentType getComponentType() const;
 
     public slots:
         void setNbAgents(int nbAgents);

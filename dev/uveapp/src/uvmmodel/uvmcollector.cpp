@@ -37,7 +37,7 @@ QString UvmCollector::getRelativeTemplateFileName() const
     return QString( UVESettings::generator_gvip_folder() + "gvip_agent_collector.sv");
 }
 
-ComponentType UvmCollector::getComponentType()
+ComponentType UvmCollector::getComponentType() const
 {
     return COLLECTOR;
 }

@@ -110,7 +110,7 @@ QString UvmInterface::getRelativeTemplateFileName() const
     return QString(UVESettings::generator_gvip_folder() + "gvip_if.sv");
 }
 
-ComponentType UvmInterface::getComponentType()
+ComponentType UvmInterface::getComponentType() const
 {
     return INTERFACE;
 }

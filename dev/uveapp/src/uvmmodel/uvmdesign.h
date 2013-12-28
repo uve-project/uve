@@ -38,7 +38,7 @@ class UvmDesign: public UvmComponent, public PhysicalPortList
 
 
         QString getAbsoluteBodyFileName () const;
-        virtual ComponentType getComponentType();
+        virtual ComponentType getComponentType() const;
 };
 
 #endif // UVMDESIGN_H

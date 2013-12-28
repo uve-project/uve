@@ -427,6 +427,16 @@ QDomElement UveXmlExport::visit(const UvmScoreboard *comp){
     savePorts(comp,&root);
     saveComponents(comp,&root);
     saveConnections(comp,&root);
+
+    QString ctype;
+    switch(comp->getComparatorType())
+    {
+    case UvmScoreboard::NOCOMPARATOR: ctype = "nocomparator";break;
+    case UvmScoreboard::ONLYCOMPARATOR: ctype = "onlycomparator";break;
+    case UvmScoreboard::PORTANDCOMPARATOR: ctype = "portandcomparator";break;
+    }
+    saveElement("comparator",ctype,&root);
+
     return root;
 }
 

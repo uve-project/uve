@@ -43,7 +43,7 @@ class UvmTestCase: public UvmComponent
         void setConfig(UvmConfig *config);
         UvmConfig* getConfig();
 
-        virtual ComponentType getComponentType();
+        virtual ComponentType getComponentType() const;
 };
 
 #endif // UVMTESTCASE_H

@@ -59,7 +59,7 @@ class UvmVerificationComponent: public UvmComponent, public NameSpaceRegister
 
         void addScoreboard(UvmScoreboard *scoreboard);
         void removeScoreboard(UvmScoreboard *scoreboard);
-        QList<UvmScoreboard*> getScoreboards();
+        QList<UvmScoreboard*> getScoreboards() const;
 
         void setBusMonitor(UvmMonitor *env);
         UvmMonitor* getBusMonitor() const;
@@ -113,7 +113,7 @@ class UvmVerificationComponent: public UvmComponent, public NameSpaceRegister
 
 
         virtual UvmPackage* getPackage() const;
-        virtual ComponentType getComponentType();
+        virtual ComponentType getComponentType() const;
 
         bool getGenerated() const;
         void setGenerated(bool generated);
