@@ -40,41 +40,41 @@
 
 virtual class gvip_base_sequence extends uvm_sequence #(gvip_transfer);
 
-        // Constructor
-        function new(string name = "gvip_base_sequence");
-                super.new(name);
-        endfunction
+    // Constructor
+    function new(string name = "gvip_base_sequence");
+        super.new(name);
+    endfunction
 
-        // Raise in pre_body so the objection is only raised for root sequences.
-        // There is no need to raise for sub-sequences since the root sequence
-        // will encapsulate the sub-sequence.
-        virtual task pre_body();
-                if(starting_phase != null) begin
+    // Raise in pre_body so the objection is only raised for root sequences.
+    // There is no need to raise for sub-sequences since the root sequence
+    // will encapsulate the sub-sequence.
+    virtual task pre_body();
+            if(starting_phase != null) begin
 
-                `uvm_info(get_type_name(),
-                                        $psprintf("%s pre_body() raising %s objection",
-                                        get_sequence_path(), starting_phase.get_name()),
-                                        UVM_MEDIUM);
+            `uvm_info(get_type_name(),
+                      $psprintf("%s pre_body() raising %s objection",
+                      get_sequence_path(), starting_phase.get_name()),
+                      UVM_MEDIUM);
 
-                starting_phase.raise_objection(this);
+            starting_phase.raise_objection(this);
 
-                end
-        endtask : pre_body
+        end
+    endtask : pre_body
 
-        // Drop the objection in the post_body so the objection is removed when
-        // the root sequence is complete.
-        virtual task post_body();
-                if (starting_phase != null) begin
+    // Drop the objection in the post_body so the objection is removed when
+    // the root sequence is complete.
+    virtual task post_body();
+        if (starting_phase != null) begin
 
-                `uvm_info(get_type_name(),
-                                        $psprintf("%s post_body() dropping %s objection",
-                                        get_sequence_path(), starting_phase.get_name()),
-                                        UVM_MEDIUM);
+            `uvm_info(get_type_name(),
+                      $psprintf("%s post_body() dropping %s objection",
+                      get_sequence_path(), starting_phase.get_name()),
+                      UVM_MEDIUM);
 
-                starting_phase.drop_objection(this);
+            starting_phase.drop_objection(this);
 
-                end
-        endtask : post_body
+        end
+    endtask : post_body
 
 endclass : gvip_base_sequence
 
@@ -89,28 +89,28 @@ endclass : gvip_base_sequence
 
 class gvip_a_req extends gvip_base_sequence;
 
-        // Constructor
-        function new(string name = "gvip_a_req");
-                super.new(name);
-        endfunction
+    // Constructor
+    function new(string name = "gvip_a_req");
+        super.new(name);
+    endfunction
 
-        // Provide implementations of virtual methods such as get_type_name and create
-        `uvm_object_utils(gvip_a_req)
+    // Provide implementations of virtual methods such as get_type_name and create
+    `uvm_object_utils(gvip_a_req)
 
-        // Define rand values for a request frame
+    // Define rand values for a request frame
 
-        // Define constraints for the rand values
+    // Define constraints for the rand values
 
-        // Body
-        virtual task body();
+    // Body
+    virtual task body();
 
-                // Prepare and send the request using `uvm_do_with
+        // Prepare and send the request using `uvm_do_with
 
-                // Get response	 : get_response(rsp);
+        // Get response	 : get_response(rsp);
 
-                // Display information about request and response using `uvm_info
+        // Display information about request and response using `uvm_info
 
-        endtask : body
+    endtask : body
 
 endclass : gvip_a_req
 

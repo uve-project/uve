@@ -39,9 +39,9 @@
  *---- Example --------------------------------------------------------------*/
 /* 
 typedef enum {
-        NOP,
-        READ,
-        WRITE
+    NOP,
+    READ,
+    WRITE
 } $@class_name@$_rw_enum;
 */
 
@@ -53,53 +53,53 @@ class $@ClassName@$ extends uvm_sequence_item;
  * @TODO : Define transaction signals
  *---- Example --------------------------------------------------------------*/
  /*
-        rand bit [15:0]                         addr;
-        rand bit [7:0]                          data[];
-        rand $@class_name@$_rw_enum             read_write;
-        string                                  master = "";    // Indicate which master is querying
-        string                                  slave = "";     // Indicate which master is responding
+    rand bit [15:0]               addr;
+    rand bit [7:0]                data[];
+    rand $@class_name@$_rw_enum   read_write;
+    string                        master = "";    // Indicate which master is querying
+    string                        slave = "";     // Indicate which master is responding
 */
-        // DUT RTL signals
-        $@ transfer_variables
+    // DUT RTL signals
+    $@ transfer_variables
 
 /*---------------------------------------------------------------------------*/
 
 /*----------------------------------------------------------------------------
  * @TODO : Define constraints for transaction signals
  *---- Example --------------------------------------------------------------*/
-        // Read Write values constraint
+    // Read Write values constraint
 /*
-        constraint c_read_write {
-                read_write inside { READ, WRITE };
-        }
+    constraint c_read_write {
+        read_write inside { READ, WRITE };
+    }
 */
 
 /*---------------------------------------------------------------------------*/
 
 
-        // Provide implementations of virtual methods such as get_type_name and create
-        `uvm_object_utils_begin($@ClassName@$)
+    // Provide implementations of virtual methods such as get_type_name and create
+    `uvm_object_utils_begin($@ClassName@$)
 /*----------------------------------------------------------------------------
  * @TODO : Use macros to implemente virtual methods for transaction signals
  *---- Example --------------------------------------------------------------*/
 /*
-        `uvm_field_int		(addr,				UVM_DEFAULT)
-        `uvm_field_array_int    (data,				UVM_DEFAULT)
-        `uvm_field_enum		($@class_name@$_rw_enum, read_write, UVM_DEFAULT)
-        `uvm_field_string	(master,			UVM_DEFAULT|UVM_NOCOMPARE)
-        `uvm_field_string	(slave,				UVM_DEFAULT|UVM_NOCOMPARE)
+    `uvm_field_int       (addr,	                              UVM_DEFAULT)
+    `uvm_field_array_int (data,	                              UVM_DEFAULT)
+    `uvm_field_enum      ($@class_name@$_rw_enum, read_write, UVM_DEFAULT)
+    `uvm_field_string    (master,                             UVM_DEFAULT|UVM_NOCOMPARE)
+    `uvm_field_string    (slave,                              UVM_DEFAULT|UVM_NOCOMPARE)
 */
         
-        // DUT RTL signals
-        $@ transfer_var_macro
+    // DUT RTL signals
+    $@ transfer_var_macro
 
 /*---------------------------------------------------------------------------*/
-        `uvm_object_utils_end
+    `uvm_object_utils_end
 
-        // Constructor
-        function new(string name = "$@class_name@$_inst");
-                super.new(name);
-        endfunction
+    // Constructor
+    function new(string name = "$@class_name@$_inst");
+        super.new(name);
+    endfunction
 
 endclass : $@ClassName@$
 

@@ -36,23 +36,23 @@
 
 class $@ClassName@$ extends uvm_sequence #(gvip_transfer);
 
-        // Transfer used in this sequence
-        gvip_transfer util_transfer;
+    // Transfer used in this sequence
+    gvip_transfer util_transfer;
 
-        // Provide implementations of virtual methods such as get_type_name and create
-        `uvm_object_utils(gvip_slave_response_seq)
+    // Provide implementations of virtual methods such as get_type_name and create
+    `uvm_object_utils(gvip_slave_response_seq)
 
-        // This macro declare the variable p_sequencer that point a sequencer.
-        // Here the slave_sequencer.
-        `uvm_declare_p_sequencer(gvip_slave_sequencer)
+    // This macro declare the variable p_sequencer that point a sequencer.
+    // Here the slave_sequencer.
+    `uvm_declare_p_sequencer(gvip_slave_sequencer)
 
-        // Constructor
-        function new(string name = "gvip_slave_response_seq");
-                super.new(name);
-        endfunction
+    // Constructor
+    function new(string name = "gvip_slave_response_seq");
+            super.new(name);
+    endfunction
 
-        // Pre do
-        virtual task pre_do(bit is_item);
+    // Pre do
+    virtual task pre_do(bit is_item);
 
 /*---------------------------------------------------------------------------
  * @TODO : Prepare response (res) in function of the request (util_transfer)
@@ -61,38 +61,38 @@ class $@ClassName@$ extends uvm_sequence #(gvip_transfer);
  * more info)
  *--------------------------------------------------------------------------*/
 
-        endtask : pre_do
+    endtask : pre_do
 
-        // Body
-        virtual task body();
+    // Body
+    virtual task body();
 
-                // Diplay start of sequence
-                `uvm_info(get_type_name(),
-                        $psprintf("%s starting...",
-                        get_sequence_path()), UVM_MEDIUM);
+        // Diplay start of sequence
+        `uvm_info(get_type_name(),
+                  $psprintf("%s starting...",
+                  get_sequence_path()), UVM_MEDIUM);
 
-                // Create the item res (this item will be send as response)
-                $cast(req, create_item(gvip_transfer::get_type(), p_sequencer, "req"));
+        // Create the item res (this item will be send as response)
+        $cast(req, create_item(gvip_transfer::get_type(), p_sequencer, "req"));
 
-                forever begin
+        forever begin
 
-                        // Get request
-                        p_sequencer.seq_item_port.peek(util_transfer);
+            // Get request
+            p_sequencer.seq_item_port.peek(util_transfer);
 
-                        // Need to raise/drop objection before each item because we don't want
-                        // to be stopped in the middle of a transfer.
-                        starting_phase.raise_objection(this);
+            // Need to raise/drop objection before each item because we don't want
+            // to be stopped in the middle of a transfer.
+            starting_phase.raise_objection(this);
 
-                        start_item(req);		// Call pre_do
-                finish_item(req);		// Send the item and call post_do
+            start_item(req);		// Call pre_do
+            finish_item(req);		// Send the item and call post_do
 
-                starting_phase.drop_objection(this);
-                end
+            starting_phase.drop_objection(this);
+        end
 
-        endtask : body
+    endtask : body
 
-        // Post do
-        function void post_do(uvm_sequence_item this_item);
+    // Post do
+    function void post_do(uvm_sequence_item this_item);
 
 /*---------------------------------------------------------------------------
  * @TODO : Update slave
@@ -100,7 +100,7 @@ class $@ClassName@$ extends uvm_sequence #(gvip_transfer);
  * NOTE : this_item = parameter of finish_item = req
  *--------------------------------------------------------------------------*/
 
-        endfunction : post_do
+    endfunction : post_do
 
 endclass : $@ClassName@$
 

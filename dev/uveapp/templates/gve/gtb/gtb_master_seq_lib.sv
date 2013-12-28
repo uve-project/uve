@@ -49,35 +49,35 @@ $@ copy `include "%vip%_master_seq_lib.sv"
 
 class a_master_seq extends $@vip_name@$_base_sequence;
 
-        // Constructor
-        function new(string name="a_master_seq");
-                super.new(name);
-        endfunction : new
+    // Constructor
+    function new(string name="a_master_seq");
+        super.new(name);
+    endfunction : new
 
-        // Provide implementations of virtual methods such as get_type_name and create
-        `uvm_object_utils(a_master_seq)
+    // Provide implementations of virtual methods such as get_type_name and create
+    `uvm_object_utils(a_master_seq)
 
-        // Use a sequence from gvip_master_seq_lib
-        $@ copy %vip%_a_req %vip%_a_req0;
+    // Use a sequence from gvip_master_seq_lib
+    $@ copy %vip%_a_req %vip%_a_req0;
 
-        // Define random signal for transaction
+    // Define random signal for transaction
 
-        // Define constraint for this signals
+    // Define constraint for this signals
 
-        // Body
-        virtual task body();
+    // Body
+    virtual task body();
 
-                // Diplay start of sequence
-                `uvm_info(get_type_name(),
-                        $psprintf("%s starting...",
-                        get_sequence_path()), UVM_MEDIUM);
+        // Diplay start of sequence
+        `uvm_info(get_type_name(),
+                  $psprintf("%s starting...",
+                  get_sequence_path()), UVM_MEDIUM);
 
-                // Execute the sequence
-                $@ copy `uvm_do(%vip%_a_req0)
+        // Execute the sequence
+        $@ copy `uvm_do(%vip%_a_req0)
 
-                // Use the macro `uvm_do_with if you wand to specify interface signals
+        // Use the macro `uvm_do_with if you wand to specify interface signals
 
-        endtask : body
+    endtask : body
 
 endclass : a_master_seq
 

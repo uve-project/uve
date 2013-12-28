@@ -37,21 +37,21 @@
 
 class $@ClassName@$ extends uvm_sequencer #($@vip_transfer@$);
 
-        // TLM port to peek the transfer from the slave monitor
-       uvm_blocking_peek_port#($@vip_transfer@$) seq_item_port;
+    // TLM port to peek the transfer from the slave monitor
+    uvm_blocking_peek_port#($@vip_transfer@$) seq_item_port;
 
-        // Provide implementations of virtual methods such as get_type_name and create
-        `uvm_sequencer_utils($@ClassName@$)
+    // Provide implementations of virtual methods such as get_type_name and create
+    `uvm_sequencer_utils($@ClassName@$)
 
-        // Constructor
-        function new(string name = "agent sequencer", uvm_component parent);
+    // Constructor
+    function new(string name = "agent sequencer", uvm_component parent);
 
-                super.new(name, parent);
+        super.new(name, parent);
                
-                // Create port
-                seq_item_port = new("seq_item_port", this);
+        // Create port
+        seq_item_port = new("seq_item_port", this);
 
-        endfunction : new
+    endfunction : new
 
 endclass : $@ClassName@$
 

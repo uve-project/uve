@@ -48,7 +48,7 @@ interface $@ClassName@$;
  * see UVM User Guide - 4.12 Implementing Checks and Coverage
  *--------------------------------------------------------------------------*/
 
-        // Assertions
+    // Assertions
 /*---------------------------------------------------------------------------
  * @TODO : Implement coverage
  * see UVM User Guide - 4.12 Implementing Checks and Coverage

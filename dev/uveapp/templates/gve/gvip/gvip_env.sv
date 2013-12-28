@@ -37,67 +37,67 @@
 
 class $@ClassName@$ extends uvm_env;
 
-        // VIP parameters
-        $@ numbers
-        protected bit has_bus_monitor = 1;
-        $@class_name@$_config cfg;
+    // VIP parameters
+    $@ numbers
+    protected bit has_bus_monitor = 1;
+    $@class_name@$_config cfg;
 
-        // The following two bits are used to control whether checks and coverage are
-        // done both in the bus monitor class and the interface.
-        bit intf_checks_enable = 1;
-        bit intf_coverage_enable = 1;
+    // The following two bits are used to control whether checks and coverage are
+    // done both in the bus monitor class and the interface.
+    bit intf_checks_enable = 1;
+    bit intf_coverage_enable = 1;
 
-        // Virtual Interface variable
-        protected virtual interface $@vip_interface@$ vif;
+    // Virtual Interface variable
+    protected virtual interface $@vip_interface@$ vif;
 
-        // Components
-        $@ vip_components
+    // Components
+    $@ vip_components
 
-        // Provide implementations of virtual methods such as get_type_name and create
-        `uvm_component_utils_begin($@ClassName@$)
-                `uvm_field_int(has_bus_monitor, UVM_DEFAULT)
-                $@ comp_utils
-                `uvm_field_int(intf_checks_enable, UVM_DEFAULT)
-                `uvm_field_int(intf_coverage_enable, UVM_DEFAULT)
-        `uvm_component_utils_end
+    // Provide implementations of virtual methods such as get_type_name and create
+    `uvm_component_utils_begin($@ClassName@$)
+        `uvm_field_int(has_bus_monitor, UVM_DEFAULT)
+        $@ comp_utils
+        `uvm_field_int(intf_checks_enable, UVM_DEFAULT)
+        `uvm_field_int(intf_coverage_enable, UVM_DEFAULT)
+    `uvm_component_utils_end
 
-        // Constructor
-        function new(string name, uvm_component parent);
-                super.new(name,parent);
-                cfg = null;
-        endfunction : new
+    // Constructor
+    function new(string name, uvm_component parent);
+        super.new(name,parent);
+        cfg = null;
+    endfunction : new
 
-        // Build phase
-        function void build_phase(uvm_phase phase);
+    // Build phase
+    function void build_phase(uvm_phase phase);
 
-                string inst_name;
+        string inst_name;
 
-                super.build_phase(phase);
+        super.build_phase(phase);
 
-                // Try to get a configuration object
-                void'(uvm_config_db#($@class_name@$_config)::get(this, "", "config", cfg));
+        // Try to get a configuration object
+        void'(uvm_config_db#($@class_name@$_config)::get(this, "", "config", cfg));
 
-                if (cfg == null) begin
-                    cfg = $@class_name@$_config::type_id::create("cfg");
-                    if (!cfg.randomize())
-                        `uvm_fatal("RNDFAIL", "Failed to build a configuration")
-                end
+        if (cfg == null) begin
+            cfg = $@class_name@$_config::type_id::create("cfg");
+            if (!cfg.randomize())
+                `uvm_fatal("RNDFAIL", "Failed to build a configuration")
+        end
 
-                // Interface
-                if(!uvm_config_db#(virtual $@vip_interface@$)::get(this,"","$@vip_interface@$",vif))
-                        `uvm_fatal("NOVIF",{"virtual interface must be set for: ",get_full_name(),".vif"});
+        // Interface
+        if(!uvm_config_db#(virtual $@vip_interface@$)::get(this,"","$@vip_interface@$",vif))
+            `uvm_fatal("NOVIF",{"virtual interface must be set for: ",get_full_name(),".vif"});
 
-                $@ vip_build_components
+        $@ vip_build_components
 
-        endfunction : build_phase
+    endfunction : build_phase
 
 
-        // Connect phase
-        function void connect_phase(uvm_phase phase);
+    // Connect phase
+    function void connect_phase(uvm_phase phase);
 
-                $@ vip_connect_phase
+        $@ vip_connect_phase
 
-        endfunction : connect_phase
+    endfunction : connect_phase
 
 /*---------------------------------------------------------------------------
  * @TODO : Maybe implement some configuration functions for agents. In example
@@ -105,21 +105,21 @@ class $@ClassName@$ extends uvm_env;
  *--------------------------------------------------------------------------*/
 
 
-        // update_vif_enables
-        protected task update_vif_enables();
-                forever begin
-                        @(intf_checks_enable || intf_coverage_enable);
-                        vif.has_checks <= intf_checks_enable;
-                        vif.has_coverage <= intf_coverage_enable;
-                end
-        endtask : update_vif_enables
+    // update_vif_enables
+    protected task update_vif_enables();
+        forever begin
+            @(intf_checks_enable || intf_coverage_enable);
+            vif.has_checks <= intf_checks_enable;
+            vif.has_coverage <= intf_coverage_enable;
+        end
+    endtask : update_vif_enables
 
-        // Run phase
-        task run_phase(uvm_phase phase);
-                fork
-                        update_vif_enables();
-                join
-        endtask : run_phase
+    // Run phase
+    task run_phase(uvm_phase phase);
+        fork
+            update_vif_enables();
+        join
+    endtask : run_phase
 
 endclass : $@ClassName@$
 

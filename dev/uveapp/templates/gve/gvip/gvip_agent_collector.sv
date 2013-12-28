@@ -37,119 +37,119 @@
 
 class $@ClassName@$ extends uvm_component;
 
-        // Enable or diseable collector's check and coverage functionalities
-        bit checks_enable = 1;
-        bit coverage_enable = 1;
+    // Enable or diseable collector's check and coverage functionalities
+    bit checks_enable = 1;
+    bit coverage_enable = 1;
 
-        // Virtual Interface
-        protected virtual $@vip_interface@$ vif;
+    // Virtual Interface
+    protected virtual $@vip_interface@$ vif;
 
-        // Captured transfer
-        protected $@vip_transfer@$ trans_collected;
+    // Captured transfer
+    protected $@vip_transfer@$ trans_collected;
 
-        // Analysis_port to scoreboard
-        uvm_analysis_port#($@vip_transfer@$) item_collected_port;
+    // Analysis_port to scoreboard
+    uvm_analysis_port#($@vip_transfer@$) item_collected_port;
 
-        // Covergroups
+    // Covergroups
 /*---------------------------------------------------------------------------
  * @TODO : Implement Covergroup(s)
  *--------------------------------------------------------------------------*/
 
-        // Provide implementations of virtual methods such as get_type_name and create
-        `uvm_component_utils_begin($@ClassName@$)
-                `uvm_field_int(checks_enable, UVM_DEFAULT)
-                `uvm_field_int(coverage_enable, UVM_DEFAULT)
-        `uvm_component_utils_end
+    // Provide implementations of virtual methods such as get_type_name and create
+    `uvm_component_utils_begin($@ClassName@$)
+        `uvm_field_int(checks_enable, UVM_DEFAULT)
+        `uvm_field_int(coverage_enable, UVM_DEFAULT)
+    `uvm_component_utils_end
 
-        /**********************************************************
-         * Object creation
-         **********************************************************/
+    /**********************************************************
+     * Object creation
+     **********************************************************/
 
-        // Constructor
-        function new(string name = "collector", uvm_component parent);
-                super.new(name, parent);
+    // Constructor
+    function new(string name = "collector", uvm_component parent);
+        super.new(name, parent);
 
-                // Create covergroups
+        // Create covergroups
 /*---------------------------------------------------------------------------
  * @TODO : Instanciate covergroup(s)
  *--------------------------------------------------------------------------*/
 
-                // Creates captured transfer
-                trans_collected = new();
+        // Creates captured transfer
+        trans_collected = new();
 
-                // Creating Analysis port
-                item_collected_port = new("item_collected_port", this);
+        // Creating Analysis port
+        item_collected_port = new("item_collected_port", this);
 
-        endfunction : new
+    endfunction : new
 
-        // Build
-        virtual function void build_phase(uvm_phase phase);
+    // Build
+    virtual function void build_phase(uvm_phase phase);
 
-                if(!uvm_config_db#(virtual $@vip_interface@$)::get(this, "", "$@vip_interface@$", vif))
-                        `uvm_fatal("NOVIF",{"virtual interface must be set for: ",get_full_name(),".vif"});
+        if(!uvm_config_db#(virtual $@vip_interface@$)::get(this, "", "$@vip_interface@$", vif))
+            `uvm_fatal("NOVIF",{"virtual interface must be set for: ",get_full_name(),".vif"});
 
-        endfunction : build_phase
+    endfunction : build_phase
 
 
-        /**********************************************************
-         * Behavior
-         **********************************************************/
+    /**********************************************************
+     * Behavior
+     **********************************************************/
 
-        // Run
-        virtual task run_phase(uvm_phase phase);
-                fork
-                        collect_transactions();
-                join
-        endtask : run_phase
+    // Run
+    virtual task run_phase(uvm_phase phase);
+        fork
+            collect_transactions();
+        join
+    endtask : run_phase
 
-        // Collect the current transaction and perform check and coverage
-        virtual protected task collect_transactions();
-                forever begin
+    // Collect the current transaction and perform check and coverage
+    virtual protected task collect_transactions();
+        forever begin
 
-                        // Collect the data from the bus into trans_collected
+            // Collect the data from the bus into trans_collected
 /*---------------------------------------------------------------------------
  * @TODO : Implement data collection
  *--------------------------------------------------------------------------*/
-                        $@ monitor_collect
+            $@ monitor_collect
 
 
-                        // Display transfer
-                        `uvm_info(get_type_name(),
-                                $psprintf("Transfer collected :\n%s", trans_collected.sprint()),
-                                UVM_HIGH)
+            // Display transfer
+            `uvm_info(get_type_name(),
+                      $psprintf("Transfer collected :\n%s", trans_collected.sprint()),
+                      UVM_HIGH)
 
-                        // -> send_to_sequencer;
+            // -> send_to_sequencer;
 
-                        // Perform transfer checker
-                        if (checks_enable)
-                                perform_transfer_checks();
+            // Perform transfer checker
+            if (checks_enable)
+                perform_transfer_checks();
 
-                        // Perform transfer coverage
-                        if (coverage_enable)
-                                perform_transfer_coverage();
+            // Perform transfer coverage
+            if (coverage_enable)
+                perform_transfer_coverage();
 
-                        // Transmit transfer via analysis port
-                        item_collected_port.write(trans_collected);
-                end
-        endtask : collect_transactions
+            // Transmit transfer via analysis port
+            item_collected_port.write(trans_collected);
+        end
+    endtask : collect_transactions
 
-        // Perform checks
-        virtual protected function void perform_transfer_checks();
+    // Perform checks
+    virtual protected function void perform_transfer_checks();
 
 /*---------------------------------------------------------------------------
  * @TODO : Implement checks
  *--------------------------------------------------------------------------*/
 
-        endfunction : perform_transfer_checks
+    endfunction : perform_transfer_checks
 
-        // Perform coverages
-        virtual protected function void perform_transfer_coverage();
+    // Perform coverages
+    virtual protected function void perform_transfer_coverage();
 
 /*----------------------------------------------------------------------------
  * @TODO : Implement coverage
  *---------------------------------------------------------------------------*/
 
-        endfunction : perform_transfer_coverage
+    endfunction : perform_transfer_coverage
 
 endclass :  $@ClassName@$
 

@@ -38,33 +38,33 @@
 
 class $@ClassName@$ extends uvm_agent;
 
-        // Components
-        $@ decl_components
+    // Components
+    $@ decl_components
 
-        $@class_name@$_config cfg;
+    $@class_name@$_config cfg;
 
-        // Provide implementations of virtual methods such as get_type_name and create
-        `uvm_component_utils_begin($@ClassName@$)
+    // Provide implementations of virtual methods such as get_type_name and create
+    `uvm_component_utils_begin($@ClassName@$)
 
-        `uvm_component_utils_end
+    `uvm_component_utils_end
 
-        // Constructor
-        function new(string name = "agent", uvm_component parent);
-                super.new(name, parent);
-        endfunction : new
+    // Constructor
+    function new(string name = "agent", uvm_component parent);
+        super.new(name, parent);
+    endfunction : new
 
-        // Build internal components
-        virtual function void build_phase(uvm_phase phase);
-                super.build_phase(phase);
+    // Build internal components
+    virtual function void build_phase(uvm_phase phase);
+        super.build_phase(phase);
 
-                $@ build_components
+        $@ build_components
 
-        endfunction : build_phase
+    endfunction : build_phase
 
-        // Connect
-        virtual function void connect_phase(uvm_phase phase);
-                $@ connect_components
-        endfunction : connect_phase
+    // Connect
+    virtual function void connect_phase(uvm_phase phase);
+        $@ connect_components
+    endfunction : connect_phase
 
 endclass : $@ClassName@$
 

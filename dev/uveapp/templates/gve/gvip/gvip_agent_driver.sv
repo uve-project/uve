@@ -36,75 +36,73 @@
 
 class $@ClassName@$ extends uvm_driver# ($@vip_transfer@$);
 
-        // Virtual Interface
-        protected virtual $@vip_interface@$ vif;
+    // Virtual Interface
+    protected virtual $@vip_interface@$ vif;
 
 
-  // Port to monitor (not so nifty)
-  uvm_blocking_put_port #($@vip_transfer@$) mon_item_port;
-  bit send_to_monitor = 0;
+    // Port to monitor (not so nifty)
+    uvm_blocking_put_port #($@vip_transfer@$) mon_item_port;
+    bit send_to_monitor = 0;
 
-        // Provide implementations of virtual methods such as get_type_name and create
-        `uvm_component_utils($@ClassName@$)
+    // Provide implementations of virtual methods such as get_type_name and create
+    `uvm_component_utils($@ClassName@$)
 
-        // Constructor
-        function new(string name = "agent driver", uvm_component parent);
-                super.new(name, parent);
-        endfunction : new
+    // Constructor
+    function new(string name = "agent driver", uvm_component parent);
+        super.new(name, parent);
+    endfunction : new
 
-        // Build phase
-        function void build_phase(uvm_phase phase);
-                super.build_phase(phase);
+    // Build phase
+    function void build_phase(uvm_phase phase);
+        super.build_phase(phase);
 
+        // Create port to the monitor
+        if (send_to_monitor == 1)
+            mon_item_port = new("mon_item_port", this);
 
-    // Create port to the monitor
-if (send_to_monitor == 1)
-mon_item_port = new("mon_item_port", this);
+        // Interface
+        if(!uvm_config_db#(virtual $@vip_interface@$)::get(this,"","$@vip_interface@$",vif))
+            `uvm_fatal("NOVIF",{"virtual interface must be set for: ",get_full_name(),".vif"});
 
-                // Interface
-                if(!uvm_config_db#(virtual $@vip_interface@$)::get(this,"","$@vip_interface@$",vif))
-                        `uvm_fatal("NOVIF",{"virtual interface must be set for: ",get_full_name(),".vif"});
+    endfunction : build_phase
 
-        endfunction : build_phase
+    // Run phase
+    virtual task run_phase(uvm_phase phase);
+        fork
+            get_and_drive();
+            reset_signals();
+        join
+    endtask : run_phase
 
-        // Run phase
-        virtual task run_phase(uvm_phase phase);
-                fork
-                        get_and_drive();
-                        reset_signals();
-                join
-        endtask : run_phase
+    // Reset signals
+    virtual protected task reset_signals();
+        $@ driver_resets
+    endtask : reset_signals
 
-        // Reset signals
-        virtual protected task reset_signals();
-                $@ driver_resets
-        endtask : reset_signals
+    // Get and drive item
+    virtual protected task get_and_drive();
 
-        // Get and drive item
-        virtual protected task get_and_drive();
-
-                // Wait end of reset
+        // Wait end of reset
 /*---------------------------------------------------------------------------
  * @TODO : wait reset : @(negedge vif.reset); or @(posedge vif.reset);
  *--------------------------------------------------------------------------*/
 
+        // Get and drive
+        forever begin
+            seq_item_port.get_next_item(req);    // Get the next data item from sequencer
+            if (send_to_monitor == 1)
+                mon_item_port.put(req);
 
-                // Get and drive
-                forever begin
-                        seq_item_port.get_next_item(req);			// Get the next data item from sequencer
-if (send_to_monitor == 1)
-      mon_item_port.put(req);
+            $cast(rsp, req.clone());             // Copy request in response
+            rsp.set_id_info(req);                // Set id
+            drive_transfer(rsp);                 // Write request on the bus / get response
+            seq_item_port.item_done();           // Indicate that item is done
+            //     seq_item_port.put_response(rsp);   // Send response
+        end
+    endtask : get_and_drive
 
-                        $cast(rsp, req.clone());					// Copy request in response
-                        rsp.set_id_info(req);						// Set id
-                        drive_transfer(rsp);						// Write request on the bus / get response
-                        seq_item_port.item_done();					// Indicate that item is done
-                   //     seq_item_port.put_response(rsp);			// Send response
-                end
-        endtask : get_and_drive
-
-        // Drive transfer
-        virtual protected task drive_transfer($@vip_transfer@$ trans);
+    // Drive transfer
+    virtual protected task drive_transfer($@vip_transfer@$ trans);
 
 /*---------------------------------------------------------------------------
  * @TODO : drive transfer to interface
@@ -112,7 +110,7 @@ if (send_to_monitor == 1)
             
            $@ driver_drive
            
-        endtask : drive_transfer
+    endtask : drive_transfer
 
 endclass : $@ClassName@$
 
