@@ -728,9 +728,8 @@ void MainWindow::simulateExt()
 
 void MainWindow::simulateInUve()
 {
-/*
 #ifdef TARGET_WIN
-    QString script=_project->getFolder() + UVESettings::generator_run_bat_file();
+    QString script=currentProject->getFolder() + UVESettings::generator_run_bat_file();
 #else
     QString script=currentProject->getFolder() + UVESettings::generator_run_sh_file();
 #endif
@@ -741,8 +740,9 @@ void MainWindow::simulateInUve()
 
     consoleDockWidget->show();
 
-    script+= " all";
-    simProcess->start(script);
+    QStringList arguments;
+    arguments << "all";
+    simProcess->start(script,arguments);
     if (!simProcess->waitForStarted(3000))
     {
         QMessageBox::warning(0, "UVE",
@@ -750,7 +750,7 @@ void MainWindow::simulateInUve()
         return;
     }
 
-    updateMenus();*/
+    updateMenus();
 }
 
 void MainWindow::regenerateProjects()
@@ -1076,12 +1076,12 @@ void MainWindow::createActions()
 //    generateProjectsAct->setStatusTip(tr("Regenerate a set of projects"));
 //    CONNECT(generateProjectsAct, SIGNAL(triggered()), this, SLOT(regenerateProjects()));
 
-    simulateInUveAct = new QAction(QIcon(":/images/start.png"),tr("Simulate in UVE"), this);
+    simulateInUveAct = new QAction(QIcon(":/images/startInUVE.png"),tr("Simulate in UVE"), this);
     //simulateAct->setShortcut(tr("Ctrl+D"));
     simulateInUveAct->setStatusTip(tr("Starts the simulation of the current project"));
     CONNECT(simulateInUveAct, SIGNAL(triggered()), this, SLOT(simulateInUve()));
 
-    simulateExtAct = new QAction(QIcon(":/images/start.png"),tr("Simulate in simulator"), this);
+    simulateExtAct = new QAction(QIcon(":/images/startInSimulator.png"),tr("Simulate in simulator"), this);
     //simulateAct->setShortcut(tr("Ctrl+D"));
     simulateExtAct->setStatusTip(tr("Starts the simulation of the current project in the simulator GUI"));
     CONNECT(simulateExtAct, SIGNAL(triggered()), this, SLOT(simulateExt()));
