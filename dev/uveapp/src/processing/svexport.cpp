@@ -1334,7 +1334,7 @@ void SVExport::visit(const UvmDriver *comp){
     bool hasReset = false;
     foreach(PhysicalPort *p, comp->getParentVip()->getInterface()->getPhysicalPorts()) {
         if (p->getCategory()==UvmPort::RESET) {
-            line += "@(posedge vif.";
+            line += tab + "@(posedge vif.";
             line += p->getName();
             line += ");\n";
             hasReset = true;
@@ -1344,10 +1344,21 @@ void SVExport::visit(const UvmDriver *comp){
     if (hasReset) {
         theLine += "forever begin\n";
         theLine += line;
-        theLine +="/*---------------------------------------------------------------------------\n";
-        theLine +="* @TODO : reset all signals while reset signal is active\n";
-        theLine +="*--------------------------------------------------------------------------*/\n";
-        theLine +="\n";
+        theLine +=tab + "/*---------------------------------------------------------------------------\n";
+        theLine +=tab + "* @TODO : reset all signals while reset signal is active\n";
+        theLine +=tab + "*--------------------------------------------------------------------------*/\n";
+        theLine +=tab + "\n";
+        foreach(PhysicalPort *p, comp->getParentVip()->getInterface()->getPhysicalPorts()) {
+            if ((p->getCategory()!=UvmPort::CLOCK) &&
+                    (p->getCategory()!=UvmPort::RESET) &&
+                    (p->getDirection()!=UvmPort::IN)) {
+                theLine += tab + "vif.";
+                theLine += p->getName();
+                theLine += " = ";
+                theLine += "0;\n";
+            }
+        }
+        line += "\n";
         theLine += "end\n";
     }
 
