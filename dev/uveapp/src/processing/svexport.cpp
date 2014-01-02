@@ -329,6 +329,7 @@ bool SVExport::exportProject(const UvmProject *project) {
         foreach(UvmVerificationComponent *vip, project->getTop()->getVips()) {
 
             UvmInterface *interface = vip->getInterface();
+            QString interfaceName = vip->getClassName() + "_if";
 
             // Divider
             line += "add wave -noupdate -divider ";
@@ -336,7 +337,7 @@ bool SVExport::exportProject(const UvmProject *project) {
             line += "\n";
 
             foreach (PhysicalPort *port,interface->getPhysicalPorts()) {
-                line += addWave(project->getTop(),interface->getInstName(), port->getName(), false);
+                line += addWave(project->getTop(),interfaceName, port->getName(), false);
             }
         }
         map.insert("add_wave",line);
@@ -440,13 +441,6 @@ void SVExport::initMap(QMap<QString,QString> &map,const UvmComponent *comp) cons
             line += "`include \"" + vip->getPackageFileName() + "\"\n";
     }
     map.insert("include_vip_pkg",line);
-
-/*    foreach(UvmVerificationComponent *vip, comp->getProject()->getTop()->getVips()) {
-            QString s=vip->getBodyFileName().left(vip->getBodyFileName().length()-3);
-            line += "`include \"" + s + ext + ".sv\"\n";
-        }
-        */
-
 
     line = "";
 
@@ -554,7 +548,7 @@ void SVExport::visit(const UvmTop *comp){
             else {
                 UvmPort *otherPort=p->getConnections().at(0)->getOtherPort(p);
                 line += " (";
-                line += otherPort->getParent()->getParentVip()->getInterface()->getInstName() + "." + otherPort->getName();
+                line += otherPort->getParent()->getParentVip()->getClassName() + "_if." + otherPort->getName();
                 line += ")";
             }
         }
@@ -572,7 +566,7 @@ void SVExport::visit(const UvmTop *comp){
         foreach (UvmConnection *connection, p->getConnections())
         {
             UvmPort *otherPort = connection->getOtherPort(p);
-            line += "assign " + otherPort->getParent()->getParentVip()->getInterface()->getInstName() + "." + otherPort->getName() +
+            line += "assign " + otherPort->getParent()->getParentVip()->getClassName() + "_if" + "." + otherPort->getName() +
                     " = " + p->getName()
                     + ";\n";
         }
@@ -585,13 +579,14 @@ void SVExport::visit(const UvmTop *comp){
     // Generate Clock blocks
     foreach(UvmVerificationComponent *vip, comp->getVips()) {
         UvmInterface *interface = vip->getInterface();
+        QString interfaceName = vip->getClassName() + "_if";
         foreach(PhysicalPort *clock, interface->getClocks()) {
             if (clock->getConnections().size()==0)
             {
                 line += "initial begin\n";
 
                 line += tab;
-                line += interface->getInstName() + "." + clock->getName() + " <= 1'b0;\n";
+                line += interfaceName + "." + clock->getName() + " <= 1'b0;\n";
 
                 line += tab;
                 line +="forever\n";
@@ -599,8 +594,8 @@ void SVExport::visit(const UvmTop *comp){
                 line += tab;
                 line += tab;
                 line += "#" + QString("%1").arg(clock->getClockHalfPeriod()) + " ";
-                line +=interface->getInstName() + "." + clock->getName();
-                line += " = ~" + interface->getInstName() + "." + clock->getName() + ";\n";
+                line += interfaceName + "." + clock->getName();
+                line += " = ~" + interfaceName + "." + clock->getName() + ";\n";
 
                 line += "end\n\n";
             }
@@ -615,7 +610,7 @@ void SVExport::visit(const UvmTop *comp){
         if (signalsToDeclare.contains(port))
             name = port->getName();
         else
-            name = port->getConnections().at(0)->getOtherPort(port)->getParent()->getParentVip()->getInterface()->getInstName()
+            name = port->getConnections().at(0)->getOtherPort(port)->getParent()->getParentVip()->getClassName() + "_if"
                     + "." + port->getName();
         line += "initial begin\n";
 
@@ -665,7 +660,7 @@ void SVExport::visit(const UvmTop *comp){
         if (signalsToDeclare.contains(reset))
             name = reset->getName();
         else
-            name = reset->getConnections().at(0)->getOtherPort(reset)->getParent()->getParentVip()->getInterface()->getInstName()
+            name = reset->getConnections().at(0)->getOtherPort(reset)->getParent()->getParentVip()->getClassName() + "_if"
                     + "." + reset->getName();
 
         // Initial state
@@ -690,7 +685,7 @@ void SVExport::visit(const UvmTop *comp){
 
     line = "";
     foreach(UvmVerificationComponent *vip, comp->getVips()) {
-        line +=QString("uvm_config_db#(virtual %1)::set(uvm_root::get(), \"*\", \"%1\", %2_vif);\n").arg(vip->getInterface()->getClassName()).arg(vip->getClassName());
+        line +=QString("uvm_config_db#(virtual %1)::set(uvm_root::get(), \"*\", \"%1\", %2_if);\n").arg(vip->getInterface()->getClassName()).arg(vip->getClassName());
     }
     map.insert("set_interface",line);
 
@@ -698,7 +693,7 @@ void SVExport::visit(const UvmTop *comp){
 
 
     foreach(UvmVerificationComponent *vip, comp->getVips()) {
-        line +=QString("%1 %2_vif();\n").arg(vip->getInterface()->getClassName()).arg(vip->getClassName());
+        line +=QString("%1 %2_if();\n").arg(vip->getInterface()->getClassName()).arg(vip->getClassName());
     }
     map.insert("decl_interface",line);
 

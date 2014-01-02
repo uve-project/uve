@@ -39,7 +39,7 @@ $@ include_testcase
 
 module $@ClassName@$;
 
-    import uvm_pkg::*;			// Import UVM
+    import uvm_pkg::*;    // Import UVM
     $@ import_pkg
 
 
