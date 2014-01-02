@@ -82,10 +82,8 @@ class $@ClassName@$ extends uvm_scoreboard;
     // Build phase
     function void build_phase(uvm_phase phase);
 
-        $@ get_config
+        $@ build_phase
 
-        // Create the analysis port
-        $@ create_ports
     endfunction
 
     $@ connect_phase

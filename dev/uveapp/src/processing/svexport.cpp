@@ -725,6 +725,8 @@ void SVExport::visit(const UvmTestCase *comp){
         line += tab + "// Create the configuration for " + vip->getConfigClassName() + "\n";
         line += tab + vip->getConfigClassName() + " " + "cfg;\n";
         line += tab + "cfg = " + vip->getConfigClassName() + "::type_id::create(\"cfg_"+vip->getConfigClassName()+"\");\n";
+        line += tab + "cfg.intf_checks_enable = 1;\n";
+        line += tab + "cfg.intf_coverage_enable = 1;\n";
         if (!vip->getScoreboards().isEmpty())
         {
             line += tab + "// VIP Scoreboard attributes\n";
@@ -865,17 +867,6 @@ void SVExport::visit(const UvmScoreboard *comp){
     line = "";
     if (comp->getParentVip())
     {
-        line += "// Try to get a configuration object\n";
-        line += "if (!uvm_config_db#("+comp->getParentVip()->getConfigClassName()+
-                ")::get(this, \"\", \"config\", cfg))\n";
-        line += tab +"`uvm_fatal(\"GETCONFIGFAIL\", \"Failed to get the scoreboard configuration\");\n";
-        line += "disable_scoreboard = cfg.disable_scoreboard;\n";
-    }
-    map.insert("get_config",line);
-
-    line = "";
-    if (comp->getParentVip())
-    {
         line += comp->getParentVip()->getConfigClassName()+ " cfg;\n";
     }
 
@@ -891,19 +882,27 @@ void SVExport::visit(const UvmScoreboard *comp){
     bool hasTransformer=false;
     QString seq_item_class1="";
     QString seq_item_class2="";
+    UvmVerificationComponent *vip1 = 0;
+    UvmVerificationComponent *vip2 = 0;
     foreach (UvmVerificationComponent *vip, vips) {
         foreach (UvmAgent *agent, vip->getAgents()) {
             for (int i=0;i<agent->getNbAgents();i++) {
-                if (seq_item_class1.isEmpty())
+                if (seq_item_class1.isEmpty()) {
                     seq_item_class1 = vip->getSequenceItem()->getClassName();
-                if (seq_item_class1 != vip->getSequenceItem()->getClassName())
+                    vip1 = vip;
+                }
+                if (seq_item_class1 != vip->getSequenceItem()->getClassName()) {
                     if (seq_item_class2.isEmpty()) {
                         seq_item_class2 = vip->getSequenceItem()->getClassName();
+                        vip2 = vip;
                         hasTransformer = true;
                     }
+                }
             }
         }
     }
+    if (!vip2)
+        vip2 = vip1;
 
 
 
@@ -930,24 +929,23 @@ void SVExport::visit(const UvmScoreboard *comp){
                     if (comp->hasComparator())
                     {
                         line += tab + "\n";
-                        if (agent_nb==0)
+                        if ((agent_nb==0) && (vip1 == vip))
                         {
                             line += tab + "// Send transfer to the comparator\n";
                             line += tab + "comparator.before_export.write(trans);\n\n";
+                            agent_nb ++;
                         }
-                        else if (agent_nb == 1)
+                        else if ((agent_nb == 1) && (vip2 == vip))
                         {
                             line += tab + "// Send transfer to the comparator\n";
                             line += tab + "comparator.after_export.write(trans);\n\n";
-
+                            agent_nb ++;
                         }
                         else
                         {
                             line += tab + "// TODO: Send transfer to the comparator\n";
                             line += tab + "// comparator.before_export.write(trans);\n\n";
-                            line += tab + "// comparator.before_export.write(trans);\n\n";
                         }
-                        agent_nb ++;
                     }
 
                     line += tab + "end\n";
@@ -959,6 +957,16 @@ void SVExport::visit(const UvmScoreboard *comp){
     map.insert("write_methods",line);
 
     line = "";
+
+    if (comp->getParentVip())
+    {
+        line += "// Try to get a configuration object\n";
+        line += "if (!uvm_config_db#("+comp->getParentVip()->getConfigClassName()+
+                ")::get(this, \"\", \"config\", cfg))\n";
+        line += tab +"`uvm_fatal(\"GETCONFIGFAIL\", \"Failed to get the scoreboard configuration\");\n";
+        line += "disable_scoreboard = cfg.disable_scoreboard;\n";
+    }
+
     foreach (UvmVerificationComponent *vip, vips) {
         foreach (UvmAgent *agent, vip->getAgents()) {
             for (int i=0;i<agent->getNbAgents();i++) {
@@ -977,7 +985,7 @@ void SVExport::visit(const UvmScoreboard *comp){
     else if (comp->hasComparator()) {
         line += "comparator = new(\"Comparator\",this);\n";
     }
-    map.insert("create_ports",line);
+    map.insert("build_phase",line);
 
 
 
@@ -1120,6 +1128,12 @@ void SVExport::visit(const UvmVerificationComponent *comp){
 
     QString line;
 
+    line = "";
+
+    if (comp->getBusMonitor())
+        line += "protected bit has_bus_monitor = 1;\n";
+    map.insert("variables",line);
+
     line  = "";
 
     if (comp->getBusMonitor() != NULL) {
@@ -1153,6 +1167,9 @@ void SVExport::visit(const UvmVerificationComponent *comp){
     map.insert("nb_agents",line);
 
     line="";
+
+    if (comp->getBusMonitor())
+        line += "`uvm_field_int(has_bus_monitor, UVM_DEFAULT)";
     foreach(UvmAgent *agent, comp->getAgents()) {
         line += "`uvm_field_int(nb_agent_"+ agent->getInstName() + ", UVM_DEFAULT)\n";
     }
@@ -1185,8 +1202,8 @@ void SVExport::visit(const UvmVerificationComponent *comp){
         line += "\n";
     }
 
-    line += "has_bus_monitor = cfg.has_bus_monitor;\n";
     if (comp->getBusMonitor()!=0) {
+        line += "has_bus_monitor = cfg.has_bus_monitor;\n";
         line += "// Build bus monitor\n";
         line += "if(has_bus_monitor == 1) begin\n";
         line += tab + "bus_monitor = ";
@@ -1797,19 +1814,34 @@ void SVExport::exportConfig(const UvmVerificationComponent *comp) {
         line += "endclass : " + agent->getConfigClassName() + "\n\n";
     }
 
+
+    ///////////////////////////////////////////////////////////////////////////
+    // Generation of the VIP configuration
+    ///////////////////////////////////////////////////////////////////////////
+
     line += "class " + comp->getConfigClassName() + " extends uvm_object;\n\n";
 
-    foreach(UvmAgent *agent,comp->getAgents()) {
-        line += tab + "int nb_" + agent->getConfigClassName() + ";\n";
-        line += tab + agent->getConfigClassName() + " " + agent->getClassName().toLower() +
-                "_cfg[];\n";
+
+    line += tab + "bit intf_checks_enable;\n";
+    line += tab + "bit intf_coverage_enable;\n";
+
+    if (!comp->getScoreboards().empty())
         line += tab + "bit disable_scoreboard;\n";
+    if (comp->getBusMonitor()!=0) {
         line += tab + "bit has_bus_monitor;\n";
         line += tab + "bit bus_monitor_checks_enable;\n";
         line += tab + "bit bus_monitor_coverage_enable;\n";
     }
 
+    foreach(UvmAgent *agent,comp->getAgents()) {
+        line += tab + "int nb_" + agent->getConfigClassName() + ";\n";
+        line += tab + agent->getConfigClassName() + " " + agent->getClassName().toLower() +
+                "_cfg[];\n";
+    }
+
     line += tab + "`uvm_object_utils_begin(" + comp->getConfigClassName() + ")\n";
+    line += tab + tab + "`uvm_field_int(intf_checks_enable, UVM_DEFAULT);\n";
+    line += tab + tab + "`uvm_field_int(intf_coverage_enable, UVM_DEFAULT);\n";
     if (!comp->getScoreboards().empty())
         line += tab + tab + "`uvm_field_int(disable_scoreboard, UVM_DEFAULT);\n";
     if (comp->getBusMonitor()!=0) {

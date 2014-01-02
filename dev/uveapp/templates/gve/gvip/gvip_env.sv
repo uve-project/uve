@@ -39,11 +39,11 @@ class $@ClassName@$ extends uvm_env;
 
     // VIP parameters
     $@ numbers
-    protected bit has_bus_monitor = 1;
+    $@ variables
     $@class_name@$_config cfg;
 
     // The following two bits are used to control whether checks and coverage are
-    // done both in the bus monitor class and the interface.
+    // done both in the interface.
     bit intf_checks_enable = 1;
     bit intf_coverage_enable = 1;
 
@@ -55,7 +55,6 @@ class $@ClassName@$ extends uvm_env;
 
     // Provide implementations of virtual methods such as get_type_name and create
     `uvm_component_utils_begin($@ClassName@$)
-        `uvm_field_int(has_bus_monitor, UVM_DEFAULT)
         $@ comp_utils
         `uvm_field_int(intf_checks_enable, UVM_DEFAULT)
         `uvm_field_int(intf_coverage_enable, UVM_DEFAULT)
@@ -86,6 +85,12 @@ class $@ClassName@$ extends uvm_env;
         // Interface
         if(!uvm_config_db#(virtual $@vip_interface@$)::get(this,"","$@vip_interface@$",vif))
             `uvm_fatal("NOVIF",{"virtual interface must be set for: ",get_full_name(),".vif"});
+
+        intf_checks_enable = cfg.intf_checks_enable;
+        intf_coverage_enable = cfg.intf_coverage_enable;
+
+        vif.has_checks <= intf_checks_enable;
+        vif.has_coverage <= intf_coverage_enable;
 
         $@ vip_build_components
 
