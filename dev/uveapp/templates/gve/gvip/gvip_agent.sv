@@ -45,7 +45,7 @@ class $@ClassName@$ extends uvm_agent;
 
     // Provide implementations of virtual methods such as get_type_name and create
     `uvm_component_utils_begin($@ClassName@$)
-
+        `uvm_field_object(cfg, UVM_DEFAULT)
     `uvm_component_utils_end
 
     // Constructor
@@ -57,7 +57,14 @@ class $@ClassName@$ extends uvm_agent;
     virtual function void build_phase(uvm_phase phase);
         super.build_phase(phase);
 
+
+        // Try to get a configuration object
+        if (!uvm_config_db#($@class_name@$_config)::get(this, "", "config", cfg))
+            `uvm_fatal("GETCONFIGFAIL", "Failed to get the agent configuration")
+
         $@ build_components
+
+        void'(uvm_config_db#($@class_name@$_config)::set(this, "*", "config", cfg));
 
     endfunction : build_phase
 

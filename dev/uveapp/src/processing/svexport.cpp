@@ -724,6 +724,53 @@ void SVExport::visit(const UvmTestCase *comp){
     }
     map.insert("def_sequences",line);
 
+    line = "";
+    foreach (UvmVerificationComponent *vip,comp->getProject()->getTop()->getVips()) {
+        line += "begin\n";
+        line += tab + "// Create the configuration for " + vip->getConfigClassName() + "\n";
+        line += tab + vip->getConfigClassName() + " " + "cfg;\n";
+        line += tab + "cfg = " + vip->getConfigClassName() + "::type_id::create(\"cfg_"+vip->getConfigClassName()+"\");\n";
+        if (!vip->getScoreboards().isEmpty())
+        {
+            line += tab + "// VIP Scoreboard attributes\n";
+            line += tab + "cfg.disable_scoreboard = 0;\n";
+        }
+        if (vip->getBusMonitor())
+        {
+            line += tab + "cfg.has_bus_monitor = 1;\n";
+            line += tab + "cfg.bus_monitor_checks_enable = 1;\n";
+            line += tab + "cfg.bus_monitor_coverage_enable = 1;\n";
+        }
+        foreach (UvmAgent *agent,vip->getAgents()) {
+            line += tab + "// Create the array of agents configurations for " + agent->getClassName().toLower() + "\n";
+            line += tab + "cfg.nb_" + agent->getClassName().toLower() + "_config = " + QString::number(agent->getNbAgents()) + ";\n";
+            line += tab + "cfg." + agent->getClassName().toLower() + "_cfg = new[" + QString::number(agent->getNbAgents()) + "];\n";
+            for(int i=0;i<agent->getNbAgents();i++)
+            {
+                line += tab + "// Create the configuration for " + agent->getClassName().toLower() + "[" + QString::number(i) + "]\n";
+                QString startOfLine = tab + "cfg." + agent->getClassName().toLower() + "_cfg[" + QString::number(i) + "]";
+                line += startOfLine + " = " + agent->getConfigClassName() + "::type_id::create(\"cfg_" + agent->getConfigClassName()+"_"+QString::number(i) + "\");\n";
+
+                line += tab + "// Monitor fields\n";
+                line += startOfLine + ".monitor_checks_enable = 1;\n";
+                line += startOfLine + ".monitor_coverage_enable = 1;\n";
+
+                if (agent->getCollector() != NULL) {
+                    line += tab + "// Collector fields\n";
+                    line += startOfLine + ".collector_checks_enable = 1;\n";
+                    line += startOfLine + ".collector_coverage_enable = 1;\n";
+                }
+            }
+        }
+
+        line += tab + "// Apply the configuration to the VIP\n";
+        line += tab + "uvm_config_db#(" + vip->getConfigClassName()+ ")::set\n"
+          + tab + tab + "(this,\"*."+vip->getInstName() + "\",\"config\",\n"
+          + tab + tab + "cfg);\n";
+        line += "end\n";
+    }
+    map.insert("def_configs",line);
+
 
     line = "";
     foreach (UvmVerificationComponent *vip,comp->getProject()->getTop()->getVips()) {
@@ -820,6 +867,24 @@ void SVExport::visit(const UvmScoreboard *comp){
     if (comp->getParentVip())
         map.insert("import_pkg","");
 
+    line = "";
+    if (comp->getParentVip())
+    {
+        line += "// Try to get a configuration object\n";
+        line += "if (!uvm_config_db#("+comp->getParentVip()->getConfigClassName()+
+                ")::get(this, \"\", \"config\", cfg))\n";
+        line += tab +"`uvm_fatal(\"GETCONFIGFAIL\", \"Failed to get the scoreboard configuration\");\n";
+        line += "disable_scoreboard = cfg.disable_scoreboard;\n";
+    }
+    map.insert("get_config",line);
+
+    line = "";
+    if (comp->getParentVip())
+    {
+        line += comp->getParentVip()->getConfigClassName()+ " cfg;\n";
+    }
+
+    map.insert("decl_config",line);
 
     QList<UvmVerificationComponent *> vips;
     if (comp->getParentVip())
@@ -1104,10 +1169,10 @@ void SVExport::visit(const UvmVerificationComponent *comp){
     foreach(UvmAgent *agent, comp->getAgents()) {
         QString agent_num = "nb_agent_"+ agent->getInstName();
         line += QString(agent_num + " = %1;\n").arg(agent->getNbAgents());
-
-        line += "// Get number of agents of type " + agent->getClassName() + "\n";
-        line += "void'(uvm_config_db#(int)::get(this, \"\", \""+agent_num+"\", "+agent_num+"));\n";
-        line += "\n";
+        line += agent_num + " = cfg.nb_" + agent->getConfigClassName() + ";\n";
+//        line += "// Get number of agents of type " + agent->getClassName() + "\n";
+//        line += "void'(uvm_config_db#(int)::get(this, \"\", \""+agent_num+"\", "+agent_num+"));\n";
+//        line += "\n";
 
         line += agent->getInstName() + " = new["+ agent_num + "];\n";
 
@@ -1120,24 +1185,34 @@ void SVExport::visit(const UvmVerificationComponent *comp){
         line += agent->getClassName();
         line += "::type_id::create(inst_name,this);\n";
         line += tab + "void'(uvm_config_db#(int)::set(this,{inst_name,\"*\"}, \"master_id\", i));\n";
+        line += tab + "void'(uvm_config_db#("+agent->getConfigClassName()+")::set(this,{inst_name,\"*\"}, \"config\", cfg." + agent->getClassName().toLower() + "_cfg[i]));\n";
         line += "end\n";
         line += "\n";
     }
 
+    line += "has_bus_monitor = cfg.has_bus_monitor;\n";
     if (comp->getBusMonitor()!=0) {
         line += "// Build bus monitor\n";
         line += "if(has_bus_monitor == 1) begin\n";
-        line += "bus_monitor = ";
+        line += tab + "bus_monitor = ";
         line += comp->getBusMonitor()->getClassName();
         line += "::type_id::create(\"bus_monitor\", this);\n";
         line += "end\n";
+
     }
 
     foreach(UvmScoreboard *scoreboard,comp->getScoreboards()) {
         line += "// Build scoreboard\n";
         line += scoreboard->getInstName() +" = ";
         line += scoreboard->getClassName();
-        line += "::type_id::create(\""+scoreboard->getInstName()+"\", this);";
+        line += "::type_id::create(\""+scoreboard->getInstName()+"\", this);\n";
+        line += "void'(uvm_config_db#("+comp->getConfigClassName()+")::set(this,\""+scoreboard->getInstName()+"\", \"config\", cfg));\n";
+    }
+
+    if (comp->getBusMonitor()!=0)
+    {
+        line += "void'(uvm_config_db#(" + comp->getConfigClassName()+ ")::set(this,\"bus_monitor\",\"config\",cfg));\n";
+
     }
 
     map.insert("vip_build_components",line);
@@ -1145,61 +1220,18 @@ void SVExport::visit(const UvmVerificationComponent *comp){
 
     line = "";
 
+    if (!comp->getScoreboards().isEmpty()) {
+        foreach (UvmAgent *agent,comp->getAgents()) {
+            for(int i=0;i<agent->getNbAgents();i++)
+                line += agent->getInstName()+"["+QString("%1").arg(i)+"].monitor.item_collected_port.connect("+comp->getScoreboards().at(0)->getInstName()+"."+scoreboardAgentPortName(agent,i)+"_port);\n";
+        }
+    }
+
     map.insert("vip_connect_phase",line);
 
     generateFile(comp,map);
 
 
-
-
-    /*// VIP pkg file
-
-    map.insert("vip_name",comp->getEntityName());
-
-    line = "";
-
-
-    line += "`include \"";
-    line += comp->getEntityName().toLower()+"_config.sv";
-    line += "\"\n";
-
-    foreach(UvmComponent *c, comp->getAllChildren()) {
-        // Ignore Config and interface Objects which do not get
-        // included in the package.
-        if ((dynamic_cast<UvmConfig *>(c) == NULL) &&
-                (dynamic_cast<UvmInterface *>(c) == NULL) &&
-                (dynamic_cast<UvmVerificationComponent *>(c) == NULL) &&
-                (dynamic_cast<UvmVirtualSequencer *>(c) == NULL)) {
-            line += "`include \"";
-            line += c->getBodyFileName();
-            line += "\"\n";
-        }
-    }
-
-    foreach(UvmVirtualSequencer *seq, comp->getVirtualSequencers()) {
-        line += "`include \"";
-        line += seq->getBodyFileName();
-        line += "\"\n";
-    }
-
-    line += "`include \"";
-    line += comp->getParentVip()->getBodyFileName();
-    line += "\"\n";
-
-
-    map.insert("package_files",line);
-
-
-    QString srcFile = QString(UVESettings::generator_gvip_folder() + "gvip_pkg.sv");
-    QString dstFile = comp->getAbsolutePath()+comp->getPackageFileName();
-
-    // We replace the file name
-    QFileInfo info(dstFile);
-    QString generatedFile=info.baseName().toUpper();
-    map.insert("FILENAME",generatedFile + "_SV");
-
-
-    generateFile(srcFile, dstFile,map);*/
 
     exportConfig(comp);
 
@@ -1236,18 +1268,22 @@ void SVExport::visit(const UvmAgent *comp){
     map.insert("decl_components",line);
 
 
-
     line  = "";
-    if (comp->getSequencer() != NULL) {
-        line += "sequencer = ";
-        line += comp->getSequencer()->getClassName();
-        line += "::type_id::create(\"sequencer\", this);\n";
-    }
+    if ((comp->getSequencer() != 0) && (comp->getDriver() != 0)){
+        line += "if (cfg.is_active == UVM_ACTIVE)\n";
+        line += "begin\n";
+        if (comp->getSequencer() != NULL) {
+            line += tab + "sequencer = ";
+            line += comp->getSequencer()->getClassName();
+            line += "::type_id::create(\"sequencer\", this);\n";
+        }
 
-    if (comp->getDriver() != NULL) {
-        line += "driver = ";
-        line += comp->getDriver()->getClassName();
-        line += "::type_id::create(\"driver\", this);\n";
+        if (comp->getDriver() != NULL) {
+            line += tab + "driver = ";
+            line += comp->getDriver()->getClassName();
+            line += "::type_id::create(\"driver\", this);\n";
+        }
+        line += "end\n";
     }
 
     if (comp->getMonitor() != NULL) {
@@ -1272,22 +1308,24 @@ void SVExport::visit(const UvmAgent *comp){
 
     if(comp->getType() == UvmAgent::ACTIV) {
         line += "\n";
-        line += "// This is an Activ agent, so connect sequencer and monitor\n";
+
+        line += "if (cfg.is_active == UVM_ACTIVE)\n";
+        line += "begin\n";
+        line += tab + "// This is an Activ agent, so connect sequencer and monitor\n";
 
         if((comp->getDriver() != NULL) && (comp->getSequencer() != NULL)) {
-            line += "driver.seq_item_port.connect(sequencer.seq_item_export);\n";
+            line += tab + "driver.seq_item_port.connect(sequencer.seq_item_export);\n";
         }
 
         if((comp->getSequencer() != NULL) && (comp->getMonitor() != NULL)) {
-            line += "sequencer.seq_item_port.connect(monitor.seq_item_imp);\n";
+            line += tab + "sequencer.seq_item_port.connect(monitor.seq_item_imp);\n";
         }
 
         if (comp->getDriver() && comp->getMonitor()) {
-            line += "if (driver.send_to_monitor)\n";
-            line += tab + "driver.mon_item_port.connect(monitor.mon_item_imp);\n";
+            line += tab + "if (driver.send_to_monitor)\n";
+            line += tab + tab + "driver.mon_item_port.connect(monitor.mon_item_imp);\n";
         }
-
-
+        line += "end\n";
     }
 
     map.insert("connect_components",line);
@@ -1304,6 +1342,8 @@ void SVExport::visit(const UvmDriver *comp){
     initMap(map,comp);
 
     QString line;
+
+    map.insert("agent_class_name",comp->getParent()->getClassName().toLower());
 
     line = "";
     foreach(PhysicalPort *p, comp->getParentVip()->getInterface()->getPhysicalPorts()) {
@@ -1374,7 +1414,8 @@ void SVExport::visit(const UvmMonitor *comp){
     QMap<QString,QString> map;
     initMap(map,comp);
 
-
+    map.insert("agent_class_name",comp->getParent()->getClassName().toLower());
+    map.insert("vip_class_name",comp->getParentVip()->getClassName().toLower());
 
     QString line;
 
@@ -1414,6 +1455,8 @@ void SVExport::visit(const UvmCollector *comp){
 
 
     QString line;
+
+    map.insert("agent_class_name",comp->getParent()->getClassName().toLower());
 
     line = "";
     foreach(PhysicalPort *p, comp->getParentVip()->getInterface()->getPhysicalPorts()) {
@@ -1729,9 +1772,32 @@ void SVExport::exportConfig(const UvmVerificationComponent *comp) {
         line += tab + "bit driver_to_monitor = 0;\n";
         line += tab + "bit monitor_to_sequencer = 0;\n";
 
+        line += tab + "// Monitor fields\n";
+        line += tab + "bit monitor_checks_enable = 1;\n";
+        line += tab + "bit monitor_coverage_enable = 1;\n";
+
+        if (agent->getCollector() != NULL) {
+            line += tab + "// Collector fields\n";
+            line += tab + "bit collector_checks_enable = 1;\n";
+            line += tab + "bit collector_coverage_enable = 1;\n";
+        }
+
         line += "\n";
         line += tab + "`uvm_object_utils_begin(" + agent->getConfigClassName() + ")\n";
+        line += tab + tab + "`uvm_field_enum(uvm_active_passive_enum,is_active, UVM_DEFAULT)\n";
+        line += tab + tab + "`uvm_field_int(driver_to_monitor, UVM_DEFAULT)\n";
+        line += tab + tab + "`uvm_field_int(monitor_to_sequencer, UVM_DEFAULT)\n";
+
+        line += tab + tab + "// Monitor fields\n";
+        line += tab + tab + "`uvm_field_int(monitor_checks_enable, UVM_DEFAULT)\n";
+        line += tab + tab + "`uvm_field_int(monitor_coverage_enable, UVM_DEFAULT)\n";
+        if (agent->getCollector() != NULL) {
+            line += tab + tab + "// Collector fields\n";
+            line += tab + tab + "`uvm_field_int(collector_checks_enable, UVM_DEFAULT)\n";
+            line += tab + tab + "`uvm_field_int(collector_coverage_enable, UVM_DEFAULT)\n";
+        }
         line += tab + "`uvm_object_utils_end\n\n";
+
 
         line += "endclass : " + agent->getConfigClassName() + "\n\n";
     }
@@ -1741,19 +1807,27 @@ void SVExport::exportConfig(const UvmVerificationComponent *comp) {
     foreach(UvmAgent *agent,comp->getAgents()) {
         line += tab + "int nb_" + agent->getConfigClassName() + ";\n";
         line += tab + agent->getConfigClassName() + " " + agent->getClassName().toLower() +
-                "_cgf[];\n";
+                "_cfg[];\n";
+        line += tab + "bit disable_scoreboard;\n";
+        line += tab + "bit has_bus_monitor;\n";
+        line += tab + "bit bus_monitor_checks_enable;\n";
+        line += tab + "bit bus_monitor_coverage_enable;\n";
     }
 
     line += tab + "`uvm_object_utils_begin(" + comp->getConfigClassName() + ")\n";
+    if (!comp->getScoreboards().empty())
+        line += tab + tab + "`uvm_field_int(disable_scoreboard, UVM_DEFAULT);\n";
+    if (comp->getBusMonitor()!=0) {
+        line += tab + tab + "`uvm_field_int(has_bus_monitor, UVM_DEFAULT);\n";
+        line += tab + tab + "`uvm_field_int(bus_monitor_checks_enable, UVM_DEFAULT);\n";
+        line += tab + tab + "`uvm_field_int(bus_monitor_coverage_enable, UVM_DEFAULT);\n";
+    }
     foreach(UvmAgent *agent,comp->getAgents()) {
         line += tab + tab + "`uvm_field_int(nb_" + agent->getConfigClassName() + ", UVM_DEFAULT)\n";
+        line += tab + tab + "`uvm_field_array_object(" + agent->getClassName().toLower() +"_cfg, UVM_DEFAULT)\n";
     }
-
     line += tab + "`uvm_object_utils_end\n\n";
 
-
-
-    line += "\n";
     line += "endclass : " + comp->getConfigClassName() + "\n\n";
 
 

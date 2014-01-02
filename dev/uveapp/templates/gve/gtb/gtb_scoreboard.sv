@@ -45,6 +45,8 @@ class $@ClassName@$ extends uvm_scoreboard;
     // Analysis port, get transfer from monitor
     $@ decl_ports
 
+    $@ decl_config
+
     // Scoreboard enabled/disabled
     protected bit disable_scoreboard = 0;
 
@@ -79,6 +81,9 @@ class $@ClassName@$ extends uvm_scoreboard;
 
     // Build phase
     function void build_phase(uvm_phase phase);
+
+        $@ get_config
+
         // Create the analysis port
         $@ create_ports
     endfunction

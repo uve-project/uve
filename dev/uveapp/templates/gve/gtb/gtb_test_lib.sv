@@ -73,6 +73,8 @@ class $@ClassName@$ extends uvm_test;
         printer = new();
         printer.knobs.depth = 4;
 
+        $@ def_configs
+
         $@ def_sequences
 
     endfunction : build_phase
@@ -137,6 +139,19 @@ class $@ClassName@$_a_test extends $@ClassName@$;
     // Build
     virtual function void build_phase(uvm_phase phase);
     begin
+        // If required, implement overrides for the testbench class
+
+        // Create the tb
+        super.build_phase(phase);
+
+        // Then overwrite the values here
+        // For instance by defining a new configuration
+        /*
+
+        $@ def_configs
+
+        */
+
 /*
         define the use of new sequences
         // Set master default sequence
@@ -145,8 +160,6 @@ class $@ClassName@$_a_test extends $@ClassName@$;
                 "default_sequence",
                 a_master_seq::type_id::get());
 */
-        // Create the tb
-        super.build_phase(phase);
 
     end
     endfunction : build_phase

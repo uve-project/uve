@@ -42,6 +42,9 @@ class $@ClassName@$ extends uvm_monitor;
     bit checks_enable = 1;
     bit coverage_enable = 1;
 
+
+    $@vip_class_name@$_config cfg;
+
     // Transaction counter
     protected int unsigned num_transaction = 0;
 
@@ -92,6 +95,14 @@ class $@ClassName@$ extends uvm_monitor;
 
         if(!uvm_config_db#(virtual $@vip_interface@$)::get(this, "", "$@vip_interface@$", vif))
             `uvm_fatal("NOVIF",{"virtual interface must be set for: ",get_full_name(),".vif"});
+
+
+        // Try to get a configuration object
+        if (!uvm_config_db#($@vip_class_name@$_config)::get(this, "", "config", cfg))
+            `uvm_fatal("GETCONFIGFAIL", "Failed to get the bus monitor configuration")
+
+        checks_enable = cfg.bus_monitor_checks_enable;
+        coverage_enable = cfg.bus_monitor_coverage_enable;
 
     endfunction : build_phase
 
@@ -161,7 +172,7 @@ class $@ClassName@$ extends uvm_monitor;
 
     function void perform_transfer_coverage();
 
-*----------------------------------------------------------------------------
+/*----------------------------------------------------------------------------
  * @TODO : Implement coverage
  *---------------------------------------------------------------------------*/
 

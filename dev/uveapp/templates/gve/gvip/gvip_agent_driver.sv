@@ -44,6 +44,8 @@ class $@ClassName@$ extends uvm_driver# ($@vip_transfer@$);
     uvm_blocking_put_port #($@vip_transfer@$) mon_item_port;
     bit send_to_monitor = 0;
 
+    $@agent_class_name@$_config cfg;
+
     // Provide implementations of virtual methods such as get_type_name and create
     `uvm_component_utils($@ClassName@$)
 
@@ -55,6 +57,13 @@ class $@ClassName@$ extends uvm_driver# ($@vip_transfer@$);
     // Build phase
     function void build_phase(uvm_phase phase);
         super.build_phase(phase);
+
+        // Try to get a configuration object
+        if (!uvm_config_db#($@agent_class_name@$_config)::get(this, "", "config", cfg))
+            `uvm_fatal("GETCONFIGFAIL", "Failed to get the driver configuration")
+
+        send_to_monitor = cfg.driver_to_monitor;
+
 
         // Create port to the monitor
         if (send_to_monitor == 1)

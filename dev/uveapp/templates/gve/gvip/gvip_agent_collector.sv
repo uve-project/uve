@@ -41,6 +41,8 @@ class $@ClassName@$ extends uvm_component;
     bit checks_enable = 1;
     bit coverage_enable = 1;
 
+    $@agent_class_name@$_config cfg;
+
     // Virtual Interface
     protected virtual $@vip_interface@$ vif;
 
@@ -87,6 +89,14 @@ class $@ClassName@$ extends uvm_component;
 
         if(!uvm_config_db#(virtual $@vip_interface@$)::get(this, "", "$@vip_interface@$", vif))
             `uvm_fatal("NOVIF",{"virtual interface must be set for: ",get_full_name(),".vif"});
+
+
+        // Try to get a configuration object
+        if (!uvm_config_db#($@agent_class_name@$_config)::get(this, "", "config", cfg))
+            `uvm_fatal("GETCONFIGFAIL", "Failed to get the collector configuration")
+
+        checks_enable = cfg.collector_checks_enable;
+        coverage_enable = cfg.collector_coverage_enable;
 
     endfunction : build_phase
 

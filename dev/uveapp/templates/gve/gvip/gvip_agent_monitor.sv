@@ -42,6 +42,8 @@ class $@ClassName@$ extends uvm_monitor;
     bit coverage_enable = 1;
     bit get_from_driver = 0;
 
+    $@agent_class_name@$_config cfg;
+
     // Virtual Interface
     protected virtual $@vip_interface@$ vif;
 
@@ -112,6 +114,14 @@ class $@ClassName@$ extends uvm_monitor;
         // Interface
         if(!uvm_config_db#(virtual $@vip_interface@$)::get(this,"","$@vip_interface@$",vif))
             `uvm_fatal("NOVIF",{"virtual interface must be set for: ",get_full_name(),".vif"});
+
+        // Try to get a configuration object
+        if (!uvm_config_db#($@agent_class_name@$_config)::get(this, "", "config", cfg))
+            `uvm_fatal("GETCONFIGFAIL", "Failed to get the monitor configuration")
+
+        checks_enable = cfg.monitor_checks_enable;
+        coverage_enable = cfg.monitor_coverage_enable;
+        get_from_driver = cfg.driver_to_monitor;
 
         // Create implementation port (implementation of the driver item export)
         // This not so nifty, the monitor should extract transaction from
