@@ -44,6 +44,10 @@ int main(int argc, char *argv[])
         qDebug() << "   -test path  : Launch a series of tests to validate the software";
         qDebug() << "                 path contains a valid path into the projects will be created";
         qDebug() << "   --tree {xml} {output} : Create a tree view in ASCII from a XML project file";
+        qDebug() << "";
+        qDebug() << "Open File Usage : uve fileName";
+        qDebug() << "Arguments :";
+        qDebug() << "   fileName    : path to the .uve project file to open";
         exit(0);
     }
 
@@ -93,6 +97,11 @@ int main(int argc, char *argv[])
 
     // Else starts the GUI
     MainWindow mainWin;
+
+    if (app.arguments().size() == 2)
+    {
+        mainWin.openProject(app.arguments()[1]);
+    }
 
     return app.exec();
 }

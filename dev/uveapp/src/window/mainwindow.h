@@ -56,6 +56,7 @@ class MainWindow : public QMainWindow
 public:
     MainWindow();
     UvmProject* getProject() const;
+    void openProject(const QString &file);
 
 public slots:
 
@@ -132,7 +133,6 @@ private:
     QAction *recentFileActs[MaxRecentFiles];
 
     QString strippedName(const QString &fullFileName) const;
-    void openProject(const QString &file);
 
 
     bool removeDir (const QString &dir);
