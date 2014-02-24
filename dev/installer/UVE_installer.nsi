@@ -5,7 +5,7 @@
 # http://nsis.sourceforge.net/Main_Page
 #
 # Author: Oliver A. Gubler (oliver.gubler@hevs.ch).
-# Version: 0.4
+# Version: 1.0
 #
 #    Copyright (C) 2013, 2014 HES-SO Valais Wallis
 #
@@ -38,7 +38,7 @@ RequestExecutionLevel user
 !define PRODUCT_NAME "UVE"
 !define PRODUCT_VERSION "${versionNumber}"
 !define PRODUCT_FULLNAME "${PRODUCT_NAME}_${PRODUCT_VERSION}"
-!define PRODUCT_OS "win32" ; win32|win64|lin32|lin64
+!define PRODUCT_OS "win" ; win32|win64|lin32|lin64
 !define PRODUCT_PUBLISHER "HES-SO (www.hes-so.ch)"
 !define PRODUCT_WEB_SITE "www.systemverilog.ch"
 !define BIN_PATH "\bin"
@@ -60,6 +60,15 @@ Section
 SectionEnd
 ## Portable/Registered
 Var PortableMode
+
+###############################################################################
+# Compression rules optimizations
+#  We will use LZMA compression as 7Zip, with a dictionary size of 96Mb
+# (to reproduce 7Zip Ultra compression mode)
+SetCompress force
+SetCompressor /SOLID lzma
+SetDatablockOptimize on
+SetCompressorDictSize 96
 
 ###############################################################################
 # UI
@@ -91,6 +100,7 @@ SectionEnd
 ### Portable/Registered page
 Page Custom portableModePageCreate portableModePageLeave
 ### Directory page
+!define MUI_PAGE_CUSTOMFUNCTION_LEAVE directoryPageLeave
 !insertmacro MUI_PAGE_DIRECTORY
 ### Instfiles page
 !insertmacro MUI_PAGE_INSTFILES
@@ -177,6 +187,12 @@ LangString InstMode_Portable_Label ${LANG_GERMAN}  "Kopiere die benötigten Datei
 LangString InstMode_Portable_Label ${LANG_ITALIAN} "Copia i file necessari nella cartella di destinazione."
 LangString InstMode_Portable_Label ${LANG_SPANISH} "Copia los archivos necesarios en la carpeta de destino."
 
+LangString Directory_AccessRights_Error ${LANG_ENGLISH} "You do not seem to have write access to this directory. Please choose another location or restart the installer with administrator privileges."
+LangString Directory_AccessRights_Error ${LANG_FRENCH}  "Il semble que vous n'avez pas d'accès en écriture à ce répertoire. Choisissez un autre répertoire ou redémarrez le programme d'installation avec des privilèges d'administrateur."
+LangString Directory_AccessRights_Error ${LANG_GERMAN}  "Sie scheinen keinen Schreibzugriff auf dieses Verzeichnis zu haben. Bitte wählen Sie ein anderes Verzeichnis oder starten Sie das Installationsprogramm mit Administratorrechten neu."
+LangString Directory_AccessRights_Error ${LANG_ITALIAN} "Non sembrano avere accesso in scrittura a questa directory. Si prega di scegliere un'altra posizione o riavviare il programma di installazione con privilegi di amministratore."
+LangString Directory_AccessRights_Error ${LANG_SPANISH} "No parecen tener acceso de escritura a este directorio. Por favor seleccione un directorio diferente o reiniciar el programa de instalación con privilegios de administrador."
+
 Var boldFont
 Function portableModePageCreate
     # custom font (must be inside function)
@@ -223,6 +239,17 @@ Function portableModePageLeave
     ${EndIf}
 FunctionEnd
 
+Function directoryPageLeave
+    ClearErrors
+    FileOpen $R0 $INSTDIR\..\tmp.dat w
+    FileClose $R0
+    Delete $INSTDIR\..\tmp.dat
+    ${If} ${Errors}
+        MessageBox MB_OK|MB_ICONSTOP  "$(Directory_AccessRights_Error)"
+        Abort
+    ${EndIf}
+FunctionEnd
+    
 ###############################################################################
 # Configuration
 Name "${PRODUCT_NAME} ${PRODUCT_VERSION}"
