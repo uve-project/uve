@@ -316,7 +316,7 @@ start: design_file
 --------------------------------------------*/
 
 entity_decl : entity_start entity_decl_1 entity_decl_2
-entity_decl_3 entity_decl_4 t_END entity_decl_5 t_Semicolon
+entity_decl_3 entity_decl_4 t_END entity_decl_7 entity_decl_5 t_Semicolon
     {
         insideEntity=0;
         insidePorts=0;
@@ -331,8 +331,10 @@ entity_start: t_ENTITY t_Identifier t_IS
         VHDLPARSER->curEntity=new VHDLEntity;
         VHDLPARSER->curEntity->entityName=curString;
     }
-;entity_decl_5 :  
- | t_Identifier	 
+;entity_decl_5 :
+ | t_Identifier
+;entity_decl_7 :
+;entity_decl_7 : t_ENTITY
 ;entity_decl_4 :  
  | t_BEGIN concurrent_stats  
 ;entity_decl_3 :  
