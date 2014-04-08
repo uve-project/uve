@@ -21,6 +21,14 @@
 #include <QDir>
 #include <QFileInfo>
 #include <QMessageBox>
+#include <QDockWidget>
+#include <QStatusBar>
+#include <QAction>
+#include <QFileDialog>
+#include <QMenu>
+#include <QToolBar>
+#include <QMenuBar>
+#include <QFontDialog>
 
 #include "newprojectwizard.h"
 #include "renameprojectdialog.h"

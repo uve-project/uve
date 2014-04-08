@@ -17,6 +17,7 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 #include "uvmvirtualsequencerview.h"
+#include <QApplication>
 
 // Constructor with model and parent
 UvmVirtualSequencerView::UvmVirtualSequencerView(UvmComponentView* parent, UvmComponent * model, MainWindow *mainwindow) :

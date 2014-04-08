@@ -27,6 +27,7 @@
 #include <QToolButton>
 #include <QListView>
 #include <QAbstractListModel>
+#include <QTableWidget>
 
 #include "stringlistmodel.h"
 #include "uvmcomponent.h"

@@ -421,24 +421,24 @@ void TestGenerator::compareFiles(const QString &fileName1, const QString &fileNa
 
 static int testVerbosity = VERBOSITY_DEBUG;
 
-void testMessageOutput(QtMsgType type, const char *msg)
+void testMessageOutput(QtMsgType type, const QMessageLogContext &/*context*/, const QString &msg)
  {
      switch (type) {
      case QtDebugMsg:
          if (testVerbosity<=VERBOSITY_DEBUG)
-             fprintf(stderr, "Debug: %s\n", msg);
+             fprintf(stderr, "Debug: %s\n", msg.toLatin1().constData());
          break;
      case QtWarningMsg:
          if (testVerbosity<=VERBOSITY_WARNING)
-             fprintf(stderr, "Warning: %s\n", msg);
+             fprintf(stderr, "Warning: %s\n", msg.toLatin1().constData());
          break;
      case QtCriticalMsg:
          if (testVerbosity<=VERBOSITY_CRITICAL)
-             fprintf(stderr, "Critical: %s\n", msg);
+             fprintf(stderr, "Critical: %s\n", msg.toLatin1().constData());
          break;
      case QtFatalMsg:
          if (testVerbosity<=VERBOSITY_FATAL)
-             fprintf(stderr, "Fatal: %s\n", msg);
+             fprintf(stderr, "Fatal: %s\n", msg.toLatin1().constData());
          abort();
      }
  }

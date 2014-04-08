@@ -35,6 +35,7 @@ MdiChild::MdiChild()
     setAutoCompletionThreshold(2);
 }
 
+#include <QFileDialog>
 #include <QFontDialog>
 #include "uvesettings.h"
 #include "uveconstants.h"

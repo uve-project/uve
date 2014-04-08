@@ -21,6 +21,7 @@
 
 #include <QWidget>
 #include <QStringListModel>
+#include <QButtonGroup>
 
 #include "uvmverificationcomponent.h"
 #include "uvmtestbench.h"

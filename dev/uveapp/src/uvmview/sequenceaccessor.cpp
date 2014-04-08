@@ -19,6 +19,7 @@
 #include "sequenceaccessor.h"
 #include "mainwindow.h"
 #include "uvmcomponentview.h"
+#include <QGraphicsSceneMouseEvent>
 
 SequenceAccessor::SequenceAccessor(UvmComponentView *parent, UvmComponent *model, MainWindow *mainwindow)
 :Accessor(parent, model, mainwindow)

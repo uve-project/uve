@@ -19,6 +19,7 @@
 #include "headerfileaccessor.h"
 #include "mainwindow.h"
 #include "uvmcomponentview.h"
+#include <QGraphicsSceneMouseEvent>
 
 
 HeaderFileAccessor::HeaderFileAccessor(UvmComponentView *parent, UvmComponent *model, MainWindow *mainwindow)

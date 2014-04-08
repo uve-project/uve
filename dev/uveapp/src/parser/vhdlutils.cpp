@@ -18,6 +18,8 @@
 */
 #include "vhdlutils.h"
 
+#include <QApplication>
+
 VHDLUtils *VHDLUtils::singleton=0;
 
 

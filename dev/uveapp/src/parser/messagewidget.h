@@ -20,6 +20,9 @@
 #define MESSAGEWIDGET_H
 
 #include <QtGui>
+#include <QTableWidget>
+#include <QComboBox>
+#include <QScrollArea>
 #include "vhdlutils.h"
 #include "quicksearchwidget.h"
 #include "connect.h"

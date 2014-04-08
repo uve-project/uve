@@ -22,6 +22,8 @@
 #include <QWizardPage>
 #include <QAbstractItemDelegate>
 #include <QAbstractTableModel>
+#include <QStyledItemDelegate>
+#include <QComboBox>
 
 #include "viewdata.h"
 #include "uvmproject.h"

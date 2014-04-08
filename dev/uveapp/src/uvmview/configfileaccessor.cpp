@@ -19,6 +19,7 @@
 #include "configfileaccessor.h"
 #include "mainwindow.h"
 #include "uvmcomponentview.h"
+#include <QGraphicsSceneMouseEvent>
 
 ConfigFileAccessor::ConfigFileAccessor(UvmComponentView *parent, UvmComponent *model, MainWindow *mainwindow)
     :Accessor(parent, model, mainwindow)

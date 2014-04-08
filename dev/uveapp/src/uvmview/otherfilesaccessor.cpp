@@ -19,6 +19,9 @@
 #include "otherfilesaccessor.h"
 #include "mainwindow.h"
 #include "uvmcomponentview.h"
+#include <QGraphicsSceneMouseEvent>
+#include <QMenu>
+#include <QAction>
 
 OtherFilesAccessor::OtherFilesAccessor(UvmComponentView *parent, UvmComponent *model, MainWindow *mainwindow)
     :Accessor(parent, model, mainwindow)

@@ -19,7 +19,7 @@
 #ifndef UVM_CONNECTION_VIEW_H
 #define UVM_CONNECTION_VIEW_H
 
-#include <QtGui>
+#include <QGraphicsLineItem>
 #include "../uvmmodel/uvmconnection.h"
 #include "../routing/routingboard.h"
 #include "uvmportview.h"
