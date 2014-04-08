@@ -476,7 +476,7 @@ void SVExport::visit(const UvmTop *comp){
     QList<PhysicalPort*> multiConnectPorts;
     foreach(PhysicalPort *p, ports) {
         if ((p->getMode() == UvmPort::DUT) || (p->getMode() == UvmPort::GLOBAL)) {
-            if ((p->getDirection() == UvmPort::IN) &&
+            if ((p->getDirection() == UvmPort::PORT_IN) &&
                     ((p->getCategory() != UvmPort::CLOCK)&&
                      (p->getCategory() != UvmPort::RESET)))
                 continue;
@@ -1370,7 +1370,7 @@ void SVExport::visit(const UvmDriver *comp){
     foreach(PhysicalPort *p, comp->getParentVip()->getInterface()->getPhysicalPorts()) {
         if ((p->getCategory()!=UvmPort::CLOCK) &&
                 (p->getCategory()!=UvmPort::RESET) &&
-                (p->getDirection()!=UvmPort::IN)) {
+                (p->getDirection()!=UvmPort::PORT_IN)) {
             line += "vif.";
             line += p->getName();
             line += " = ";
@@ -1403,7 +1403,7 @@ void SVExport::visit(const UvmDriver *comp){
         foreach(PhysicalPort *p, comp->getParentVip()->getInterface()->getPhysicalPorts()) {
             if ((p->getCategory()!=UvmPort::CLOCK) &&
                     (p->getCategory()!=UvmPort::RESET) &&
-                    (p->getDirection()!=UvmPort::IN)) {
+                    (p->getDirection()!=UvmPort::PORT_IN)) {
                 theLine += tab + "vif.";
                 theLine += p->getName();
                 theLine += " = ";
@@ -1526,7 +1526,7 @@ void SVExport::visit(const UvmSequenceItem *comp){
 
     foreach(PhysicalPort *p, comp->getParentVip()->getInterface()->getPhysicalPorts()) {
         if ((p->getCategory()!=UvmPort::CLOCK) && (p->getCategory()!=UvmPort::RESET)) {
-            if (p->getDirection() != UvmPort::IN)
+            if (p->getDirection() != UvmPort::PORT_IN)
                 line += "rand ";
             line += "logic ";
 

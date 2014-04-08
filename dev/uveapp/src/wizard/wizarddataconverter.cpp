@@ -93,8 +93,8 @@ bool WizardDataConverter::data2Project(const ProjectViewData *d_project, const T
     m_interface->setBodyFileName(m_top->getBodyFileName());
 
     //DUV -> Interface
-    new UvmConnection (UvmPort::newFakePort(m_design->getShortName()+"AllSignals", UvmPort::DUT_INTERFACE, UvmPort::OUT, m_design),
-                       UvmPort::newFakePort(m_interface->getShortName()+"DUTAllSignals", UvmPort::DUT_INTERFACE, UvmPort::IN, m_interface),
+    new UvmConnection (UvmPort::newFakePort(m_design->getShortName()+"AllSignals", UvmPort::DUT_INTERFACE, UvmPort::PORT_OUT, m_design),
+                       UvmPort::newFakePort(m_interface->getShortName()+"DUTAllSignals", UvmPort::DUT_INTERFACE, UvmPort::PORT_IN, m_interface),
                        linkName(m_design,m_interface),
                        m_top);
 
@@ -200,11 +200,11 @@ bool WizardDataConverter::data2Project(const ProjectViewData *d_project, const T
 
                         //Find the direction
                         switch (port->getDirection()) {
-                        case UvmPort::OUT : //Interface to VC
+                        case UvmPort::PORT_OUT : //Interface to VC
                             from = port;
                             to = m_vc->getInterface()->getPortByName(vipPortName);
                             break;
-                        case UvmPort::IN : //VC to Interface
+                        case UvmPort::PORT_IN : //VC to Interface
                             from = m_vc->getInterface()->getPortByName(vipPortName);
                             to = port;
                             break;
@@ -221,8 +221,8 @@ bool WizardDataConverter::data2Project(const ProjectViewData *d_project, const T
             }
 
             //Visual signal between the VC interface and the interface
-            new UvmConnection ( UvmPort::newFakePort(m_vc->getInterface()->getShortName()+"_interinterport", UvmPort::VCTODUT_INTERFACE, UvmPort::INOUT, m_vc->getInterface()),
-                                UvmPort::newFakePort(m_interface->getShortName()+"_interinterport", UvmPort::VC_INTERFACE, UvmPort::INOUT, m_interface),
+            new UvmConnection ( UvmPort::newFakePort(m_vc->getInterface()->getShortName()+"_interinterport", UvmPort::VCTODUT_INTERFACE, UvmPort::PORT_INOUT, m_vc->getInterface()),
+                                UvmPort::newFakePort(m_interface->getShortName()+"_interinterport", UvmPort::VC_INTERFACE, UvmPort::PORT_INOUT, m_interface),
                                 linkName(m_vc->getInterface(),m_interface),
                                 m_top);
 
@@ -261,8 +261,8 @@ bool WizardDataConverter::data2Project(const ProjectViewData *d_project, const T
                 m_vc->setBusMonitor(m_vcMonitor);
 
                 //To the interface
-                new UvmConnection ( UvmPort::newFakePort(m_vcInterface->getShortName()+"BusMonitorOut", UvmPort::VC_INTERFACE, UvmPort::OUT, m_vcInterface),
-                                    UvmPort::newFakePort(m_vcMonitor->getShortName()+"InterfaceIn", UvmPort::VC_INTERFACE, UvmPort::IN, m_vcMonitor),
+                new UvmConnection ( UvmPort::newFakePort(m_vcInterface->getShortName()+"BusMonitorOut", UvmPort::VC_INTERFACE, UvmPort::PORT_OUT, m_vcInterface),
+                                    UvmPort::newFakePort(m_vcMonitor->getShortName()+"InterfaceIn", UvmPort::VC_INTERFACE, UvmPort::PORT_IN, m_vcMonitor),
                                     linkName(m_vcInterface,m_vcMonitor),
                                     m_vc);
             }
@@ -296,15 +296,15 @@ bool WizardDataConverter::data2Project(const ProjectViewData *d_project, const T
 
                         //Find the direction
                         switch (port->getDirection()) {
-                        case UvmPort::OUT : //Interface to VC
+                        case UvmPort::PORT_OUT : //Interface to VC
                             from = port;
-                            to = UvmPort::newPhysicalPort(name/*+"InterfaceIn"*/, UvmPort::GLOBAL, UvmPort::IN, port->getType(), m_vcInterface);
+                            to = UvmPort::newPhysicalPort(name/*+"InterfaceIn"*/, UvmPort::GLOBAL, UvmPort::PORT_IN, port->getType(), m_vcInterface);
                             to->setSize(port->getSize());
                             to->setCategory(port->getCategory());
                             conName = linkName(m_design,m_vc);
                             break;
-                        case UvmPort::IN : //VC to Interface
-                            from = UvmPort::newPhysicalPort(name/*+"InterfaceOut"*/, UvmPort::GLOBAL, UvmPort::OUT, port->getType(), m_vcInterface);
+                        case UvmPort::PORT_IN : //VC to Interface
+                            from = UvmPort::newPhysicalPort(name/*+"InterfaceOut"*/, UvmPort::GLOBAL, UvmPort::PORT_OUT, port->getType(), m_vcInterface);
                             from->setSize(port->getSize());
                             from->setCategory(port->getCategory());
                             to = port;
@@ -312,7 +312,7 @@ bool WizardDataConverter::data2Project(const ProjectViewData *d_project, const T
                             break;
                         default: //VC <-> Interface
                             from = port;
-                            to = UvmPort::newPhysicalPort(name/*+"InterfaceInOut"*/, UvmPort::GLOBAL, UvmPort::INOUT, port->getType(), m_vcInterface);
+                            to = UvmPort::newPhysicalPort(name/*+"InterfaceInOut"*/, UvmPort::GLOBAL, UvmPort::PORT_INOUT, port->getType(), m_vcInterface);
                             to->setSize(port->getSize());
                             to->setCategory(port->getCategory());
                             conName = linkName(m_design,m_vc);
@@ -325,8 +325,8 @@ bool WizardDataConverter::data2Project(const ProjectViewData *d_project, const T
             }
 
             //Visual signal between the VC interface and the interface
-            new UvmConnection ( UvmPort::newFakePort(m_vcInterface->getShortName()+"_interinterport", UvmPort::VCTODUT_INTERFACE, UvmPort::INOUT, m_vcInterface),
-                                UvmPort::newFakePort(m_interface->getShortName()+"_interinterport", UvmPort::VC_INTERFACE, UvmPort::INOUT, m_interface),
+            new UvmConnection ( UvmPort::newFakePort(m_vcInterface->getShortName()+"_interinterport", UvmPort::VCTODUT_INTERFACE, UvmPort::PORT_INOUT, m_vcInterface),
+                                UvmPort::newFakePort(m_interface->getShortName()+"_interinterport", UvmPort::VC_INTERFACE, UvmPort::PORT_INOUT, m_interface),
                                 linkName(m_vcInterface,m_interface),
                                 m_top);
 
@@ -415,16 +415,16 @@ bool WizardDataConverter::data2Project(const ProjectViewData *d_project, const T
                                             m_agent);
 
                     //To the interface
-                    new UvmConnection ( UvmPort::newFakePort(m_vcInterface->getShortName()+"Agent"+m_agentCollector->getShortName(), UvmPort::VC_INTERFACE, UvmPort::INOUT, m_vcInterface),
-                                        UvmPort::newFakePort(m_agentCollector->getShortName()+"InterfaceIn", UvmPort::VC_INTERFACE, UvmPort::IN, m_agentCollector),
+                    new UvmConnection ( UvmPort::newFakePort(m_vcInterface->getShortName()+"Agent"+m_agentCollector->getShortName(), UvmPort::VC_INTERFACE, UvmPort::PORT_INOUT, m_vcInterface),
+                                        UvmPort::newFakePort(m_agentCollector->getShortName()+"InterfaceIn", UvmPort::VC_INTERFACE, UvmPort::PORT_IN, m_agentCollector),
                                         linkName(m_vcInterface,m_agentCollector),
                                         m_vc);
                 }
                 //If there is no collector but there is a monitor, then the monitor should be connected to the interface
                 else if (d_agent->monitor) {
                     //Interface to monitor
-                    new UvmConnection ( UvmPort::newFakePort(m_vcInterface->getShortName()+"Agent"+m_agentMonitor->getShortName(), UvmPort::VC_INTERFACE, UvmPort::INOUT, m_vcInterface),
-                                        UvmPort::newFakePort(m_agentMonitor->getShortName()+"InterfaceIn", UvmPort::VC_INTERFACE, UvmPort::IN, m_agentMonitor),
+                    new UvmConnection ( UvmPort::newFakePort(m_vcInterface->getShortName()+"Agent"+m_agentMonitor->getShortName(), UvmPort::VC_INTERFACE, UvmPort::PORT_INOUT, m_vcInterface),
+                                        UvmPort::newFakePort(m_agentMonitor->getShortName()+"InterfaceIn", UvmPort::VC_INTERFACE, UvmPort::PORT_IN, m_agentMonitor),
                                         linkName(m_vcInterface,m_agentMonitor),
                                         m_vc);
                 }
@@ -450,16 +450,16 @@ bool WizardDataConverter::data2Project(const ProjectViewData *d_project, const T
                                            m_agent);
 */
                     //To the interface
-                    new UvmConnection ( UvmPort::newFakePort(m_vcInterface->getShortName()+"Agent"+m_agentDriver->getShortName(), UvmPort::VC_INTERFACE, UvmPort::INOUT, m_vcInterface),
-                                        UvmPort::newFakePort(m_agentDriver->getShortName()+"InterfaceIn", UvmPort::VC_INTERFACE, UvmPort::IN, m_agentDriver),
+                    new UvmConnection ( UvmPort::newFakePort(m_vcInterface->getShortName()+"Agent"+m_agentDriver->getShortName(), UvmPort::VC_INTERFACE, UvmPort::PORT_INOUT, m_vcInterface),
+                                        UvmPort::newFakePort(m_agentDriver->getShortName()+"InterfaceIn", UvmPort::VC_INTERFACE, UvmPort::PORT_IN, m_agentDriver),
                                         linkName(m_vcInterface,m_agentDriver),
                                         m_vc);
                 }
                 //If there is no driver but there is a sequencer, then the sequencer should be connected to the interface
                 else if (d_agent->sequencer) {
                     //Sequencer to interface
-                    new UvmConnection ( UvmPort::newFakePort(m_agentSequencer->getShortName()+"InterfaceIn", UvmPort::VC_INTERFACE, UvmPort::OUT, m_agentSequencer),
-                                        UvmPort::newFakePort(m_vcInterface->getShortName()+"Agent"+m_agentSequencer->getShortName(), UvmPort::VC_INTERFACE, UvmPort::IN, m_vcInterface),
+                    new UvmConnection ( UvmPort::newFakePort(m_agentSequencer->getShortName()+"InterfaceIn", UvmPort::VC_INTERFACE, UvmPort::PORT_OUT, m_agentSequencer),
+                                        UvmPort::newFakePort(m_vcInterface->getShortName()+"Agent"+m_agentSequencer->getShortName(), UvmPort::VC_INTERFACE, UvmPort::PORT_IN, m_vcInterface),
                                         linkName(m_agentSequencer,m_vcInterface),
                                         m_vc);
                 }

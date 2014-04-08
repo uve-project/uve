@@ -264,7 +264,7 @@ void NewProjectWizard::setupSignals()
         d_project->duvPorts = m_design->getPhysicalPorts();
         d_signals = new SignalsViewData;
         foreach (PhysicalPort *p,d_project->duvPorts) {
-            if (p->getDirection() == UvmPort::IN) {
+            if (p->getDirection() == UvmPort::PORT_IN) {
                 //Try to find out if the signal is a clock
                 QRegExp rc (".*[Cc][Ll][oO]?[Cc]?[Kk].*");
                 if (rc.indexIn(p->getName()) != -1)

@@ -128,7 +128,7 @@ UvmPort::PortDirection UvmPort::getDirection() const
     case UVM_BLOCKING_GET_IMP:
     case UVM_SEQ_ITEM_PULL_IMP:
     case UVM_BLOCKING_PEEK_IMP:
-    case VIRT_SEQ_TO_SEQ_OUT: return OUT;
+    case VIRT_SEQ_TO_SEQ_OUT: return PORT_OUT;
 
 
     case UVM_ANALYSIS_IMP:
@@ -136,7 +136,7 @@ UvmPort::PortDirection UvmPort::getDirection() const
     case UVM_BLOCKING_GET_PORT:
     case UVM_SEQ_ITEM_PULL_PORT:
     case UVM_BLOCKING_PEEK_PORT:
-    case VIRT_SEQ_TO_SEQ_IN: return IN;
+    case VIRT_SEQ_TO_SEQ_IN: return PORT_IN;
     default:
         return direction;
     }
@@ -307,9 +307,9 @@ QString UvmPort::DirectionToString(PortDirection direction)
 {
     switch (direction)
     {
-    case IN: return QString("in");
-    case OUT: return QString("out");
-    case INOUT: return QString("inout");
+    case PORT_IN: return QString("in");
+    case PORT_OUT: return QString("out");
+    case PORT_INOUT: return QString("inout");
     default: {
         qCritical() << "Error in direction of port";
         return "";
@@ -320,13 +320,13 @@ QString UvmPort::DirectionToString(PortDirection direction)
 UvmPort::PortDirection UvmPort::StringToDirection(const QString &direction)
 {
     if (direction == "in")
-        return IN;
+        return PORT_IN;
     if (direction == "out")
-        return OUT;
+        return PORT_OUT;
     if (direction == "inout")
-        return INOUT;
+        return PORT_INOUT;
     qCritical() << "Port direction unknown: " << direction;
-    return IN;
+    return PORT_IN;
 }
 
 bool UvmPort::isTlmPort() const
@@ -403,7 +403,7 @@ NonPhysicalPort::~NonPhysicalPort()
     int nbrElement = uvmConnections.count();
     for(int i=0; i < nbrElement; i++ ){
         conn = uvmConnections.takeAt(0);
-        if(getDirection() == UvmPort::IN)
+        if(getDirection() == UvmPort::PORT_IN)
             delete conn;
     }
 }
@@ -500,7 +500,7 @@ PhysicalPort::~PhysicalPort()
     int nbrElement = uvmConnections.count();
     for(int i=0; i < nbrElement; i++ ){
         conn = uvmConnections.takeAt(0);
-        if(getDirection() == UvmPort::IN)
+        if(getDirection() == UvmPort::PORT_IN)
             delete conn;
     }
 }
