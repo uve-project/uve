@@ -10,8 +10,8 @@ TEMPLATE = app
 QT += core gui widgets webkit webkitwidgets
 CONFIG += qt rtti silent
 #CONFIG += debug_and_release
- CONFIG += debug
-# CONFIG += release
+# CONFIG += debug
+ CONFIG += release
 
 # In order to avoid warnings with the parser
 QMAKE_CXXFLAGS          += -Wno-write-strings -Wall

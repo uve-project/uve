@@ -245,15 +245,15 @@ UvmConfig* UvmVerificationComponent::getConfig()
 }
 
 // Set the interface of the verifcomp
-void UvmVerificationComponent::setInterface(UvmInterface * interface)
+void UvmVerificationComponent::setInterface(UvmInterface * uInterface)
 {
     UvmComponent* comp = getInterface();
     int i;
     if(comp == 0) {
-        children.append(interface);
+        children.append(uInterface);
     } else {
         i = children.indexOf(comp);
-        children.replace(i, interface);
+        children.replace(i, uInterface);
     }
 }
 

@@ -104,15 +104,15 @@ UvmTestCase* UvmTop::getTestCase() const
 
 
 // Set the interface of the testbench
-void UvmTop::setInterface(UvmInterface * interface)
+void UvmTop::setInterface(UvmInterface * uInterface)
 {
     UvmComponent* comp = getInterface();
     int i;
     if(comp == 0) {
-        children.append(interface);
+        children.append(uInterface);
     } else {
         i = children.indexOf(comp);
-        children.replace(i, interface);
+        children.replace(i, uInterface);
     }
 }
 
