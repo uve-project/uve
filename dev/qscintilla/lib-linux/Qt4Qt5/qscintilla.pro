@@ -120,6 +120,7 @@ HEADERS = \
 	./Qsci/qscilexertcl.h \
 	./Qsci/qscilexertex.h \
 	./Qsci/qscilexerverilog.h \
+	./Qsci/qscilexersystemverilog.h \
 	./Qsci/qscilexervhdl.h \
 	./Qsci/qscilexerxml.h \
 	./Qsci/qscilexeryaml.h \
@@ -219,6 +220,7 @@ SOURCES = \
 	qscilexertcl.cpp \
 	qscilexertex.cpp \
 	qscilexerverilog.cpp \
+	qscilexersystemverilog.cpp \
 	qscilexervhdl.cpp \
 	qscilexerxml.cpp \
 	qscilexeryaml.cpp \
@@ -321,6 +323,7 @@ SOURCES = \
 	../lexers/LexTxt2tags.cpp \
 	../lexers/LexVB.cpp \
 	../lexers/LexVerilog.cpp \
+	../lexers/LexSystemVerilog.cpp \
 	../lexers/LexVHDL.cpp \
 	../lexers/LexVisualProlog.cpp \
 	../lexers/LexYAML.cpp \

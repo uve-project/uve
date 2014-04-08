@@ -180,6 +180,7 @@ int Scintilla_LinkLexers() {
 	LINK_LEXER(lmVB);
 	LINK_LEXER(lmVBScript);
 	LINK_LEXER(lmVerilog);
+	LINK_LEXER(lmSystemVerilog);
 	LINK_LEXER(lmVHDL);
 	LINK_LEXER(lmVisualProlog);
 	LINK_LEXER(lmXML);
