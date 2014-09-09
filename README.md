@@ -33,21 +33,20 @@ with the instructions below.
 This is the component used to build the code editing feature. It's already 
 present in the repository, but has to be installed
 manually. This is done by opening the Qt Console. You should find it in your
-START menu, it might be called something like _Qt 4.7.4 Command Prompt_ or 
-_Qt 4.8.1 for Desktop (MinGW)_.
+START menu, it might be called something like _Qt 5.3 for Desktop (MinGW 4.8 32 bit)_.
 
 Inside the console you have to navigate to the folder 
-_dev\qscintilla\lib-windows\Qt4_ in your repository. Then you execute the
+_dev\qscintilla\qscintilla_uve\Qt4Qt5_ in your repository. Then you execute the
 following commands in this order in the command prompt:
 ```
->qmake
+>qmake qscintilla.pro
 >make
 >make install 
 ```
    
 or in the MinGW version
 ```
->qmake
+>qmake qscintilla.pro
 >mingw32-make
 >mingw32-make install
 ```
