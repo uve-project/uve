@@ -244,9 +244,9 @@ void VIPConnectorDialog::fillList(QStandardItemModel *model, const QList<Physica
 QIcon VIPConnectorDialog::directionIcon(UvmPort::PortDirection direction)
 {
     switch (direction) {
-        case UvmPort::IN : return QIcon(":images/arrow-right");
-        case UvmPort::OUT : return QIcon(":images/arrow-left");
-        case UvmPort::INOUT : return QIcon(":images/arrow-both");
+        case UvmPort::PORT_IN : return QIcon(":images/arrow-right");
+        case UvmPort::PORT_OUT : return QIcon(":images/arrow-left");
+        case UvmPort::PORT_INOUT : return QIcon(":images/arrow-both");
         default : return QIcon();
     }
 }

@@ -68,7 +68,7 @@ class UvmVerificationComponent: public UvmComponent, public NameSpaceRegister
         UvmConfig* getConfig();
 
         UvmInterface* getInterface() const;
-        void setInterface(UvmInterface * interface);
+        void setInterface(UvmInterface * uInterface);
 
         void setClockName(QString shortName);
         QString getClockName();

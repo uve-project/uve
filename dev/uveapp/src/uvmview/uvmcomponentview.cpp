@@ -18,6 +18,11 @@
 */
 #include "uvmcomponentview.h"
 #include <iostream>
+#include <QApplication>
+#include <QGraphicsSceneMouseEvent>
+#include <QMenu>
+#include <QAction>
+#include <QFileDialog>
 
 using namespace std;
 

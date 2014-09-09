@@ -116,13 +116,13 @@ QString UvmConnection::printTree(int deepness) const
 
     //Line start
     tree.append(srcPort->getName());
-    if (srcPort->getDirection() == UvmPort::OUT)
+    if (srcPort->getDirection() == UvmPort::PORT_OUT)
         tree.append(" <-");
     else
         tree.append(" --");
 
     //Line end
-    if (dstPort->getDirection() == UvmPort::OUT)
+    if (dstPort->getDirection() == UvmPort::PORT_OUT)
         tree.append("- ");
     else
         tree.append("> ");
@@ -146,13 +146,13 @@ QString UvmConnection::printHtmlTree(int deepness) const
 
     //Line start
     tree.append(srcPort->getName());
-    if (srcPort->getDirection() == UvmPort::OUT)
+    if (srcPort->getDirection() == UvmPort::PORT_OUT)
         tree.append("&nbsp;<-");
     else
         tree.append("&nbsp;--");
 
     //Line end
-    if (dstPort->getDirection() == UvmPort::OUT)
+    if (dstPort->getDirection() == UvmPort::PORT_OUT)
         tree.append("-&nbsp;");
     else
         tree.append(">&nbsp;");

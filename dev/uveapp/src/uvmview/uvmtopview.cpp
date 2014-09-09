@@ -17,6 +17,7 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 #include "uvmtopview.h"
+#include <QApplication>
 
 
 // Constructor with model and parent
@@ -36,7 +37,7 @@ void UvmTopView::calculRect()
 
     UvmTestCase* testCase = ((UvmTop*)model)->getTestCase();
     UvmDesign* design = ((UvmTop*)model)->getDesign();
-    UvmInterface* interface = ((UvmTop*)model)->getInterface();
+    UvmInterface* uInterface = ((UvmTop*)model)->getInterface();
 
     UvmTestCaseView* testCaseView = (UvmTestCaseView*)getComponentView(testCase);
     if(testCaseView != 0) {
@@ -45,7 +46,7 @@ void UvmTopView::calculRect()
         y += testCaseView->boundingRect().height()+INTER_Y;
         x += testCaseView->boundingRect().width();
 
-        UvmInterfaceView* interfaceView = (UvmInterfaceView*)getComponentView(interface);
+        UvmInterfaceView* interfaceView = (UvmInterfaceView*)getComponentView(uInterface);
         if(interfaceView != 0) {
             interfaceView->calculRect();
             interfaceView->setPos(x/2-interfaceView->boundingRect().width()/2, y);
@@ -95,13 +96,13 @@ void UvmTopView::untangleConnections()
 {
     UvmTestCase* testCase = ((UvmTop*)model)->getTestCase();
     UvmDesign* design = ((UvmTop*)model)->getDesign();
-    UvmInterface* interface = ((UvmTop*)model)->getInterface();
+    UvmInterface* uInterface = ((UvmTop*)model)->getInterface();
 
     UvmTestCaseView* testCaseView = (UvmTestCaseView*)getComponentView(testCase);
     if(testCaseView != 0) {
         testCaseView->untangleConnections();
 
-        UvmInterfaceView* interfaceView = (UvmInterfaceView*)getComponentView(interface);
+        UvmInterfaceView* interfaceView = (UvmInterfaceView*)getComponentView(uInterface);
         if(interfaceView != 0) {
             interfaceView->untangleConnections();
         }

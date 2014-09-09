@@ -18,8 +18,9 @@
 */
 #include "helpwidget.h"
 #include "uveconstants.h"
+#include <QtWebKitWidgets/QWebView>
 
-#include <QtGui/QHBoxLayout>
+#include <QHBoxLayout>
 
 /** constructor [public].
  * Constructs a new help window.

@@ -26,13 +26,13 @@ UvmPortView::UvmPortView(UvmComponentView* parent, UvmPort* model)
     this->setParentItem(parent);
 
     //DO NOT CHANGE
-    if(model->getMode() == UvmPort::DUT && model->getDirection() == UvmPort::IN)
+    if(model->getMode() == UvmPort::DUT && model->getDirection() == UvmPort::PORT_IN)
         poly << QPointF(0,5) << QPointF(5, 0) << QPointF(0,-5) << QPointF(0,5);
 
-    else if(model->getMode() == UvmPort::DUT && model->getDirection() == UvmPort::OUT)
+    else if(model->getMode() == UvmPort::DUT && model->getDirection() == UvmPort::PORT_OUT)
         poly << QPointF(0,5) << QPointF(5, 0) << QPointF(0,-5) << QPointF(0,5);
 
-    else if(model->getMode() == UvmPort::DUT && model->getDirection() == UvmPort::INOUT)
+    else if(model->getMode() == UvmPort::DUT && model->getDirection() == UvmPort::PORT_INOUT)
         poly << QPointF(-5,0) << QPointF(0, 5) << QPointF(5,0) << QPointF(0,-5) << QPointF(-5, 0);
 
     //inside square
@@ -77,7 +77,7 @@ void UvmPortView::paint(QPainter *painter, const QStyleOptionGraphicsItem */*opt
 {
 
     // Paint an in port
-    if(model->getMode() == UvmPort::DUT && model->getDirection() == UvmPort::IN)
+    if(model->getMode() == UvmPort::DUT && model->getDirection() == UvmPort::PORT_IN)
     {
         painter->setRenderHint(QPainter::Antialiasing);
         QBrush newBrush(QColor(0,255,0));
@@ -86,7 +86,7 @@ void UvmPortView::paint(QPainter *painter, const QStyleOptionGraphicsItem */*opt
         painter->drawText(12, 3, model->getName());
     }
     // Paint an out port
-    if(model->getMode() == UvmPort::DUT && model->getDirection() == UvmPort::OUT)
+    if(model->getMode() == UvmPort::DUT && model->getDirection() == UvmPort::PORT_OUT)
     {
         painter->setRenderHint(QPainter::Antialiasing);
         QBrush newBrush(QColor(0,0,255));
@@ -97,7 +97,7 @@ void UvmPortView::paint(QPainter *painter, const QStyleOptionGraphicsItem */*opt
     }
 
     // Paint an inout port
-    if(model->getMode() == UvmPort::DUT && model->getDirection() == UvmPort::INOUT)
+    if(model->getMode() == UvmPort::DUT && model->getDirection() == UvmPort::PORT_INOUT)
     {
     }
     // Paint an interface port
@@ -195,7 +195,7 @@ UvmPortView::~UvmPortView()
     int nbrElement = uvmConnectionsView.count();
     for(int i=0; i < nbrElement; i++ ){
         connView = uvmConnectionsView.takeAt(0);
-        if(model->getDirection() == UvmPort::IN)
+        if(model->getDirection() == UvmPort::PORT_IN)
             delete connView;
     }
 }

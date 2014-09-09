@@ -17,6 +17,7 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 #include "uvmmonitorview.h"
+#include <QApplication>
 
 
 // Constructor with model and parent

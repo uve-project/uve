@@ -328,7 +328,7 @@ bool SVExport::exportProject(const UvmProject *project) {
 
         foreach(UvmVerificationComponent *vip, project->getTop()->getVips()) {
 
-            UvmInterface *interface = vip->getInterface();
+            UvmInterface *uInterface = vip->getInterface();
             QString interfaceName = vip->getClassName() + "_if";
 
             // Divider
@@ -336,7 +336,7 @@ bool SVExport::exportProject(const UvmProject *project) {
             line += vip->getClassName() + "::" + vip->getInstName();
             line += "\n";
 
-            foreach (PhysicalPort *port,interface->getPhysicalPorts()) {
+            foreach (PhysicalPort *port,uInterface->getPhysicalPorts()) {
                 line += addWave(project->getTop(),interfaceName, port->getName(), false);
             }
         }
@@ -476,7 +476,7 @@ void SVExport::visit(const UvmTop *comp){
     QList<PhysicalPort*> multiConnectPorts;
     foreach(PhysicalPort *p, ports) {
         if ((p->getMode() == UvmPort::DUT) || (p->getMode() == UvmPort::GLOBAL)) {
-            if ((p->getDirection() == UvmPort::IN) &&
+            if ((p->getDirection() == UvmPort::PORT_IN) &&
                     ((p->getCategory() != UvmPort::CLOCK)&&
                      (p->getCategory() != UvmPort::RESET)))
                 continue;
@@ -578,9 +578,9 @@ void SVExport::visit(const UvmTop *comp){
 
     // Generate Clock blocks
     foreach(UvmVerificationComponent *vip, comp->getVips()) {
-        UvmInterface *interface = vip->getInterface();
+        UvmInterface *uInterface = vip->getInterface();
         QString interfaceName = vip->getClassName() + "_if";
-        foreach(PhysicalPort *clock, interface->getClocks()) {
+        foreach(PhysicalPort *clock, uInterface->getClocks()) {
             if (clock->getConnections().size()==0)
             {
                 line += "initial begin\n";
@@ -630,20 +630,20 @@ void SVExport::visit(const UvmTop *comp){
 
     // Generate Reset blocks
     foreach(UvmVerificationComponent *vip, comp->getVips()) {
-        UvmInterface *interface = vip->getInterface();
-        foreach(PhysicalPort *reset, interface->getResets()) {
+        UvmInterface *uInterface = vip->getInterface();
+        foreach(PhysicalPort *reset, uInterface->getResets()) {
             if (reset->getConnections().size()==0) {
                 // Initial state
                 line += "initial begin\n";
                 line += tab;
-                line += interface->getInstName() + "." + reset->getName() + " <= 1'b";
+                line += uInterface->getInstName() + "." + reset->getName() + " <= 1'b";
                 line += (reset->getResetActiveLow() ? "0" : "1");
                 line += ";\n";
 
                 // Change state after delay
                 line += tab;
                 line += "#" + QString("%1").arg(reset->getResetDuration()) + " ";
-                line += interface->getInstName() + "." + reset->getName() + " <= 1'b";
+                line += uInterface->getInstName() + "." + reset->getName() + " <= 1'b";
                 line += (reset->getResetActiveLow() ? "1" : "0");
                 line += ";\n";
 
@@ -1370,7 +1370,7 @@ void SVExport::visit(const UvmDriver *comp){
     foreach(PhysicalPort *p, comp->getParentVip()->getInterface()->getPhysicalPorts()) {
         if ((p->getCategory()!=UvmPort::CLOCK) &&
                 (p->getCategory()!=UvmPort::RESET) &&
-                (p->getDirection()!=UvmPort::IN)) {
+                (p->getDirection()!=UvmPort::PORT_IN)) {
             line += "vif.";
             line += p->getName();
             line += " = ";
@@ -1403,7 +1403,7 @@ void SVExport::visit(const UvmDriver *comp){
         foreach(PhysicalPort *p, comp->getParentVip()->getInterface()->getPhysicalPorts()) {
             if ((p->getCategory()!=UvmPort::CLOCK) &&
                     (p->getCategory()!=UvmPort::RESET) &&
-                    (p->getDirection()!=UvmPort::IN)) {
+                    (p->getDirection()!=UvmPort::PORT_IN)) {
                 theLine += tab + "vif.";
                 theLine += p->getName();
                 theLine += " = ";
@@ -1526,7 +1526,7 @@ void SVExport::visit(const UvmSequenceItem *comp){
 
     foreach(PhysicalPort *p, comp->getParentVip()->getInterface()->getPhysicalPorts()) {
         if ((p->getCategory()!=UvmPort::CLOCK) && (p->getCategory()!=UvmPort::RESET)) {
-            if (p->getDirection() != UvmPort::IN)
+            if (p->getDirection() != UvmPort::PORT_IN)
                 line += "rand ";
             line += "logic ";
 

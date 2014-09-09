@@ -100,13 +100,13 @@ QFileDialog::AcceptMode FileLineEdit::getAcceptMode() const
 //Set in the dialog
 void FileLineEdit::setFilters(const QStringList &filters)
 {
-    _fileDialog->setFilters(filters);
+    _fileDialog->setNameFilters(filters);
 }
 
 //Fetch from the dialog
 QStringList FileLineEdit::getFilters() const
 {
-    return _fileDialog->filters();
+    return _fileDialog->nameFilters();
 }
 
 //Our internal value

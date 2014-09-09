@@ -69,9 +69,9 @@ class UvmPort : public QObject
           \enum PortMode::UVM_ANALISIS_PORT
           * port d'analyse
           */
-        enum PortDirection {IN,
-                            OUT,
-                            INOUT,
+        enum PortDirection {PORT_IN,
+                            PORT_OUT,
+                            PORT_INOUT,
                             DIRECTION_ERROR
                            };
 

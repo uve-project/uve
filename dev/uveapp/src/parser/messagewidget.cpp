@@ -17,6 +17,8 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 #include "messagewidget.h"
+#include <QCheckBox>
+#include <QHeaderView>
 
 
 // Contructor of the component
@@ -77,9 +79,9 @@ MessageWidget::MessageWidget()
 
     table = new QTableWidget();
     table->setColumnCount(3);
-    table->horizontalHeader()->setResizeMode(0,QHeaderView::Interactive);
-    table->horizontalHeader()->setResizeMode(1,QHeaderView::Interactive);
-    table->horizontalHeader()->setResizeMode(2,QHeaderView::Stretch);
+    table->horizontalHeader()->setSectionResizeMode(0,QHeaderView::Interactive);
+    table->horizontalHeader()->setSectionResizeMode(1,QHeaderView::Interactive);
+    table->horizontalHeader()->setSectionResizeMode(2,QHeaderView::Stretch);
     table->setColumnWidth(0,200);
     table->setColumnWidth(1, 40);
     CONNECT(table, SIGNAL(doubleClicked(QModelIndex)), this, SLOT(selectionChanged(QModelIndex)));
@@ -159,7 +161,7 @@ void MessageWidget::selectionChanged(QModelIndex /*index*/)
 
         QString path = selectedOccurence.at(3);
 
-        goToSearchResult(lineNumber, path.toAscii(), selectedOccurence.at(4).toInt(), selectedOccurence.at(5));
+        goToSearchResult(lineNumber, path.toLatin1(), selectedOccurence.at(4).toInt(), selectedOccurence.at(5));
     }
     else indexOfLastActivated = -1;
 }
@@ -211,7 +213,7 @@ void MessageWidget::replaceButtonClicked()
         {
             QList<QString> selectedOccurence = occurences.at(indexOfLastActivated);
 
-            emit replace(searchField->text(), replaceField->text(), caseSensitiveCheckBox->isChecked(), selectedOccurence.at(3).toAscii(), selectedOccurence.at(1).toInt() -1, selectedOccurence.at(4).toInt(), false);
+            emit replace(searchField->text(), replaceField->text(), caseSensitiveCheckBox->isChecked(), selectedOccurence.at(3).toLatin1(), selectedOccurence.at(1).toInt() -1, selectedOccurence.at(4).toInt(), false);
 
             if(occurences.length()-1 > indexOfLastActivated)
                 indexOfLastActivated++;
@@ -228,7 +230,7 @@ void MessageWidget::replaceButtonClicked()
 
             QString path = selectedOccurence.at(3);
 
-            goToLine(lineNumber, path.toAscii());
+            goToLine(lineNumber, path.toLatin1());
         }
 
         break;
@@ -239,7 +241,7 @@ void MessageWidget::replaceButtonClicked()
         {
             QList<QString> selectedOccurence = occurences.at(i);
 
-            emit replace(searchField->text(), replaceField->text(), caseSensitiveCheckBox->isChecked(), selectedOccurence.at(3).toAscii(), selectedOccurence.at(1).toInt() -1, selectedOccurence.at(4).toInt(), true);
+            emit replace(searchField->text(), replaceField->text(), caseSensitiveCheckBox->isChecked(), selectedOccurence.at(3).toLatin1(), selectedOccurence.at(1).toInt() -1, selectedOccurence.at(4).toInt(), true);
         }
         break;
     }
@@ -249,7 +251,7 @@ void MessageWidget::replaceButtonClicked()
         {
             QList<QString> selectedOccurence = occurences.at(i);
 
-            emit replace(searchField->text(), replaceField->text(), caseSensitiveCheckBox->isChecked(), selectedOccurence.at(3).toAscii(), selectedOccurence.at(1).toInt() -1, selectedOccurence.at(4).toInt(), false);
+            emit replace(searchField->text(), replaceField->text(), caseSensitiveCheckBox->isChecked(), selectedOccurence.at(3).toLatin1(), selectedOccurence.at(1).toInt() -1, selectedOccurence.at(4).toInt(), false);
         }
         break;
     }

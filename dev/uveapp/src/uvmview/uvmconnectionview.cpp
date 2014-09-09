@@ -201,11 +201,11 @@ void UvmConnectionView::paint(QPainter *painter, const QStyleOptionGraphicsItem 
     painter->setBrush(brush);
     painter->drawLine(getSrcPoint(), getDstPoint());
 
-    if(srcPort->getModel()->getDirection() == UvmPort::OUT)
+    if(srcPort->getModel()->getDirection() == UvmPort::PORT_OUT)
         drawArrow(painter, getSrcPoint(), getDstPoint());
-    else if(srcPort->getModel()->getDirection() == UvmPort::IN)
+    else if(srcPort->getModel()->getDirection() == UvmPort::PORT_IN)
         drawArrow(painter, getDstPoint(), getSrcPoint());
-    else if(srcPort->getModel()->getDirection() == UvmPort::INOUT) {
+    else if(srcPort->getModel()->getDirection() == UvmPort::PORT_INOUT) {
         drawArrow(painter, getDstPoint(), getSrcPoint());
         drawArrow(painter, getSrcPoint(), getDstPoint());
     }

@@ -16,6 +16,11 @@
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
+
+#include <QVBoxLayout>
+#include <QHeaderView>
+#include <QSpinBox>
+
 #include "nameandnumberlist.h"
 //#include "uvmagent.h"
 
@@ -62,8 +67,8 @@ NameAndNumberList::NameAndNumberList(QWidget *parent) :
     //The list and its model
     _table = new QTableWidget();
     _table->setColumnCount(2);
-    _table->horizontalHeader()->setResizeMode(0,QHeaderView::Interactive);
-    _table->horizontalHeader()->setResizeMode(1,QHeaderView::Stretch);
+    _table->horizontalHeader()->setSectionResizeMode(0,QHeaderView::Interactive);
+    _table->horizontalHeader()->setSectionResizeMode(1,QHeaderView::Stretch);
     _table->setColumnWidth(0,200);
     _table->setSelectionBehavior(QAbstractItemView::SelectRows);
     _table->setMinimumHeight(100);

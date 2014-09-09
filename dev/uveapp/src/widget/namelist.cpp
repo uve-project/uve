@@ -21,6 +21,7 @@
 #include <QVBoxLayout>
 #include <QHBoxLayout>
 #include <QSpacerItem>
+#include <QHeaderView>
 
 //Setup the GUI
 NameList::NameList(QWidget *parent) :
@@ -66,7 +67,7 @@ NameList::NameList(QWidget *parent) :
     //The list and its model
     _table = new QTableWidget();
     _table->setColumnCount(1);
-    _table->horizontalHeader()->setResizeMode(0,QHeaderView::Stretch);
+    _table->horizontalHeader()->setSectionResizeMode(0,QHeaderView::Stretch);
     _table->horizontalHeader()->hide();
     _table->verticalHeader()->hide();
     _table->setSelectionBehavior(QAbstractItemView::SelectRows);

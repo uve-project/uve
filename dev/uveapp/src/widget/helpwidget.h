@@ -20,7 +20,7 @@
 #define HELPWIDGET_H
 
 #include <QWidget>
-#include <QtWebKit/QWebView>
+#include <QtWebKitWidgets/QWebView>
 
 /** HelpWidget.
  * This widget contains the application help in form of a html page.

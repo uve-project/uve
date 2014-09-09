@@ -69,7 +69,7 @@ int main(int argc, char *argv[])
         if (index>app.arguments().size()-2)
             exit(1);
         QString path=app.arguments().at(index+1);
-        qInstallMsgHandler(testMessageOutput);
+        qInstallMessageHandler(testMessageOutput);
         setVerbosity(VERBOSITY_DEBUG);
 
         TestGenerator tester;

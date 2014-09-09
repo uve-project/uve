@@ -21,6 +21,8 @@
 
 #include <QMainWindow>
 #include <QtGui>
+#include <QMdiSubWindow>
+#include <QMdiArea>
 
 #include "mdichild.h"
 

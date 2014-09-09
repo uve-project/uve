@@ -79,11 +79,11 @@ QList<PhysicalPort *> VHDLFileContent::getPorts(const QString &entityName,Physic
         QString str = entity->portRacine[i].mode;
         PhysicalPort *port;
         if(str.compare("IN") == 0)
-            port = UvmPort::newPhysicalPort(entity->portRacine[i].name, UvmPort::DUT, UvmPort::IN, entity->portRacine[i].type, parent);
+            port = UvmPort::newPhysicalPort(entity->portRacine[i].name, UvmPort::DUT, UvmPort::PORT_IN, entity->portRacine[i].type, parent);
         if(str.compare("OUT") == 0)
-            port = UvmPort::newPhysicalPort(entity->portRacine[i].name, UvmPort::DUT, UvmPort::OUT, entity->portRacine[i].type, parent);
+            port = UvmPort::newPhysicalPort(entity->portRacine[i].name, UvmPort::DUT, UvmPort::PORT_OUT, entity->portRacine[i].type, parent);
         if(str.compare("INOUT") == 0)
-            port = UvmPort::newPhysicalPort(entity->portRacine[i].name, UvmPort::DUT, UvmPort::INOUT, entity->portRacine[i].type, parent);
+            port = UvmPort::newPhysicalPort(entity->portRacine[i].name, UvmPort::DUT, UvmPort::PORT_INOUT, entity->portRacine[i].type, parent);
         port->setSize(entity->portRacine[i].upBit-entity->portRacine[i].lowBit+1);
         ports.append(port);
     }

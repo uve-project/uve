@@ -26,7 +26,7 @@
 #define VERBOSITY_CRITICAL 3
 #define VERBOSITY_FATAL    4
 
-void testMessageOutput(QtMsgType type, const char *msg);
+void testMessageOutput(QtMsgType type, const QMessageLogContext &context, const QString &msg);
 void setVerbosity(int verbosity);
 
 class TestGenerator

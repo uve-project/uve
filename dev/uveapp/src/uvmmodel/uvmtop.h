@@ -52,7 +52,7 @@ class UvmTop: public UvmComponent
         void setTestCase(UvmTestCase *design);
 
         UvmInterface* getInterface() const;
-        void setInterface(UvmInterface * interface);
+        void setInterface(UvmInterface * uInterface);
 
         /**
           * Re-implement this function because we have no father, but a project

@@ -35,7 +35,7 @@ void UvmVerificationComponentView::calculRect()
     qreal xfut = 0;
 
     UvmMonitor* busmon = ((UvmVerificationComponent*)model)->getBusMonitor();
-    UvmInterface* interface = ((UvmVerificationComponent*)model)->getInterface();
+    UvmInterface* uInterface = ((UvmVerificationComponent*)model)->getInterface();
     QList<UvmScoreboard*> scoreboards = ((UvmVerificationComponent*)model)->getScoreboards();
     QList<UvmVirtualSequencer*> vseqs = ((UvmVerificationComponent*)model)->getVirtualSequencers();
     QList<UvmAgent*> agents = ((UvmVerificationComponent*)model)->getAgents();
@@ -87,7 +87,7 @@ void UvmVerificationComponentView::calculRect()
     xfut = std::max(x-INTER_X+INTER_X_END, xfut);
 
 
-    UvmInterfaceView* interfaceView = (UvmInterfaceView*)getComponentView(interface);
+    UvmInterfaceView* interfaceView = (UvmInterfaceView*)getComponentView(uInterface);
     if(interfaceView != 0) {
         interfaceView->calculRect();
         interfaceView->setPos((xfut/2)-interfaceView->boundingRect().width()/2,yfut);
@@ -128,7 +128,7 @@ void UvmVerificationComponentView::placePorts()
 void UvmVerificationComponentView::untangleConnections()
 {
     UvmMonitor* busmon = ((UvmVerificationComponent*)model)->getBusMonitor();
-    UvmInterface* interface = ((UvmVerificationComponent*)model)->getInterface();
+    UvmInterface* uInterface = ((UvmVerificationComponent*)model)->getInterface();
     QList<UvmScoreboard*> scoreboards = ((UvmVerificationComponent*)model)->getScoreboards();
     QList<UvmVirtualSequencer*> vseqs = ((UvmVerificationComponent*)model)->getVirtualSequencers();
     QList<UvmAgent*> agents = ((UvmVerificationComponent*)model)->getAgents();
@@ -156,7 +156,7 @@ void UvmVerificationComponentView::untangleConnections()
         agentView->untangleConnections();
     }
 
-    UvmInterfaceView* interfaceView = (UvmInterfaceView*)getComponentView(interface);
+    UvmInterfaceView* interfaceView = (UvmInterfaceView*)getComponentView(uInterface);
     if(interfaceView != 0) {
         interfaceView->untangleConnections();
     }

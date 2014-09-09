@@ -151,8 +151,8 @@ UvmProject* UveXmlImport::loadProject(const QString fileName)
     foreach (UvmVerificationComponent *uvc,project->getTop()->getVips())
     {
         //Visual signal between the VC interface and the interface
-        new UvmConnection ( UvmPort::newFakePort(uvc->getInterface()->getInstName()+"_interinterport", UvmPort::VCTODUT_INTERFACE, UvmPort::INOUT, uvc->getInterface()),
-                            UvmPort::newFakePort(project->getTop()->getInterface()->getInstName()+"_interinterport", UvmPort::VC_INTERFACE, UvmPort::INOUT, project->getTop()->getInterface()),
+        new UvmConnection ( UvmPort::newFakePort(uvc->getInterface()->getInstName()+"_interinterport", UvmPort::VCTODUT_INTERFACE, UvmPort::PORT_INOUT, uvc->getInterface()),
+                            UvmPort::newFakePort(project->getTop()->getInterface()->getInstName()+"_interinterport", UvmPort::VC_INTERFACE, UvmPort::PORT_INOUT, project->getTop()->getInterface()),
                             (uvc->getInterface()->getInstName() + "To" + project->getTop()->getInterface()->getInstName()),
                             project->getTop());
     }
