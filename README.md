@@ -71,8 +71,7 @@ Install Bison with the installer from [their website]
 spaces in it's name and location (recommended: _C:\GnuWin32_), else it will not
 work. Then add the location of the bin folder in the installation directory to
 the environment variable PATH (e.g. _C:\GnuWin32\bin_).
-For flex download a zip file from [their website](http://flex.sourceforge.net).
-Extract the files (without any folders) in zip file to the bin folder of Bison or install [Flex for Windows](http://gnuwin32.sourceforge.net/packages/bison.htm) to the same destination as Bison.
+For flex download a zip file from [their website](http://flex.sourceforge.net) and extract the files (without any folders) in zip file to the bin folder of Bison or install [Flex for Windows](http://gnuwin32.sourceforge.net/packages/flex.htm) to the same destination as Bison.
 
 ### Load and Compile
 
