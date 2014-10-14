@@ -36,8 +36,9 @@ manually. This is done by opening the Qt Console. You should find it in your
 START menu, it might be called something like _Qt 5.3 for Desktop (MinGW 4.8 32 bit)_.
 
 Inside the console you have to navigate to the folder 
-_dev\qscintilla\qscintilla_uve\Qt4Qt5_ in your repository. Then you execute the
-following commands in this order in the command prompt:
+_dev\qscintilla\qscintilla_uve\Qt4Qt5_ in your repository. 
+If there exist the subfolders _release_ and _debug_, delete them.
+Then execute the following commands in this order in the command prompt:
 ```
 >qmake qscintilla.pro
 >make
