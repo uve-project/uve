@@ -36,7 +36,7 @@ class UvmProject : public NameSpaceRegister
 {
 public:
     UvmProject();
-    ~UvmProject();
+    virtual ~UvmProject();
 
     void setSimulator (const QString &file);
     QString getSimulator () const;

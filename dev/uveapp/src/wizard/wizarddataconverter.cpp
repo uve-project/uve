@@ -41,44 +41,34 @@ bool WizardDataConverter::data2Project(const ProjectViewData *d_project, const T
         return false;
     }
 
-    UvmTop *m_top=0;
-    UvmTestCase *m_testcase=0;
-    UvmTestbench *m_testbench=0;
-    UvmDesign *m_design=0;
+    UvmTop *m_top = 0;
+    UvmTestCase *m_testcase = 0;
+    UvmTestbench *m_testbench = 0;
+    UvmDesign *m_design = 0;
 
     //Create the top object
-    if (!m_top) {
-        m_top = new UvmTop("Top",project);
-        project->setTop(m_top);
-    }
+    m_top = new UvmTop("Top",project);
+    project->setTop(m_top);
 
     //Create the test case&bench
-    if (!m_testcase) {
-        m_testcase = new UvmTestCase(m_top);
-        m_top->setTestCase(m_testcase);
-    }
-    if (!m_testbench) {
-        m_testbench = new UvmTestbench(m_testcase);
-        m_testcase->setTestbench(m_testbench);
-    }
+    m_testcase = new UvmTestCase(m_top);
+    m_top->setTestCase(m_testcase);
 
-    //DUV
+    m_testbench = new UvmTestbench(m_testcase);
+    m_testcase->setTestbench(m_testbench);
+
+
+    //Create the design unit
     if (!m_design) {
-
-        //Create the design unit
-        if (!m_design) {
-            m_design = new UvmDesign(d_project->dutEntityName,m_top);
-            m_design->setBodyFileName(d_project->dut->getFileName());
-            foreach(PhysicalPort *port,d_signals->ports)
-            {
-                PhysicalPort *p=new PhysicalPort(port,m_design);
-                if (!p)
-                    qCritical() << "Dramatic error in file " << __FILE__ << " line " << __LINE__;
-            }
+        m_design = new UvmDesign(d_project->dutEntityName,m_top);
+        m_design->setBodyFileName(d_project->dut->getFileName());
+        foreach(PhysicalPort *port,d_signals->ports)
+        {
+            PhysicalPort *p=new PhysicalPort(port,m_design);
+            if (!p)
+                qCritical() << "Dramatic error in file " << __FILE__ << " line " << __LINE__;
         }
     }
-
-
 
     //Setup the project
     project->setDut(d_project->dut->getFileName());
@@ -105,7 +95,7 @@ bool WizardDataConverter::data2Project(const ProjectViewData *d_project, const T
     m_testbench->setShortName(d_testbench->name);
 
     //Scoreboard
-    UvmScoreboard *m_testbenchScoreboard;
+    UvmScoreboard *m_testbenchScoreboard = 0;
     if (d_testbench->scoreboard) {
         m_testbenchScoreboard = new UvmScoreboard("Scoreboard",m_testbench);
         m_testbenchScoreboard->setComparatorType((UvmScoreboard::ComparatorType)d_testbench->scoreboardComparatorType);
@@ -113,7 +103,7 @@ bool WizardDataConverter::data2Project(const ProjectViewData *d_project, const T
     }
 
     //Virtual sequencer
-    UvmVirtualSequencer *m_testbenchSequencer;
+    UvmVirtualSequencer *m_testbenchSequencer = 0;
     if (d_testbench->virtualSequencer) {
         m_testbenchSequencer = new UvmVirtualSequencer("VirtualSeq",m_testbench);
         m_testbench->addVirtualSequencer(m_testbenchSequencer);
@@ -122,7 +112,7 @@ bool WizardDataConverter::data2Project(const ProjectViewData *d_project, const T
     //Create the VCs
     foreach (VCViewData *d_vc, d_testbench->vcs) {
 
-        UvmVerificationComponent *m_vc;
+        UvmVerificationComponent *m_vc = 0;
 
         //If the VC is from a file (loaded from library), reload it
         if ( ! d_vc->file.isEmpty() ) {
@@ -184,7 +174,7 @@ bool WizardDataConverter::data2Project(const ProjectViewData *d_project, const T
             foreach (BaseConnection bc, d_vc->connections) {
 
                 //Create the two ports
-                PhysicalPort *from,*to;
+                PhysicalPort *from = 0, *to = 0;
 
                 //Search for the port in the DUV interface
                 foreach (PhysicalPort *port, m_design->getPhysicalPorts()) {
@@ -255,7 +245,7 @@ bool WizardDataConverter::data2Project(const ProjectViewData *d_project, const T
             new UvmPackage("pkg",m_vc);
 
             //VC bus monitor
-            UvmMonitor *m_vcMonitor;
+            UvmMonitor *m_vcMonitor = 0;
             if (d_vc->busMonitor) {
                 m_vcMonitor = new UvmMonitor("BusMonitor",m_vc);
                 m_vc->setBusMonitor(m_vcMonitor);
@@ -268,7 +258,7 @@ bool WizardDataConverter::data2Project(const ProjectViewData *d_project, const T
             }
 
 
-            UvmVirtualSequencer *m_vcSequencer;
+            UvmVirtualSequencer *m_vcSequencer = 0;
             if (d_vc->virtualSequencer) {
                 m_vcSequencer = new UvmVirtualSequencer("VirtualSequencer",m_vc);
                 m_vc->addVirtualSequencer(m_vcSequencer);
@@ -287,7 +277,7 @@ bool WizardDataConverter::data2Project(const ProjectViewData *d_project, const T
             foreach (QString name, d_vc->interConnects) {
 
                 //Create the two ports
-                PhysicalPort *from,*to;
+                PhysicalPort *from = 0,*to = 0;
                 QString conName;
 
                 //Find the name's port
@@ -331,7 +321,7 @@ bool WizardDataConverter::data2Project(const ProjectViewData *d_project, const T
                                 m_top);
 
             //Scoreboard
-            UvmScoreboard *m_vcScoreboard;
+            UvmScoreboard *m_vcScoreboard = 0;
             if (d_vc->scoreboard) {
                 m_vcScoreboard = new UvmScoreboard("Scoreboard",m_vc);
                 m_vcScoreboard->setComparatorType((UvmScoreboard::ComparatorType)d_vc->scoreboardComparatorType);
@@ -352,7 +342,7 @@ bool WizardDataConverter::data2Project(const ProjectViewData *d_project, const T
 
 
                 //Monitor
-                UvmMonitor *m_agentMonitor;
+                UvmMonitor *m_agentMonitor = 0;
                 if (d_agent->monitor) {
                     m_agentMonitor = new UvmMonitor("Monitor",m_agent);
                     m_agent->setMonitor(m_agentMonitor);
@@ -374,7 +364,7 @@ bool WizardDataConverter::data2Project(const ProjectViewData *d_project, const T
                 }
 
                 //Sequencer
-                UvmSequencer *m_agentSequencer;
+                UvmSequencer *m_agentSequencer = 0;
                 if (d_agent->sequencer) {
                     m_agentSequencer = new UvmSequencer("Sequencer",m_agent);
                     m_agent->setSequencer(m_agentSequencer);
@@ -402,7 +392,7 @@ bool WizardDataConverter::data2Project(const ProjectViewData *d_project, const T
                 }
 
                 //Collector
-                UvmCollector *m_agentCollector;
+                UvmCollector *m_agentCollector = 0;
                 if (d_agent->collector) {
                     m_agentCollector = new UvmCollector("Collector",m_agent);
                     m_agent->setCollector(m_agentCollector);
@@ -430,7 +420,7 @@ bool WizardDataConverter::data2Project(const ProjectViewData *d_project, const T
                 }
 
                 //Driver
-                UvmDriver *m_agentDriver;
+                UvmDriver *m_agentDriver = 0;
                 if (d_agent->driver) {
                     m_agentDriver = new UvmDriver("Driver",m_agent);
                     m_agent->setDriver(m_agentDriver);
