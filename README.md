@@ -33,21 +33,21 @@ with the instructions below.
 This is the component used to build the code editing feature. It's already 
 present in the repository, but has to be installed
 manually. This is done by opening the Qt Console. You should find it in your
-START menu, it might be called something like _Qt 4.7.4 Command Prompt_ or 
-_Qt 4.8.1 for Desktop (MinGW)_.
+START menu, it might be called something like _Qt 5.3 for Desktop (MinGW 4.8 32 bit)_.
 
 Inside the console you have to navigate to the folder 
-_dev\qscintilla\lib-windows\Qt4_ in your repository. Then you execute the
-following commands in this order in the command prompt:
+_dev\qscintilla\qscintilla_uve\Qt4Qt5_ in your repository. 
+If there exist the subfolders _release_ and _debug_, delete them.
+Then execute the following commands in this order in the command prompt:
 ```
->qmake
+>qmake qscintilla.pro
 >make
 >make install 
 ```
    
 or in the MinGW version
 ```
->qmake
+>qmake qscintilla.pro
 >mingw32-make
 >mingw32-make install
 ```
@@ -71,8 +71,7 @@ Install Bison with the installer from [their website]
 spaces in it's name and location (recommended: _C:\GnuWin32_), else it will not
 work. Then add the location of the bin folder in the installation directory to
 the environment variable PATH (e.g. _C:\GnuWin32\bin_).
-For flex download a zip file from [their website](http://flex.sourceforge.net).
-Extract the files (without any folders) in zip file to the bin folder of Bison.
+For flex download a zip file from [their website](http://flex.sourceforge.net) and extract the files (without any folders) in zip file to the bin folder of Bison or install [Flex for Windows](http://gnuwin32.sourceforge.net/packages/flex.htm) to the same destination as Bison.
 
 ### Load and Compile
 

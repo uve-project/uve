@@ -37,6 +37,6 @@
   * - DD being the day.
   * - x being used to number the releases of a single day.
   */
-#define UVE_VERSION "14.04.07.1"
+#define UVE_VERSION "14.09.10.1"
 
 #endif // CURRENT_VERSION_H

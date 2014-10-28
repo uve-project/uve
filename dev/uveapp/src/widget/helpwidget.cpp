@@ -18,7 +18,6 @@
 */
 #include "helpwidget.h"
 #include "uveconstants.h"
-#include <QtWebKitWidgets/QWebView>
 
 #include <QHBoxLayout>
 
@@ -30,10 +29,10 @@ HelpWidget::HelpWidget(QWidget *parent) :
 { 
     setWindowTitle( tr("Help") );
 
-    _view = new QWebView();
+    _view = new QWebView(this);
     QUrl myUrl = QUrl(UVE_MANUAL);
     myUrl.setScheme("file");
-    _view->setUrl( myUrl );
+    _view->setUrl(myUrl);
     _view->show();
 
     QHBoxLayout *layout = new QHBoxLayout( this );
