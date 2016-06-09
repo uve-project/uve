@@ -147,31 +147,31 @@ FunctionEnd
 
 LangString InstMode_Header ${LANG_ENGLISH} "Choose Installation Mode"
 LangString InstMode_Header ${LANG_FRENCH}  "Choisissez le mode d'installation"
-LangString InstMode_Header ${LANG_GERMAN}  "Installationsart ausw‰hlen"
-LangString InstMode_Header ${LANG_ITALIAN} "Selezionare la modalit‡ di installazione"
-LangString InstMode_Header ${LANG_SPANISH} "Seleccione el modo de instalaciÛn"
+LangString InstMode_Header ${LANG_GERMAN}  "Installationsart ausw√§hlen"
+LangString InstMode_Header ${LANG_ITALIAN} "Selezionare la modalit√† di installazione"
+LangString InstMode_Header ${LANG_SPANISH} "Seleccione el modo de instalaci√≥n"
 
 LangString InstMode_SubHeader ${LANG_ENGLISH} "Choose how you want to install ${PRODUCT_NAME}."
 LangString InstMode_SubHeader ${LANG_FRENCH}  "Choisissez comment installer ${PRODUCT_NAME}."
-LangString InstMode_SubHeader ${LANG_GERMAN}  "W‰hlen Sie die Art, wie ${PRODUCT_NAME} installiert werden soll."
+LangString InstMode_SubHeader ${LANG_GERMAN}  "W√§hlen Sie die Art, wie ${PRODUCT_NAME} installiert werden soll."
 LangString InstMode_SubHeader ${LANG_ITALIAN} "Scegliere come installare ${PRODUCT_NAME}."
 LangString InstMode_SubHeader ${LANG_SPANISH} "Elija la forma de instalar ${PRODUCT_NAME}."
 
 LangString InstMode_Label ${LANG_ENGLISH} "Select the installation mode:"
 LangString InstMode_Label ${LANG_FRENCH}  "Choisissez le mode d'installation:"
-LangString InstMode_Label ${LANG_GERMAN}  "W‰hlen Sie die Installationsart:"
+LangString InstMode_Label ${LANG_GERMAN}  "W√§hlen Sie die Installationsart:"
 LangString InstMode_Label ${LANG_ITALIAN} "Select the installation mode:"
 LangString InstMode_Label ${LANG_SPANISH} "Select the installation mode:"
 
 LangString InstMode_Registered ${LANG_ENGLISH} "Registered"
-LangString InstMode_Registered ${LANG_FRENCH}  "RÈgistrÈ"
+LangString InstMode_Registered ${LANG_FRENCH}  "R√©gistr√©"
 LangString InstMode_Registered ${LANG_GERMAN}  "Registriert"
 LangString InstMode_Registered ${LANG_ITALIAN} "Registered"
 LangString InstMode_Registered ${LANG_SPANISH} "Registered"
 
 LangString InstMode_Registered_Label ${LANG_ENGLISH} "Install ${PRODUCT_NAME} on this computer and create shortcuts on the desktop and in the startmenu"
-LangString InstMode_Registered_Label ${LANG_FRENCH}  "Installez ${PRODUCT_NAME} sur cet ordinateur et crÈez des raccourcis sur le bureau et dans le menu dÈmarrer."
-LangString InstMode_Registered_Label ${LANG_GERMAN}  "Installiert ${PRODUCT_NAME} auf diesem Computer und erstellt Verkn¸pfungen auf dem Desktop und im Startmen¸."
+LangString InstMode_Registered_Label ${LANG_FRENCH}  "Installez ${PRODUCT_NAME} sur cet ordinateur et cr√©ez des raccourcis sur le bureau et dans le menu d√©marrer."
+LangString InstMode_Registered_Label ${LANG_GERMAN}  "Installiert ${PRODUCT_NAME} auf diesem Computer und erstellt Verkn√ºpfungen auf dem Desktop und im Startmen√º."
 LangString InstMode_Registered_Label ${LANG_ITALIAN} "Installare ${PRODUCT_NAME} sul computer."
 LangString InstMode_Registered_Label ${LANG_SPANISH} "Instale ${PRODUCT_NAME} en este equipo."
 
@@ -179,19 +179,19 @@ LangString InstMode_Portable ${LANG_ENGLISH} "Portable"
 LangString InstMode_Portable ${LANG_FRENCH}  "Portable"
 LangString InstMode_Portable ${LANG_GERMAN}  "Tragbar"
 LangString InstMode_Portable ${LANG_ITALIAN} "Portatile"
-LangString InstMode_Portable ${LANG_SPANISH} "Port·til"
+LangString InstMode_Portable ${LANG_SPANISH} "Port√°til"
 
 LangString InstMode_Portable_Label ${LANG_ENGLISH} "Copy the required files into the destination folder."
-LangString InstMode_Portable_Label ${LANG_FRENCH}  "Copie les fichiers nÈcessaires dans le dossier de destination."
-LangString InstMode_Portable_Label ${LANG_GERMAN}  "Kopiere die benˆtigten Dateien in den Zielordner."
+LangString InstMode_Portable_Label ${LANG_FRENCH}  "Copie les fichiers n√©cessaires dans le dossier de destination."
+LangString InstMode_Portable_Label ${LANG_GERMAN}  "Kopiere die ben√∂tigten Dateien in den Zielordner."
 LangString InstMode_Portable_Label ${LANG_ITALIAN} "Copia i file necessari nella cartella di destinazione."
 LangString InstMode_Portable_Label ${LANG_SPANISH} "Copia los archivos necesarios en la carpeta de destino."
 
 LangString Directory_AccessRights_Error ${LANG_ENGLISH} "You do not seem to have write access to this directory. Please choose another location or restart the installer with administrator privileges."
-LangString Directory_AccessRights_Error ${LANG_FRENCH}  "Il semble que vous n'avez pas d'accËs en Ècriture ‡ ce rÈpertoire. Choisissez un autre rÈpertoire ou redÈmarrez le programme d'installation avec des privilËges d'administrateur."
-LangString Directory_AccessRights_Error ${LANG_GERMAN}  "Sie scheinen keinen Schreibzugriff auf dieses Verzeichnis zu haben. Bitte w‰hlen Sie ein anderes Verzeichnis oder starten Sie das Installationsprogramm mit Administratorrechten neu."
+LangString Directory_AccessRights_Error ${LANG_FRENCH}  "Il semble que vous n'avez pas d'acc√®s en √©criture √† ce r√©pertoire. Choisissez un autre r√©pertoire ou red√©marrez le programme d'installation avec des privil√®ges d'administrateur."
+LangString Directory_AccessRights_Error ${LANG_GERMAN}  "Sie scheinen keinen Schreibzugriff auf dieses Verzeichnis zu haben. Bitte w√§hlen Sie ein anderes Verzeichnis oder starten Sie das Installationsprogramm mit Administratorrechten neu."
 LangString Directory_AccessRights_Error ${LANG_ITALIAN} "Non sembrano avere accesso in scrittura a questa directory. Si prega di scegliere un'altra posizione o riavviare il programma di installazione con privilegi di amministratore."
-LangString Directory_AccessRights_Error ${LANG_SPANISH} "No parecen tener acceso de escritura a este directorio. Por favor seleccione un directorio diferente o reiniciar el programa de instalaciÛn con privilegios de administrador."
+LangString Directory_AccessRights_Error ${LANG_SPANISH} "No parecen tener acceso de escritura a este directorio. Por favor seleccione un directorio diferente o reiniciar el programa de instalaci√≥n con privilegios de administrador."
 
 Var boldFont
 Function portableModePageCreate
@@ -249,7 +249,7 @@ Function directoryPageLeave
         Abort
     ${EndIf}
 FunctionEnd
-    
+
 ###############################################################################
 # Configuration
 Name "${PRODUCT_NAME} ${PRODUCT_VERSION}"

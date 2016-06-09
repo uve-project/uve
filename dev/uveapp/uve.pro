@@ -4,18 +4,21 @@
     message("Cannot build Quotations with Qt version $${QT_VERSION}.")
     error("Use at least Qt 5.0.")
 }
+#TODO: insert check to allow only up to Qt 5.5, because QtWebKit gets removed
+#      see https://en.wikipedia.org/wiki/List_of_Qt_releases#Qt_5
 
 TEMPLATE = app
 
-QT += core gui widgets webkit webkitwidgets
+QT += core gui widgets
 CONFIG += qt rtti silent
 #CONFIG += debug_and_release
-# CONFIG += debug
- CONFIG += release
+#CONFIG += debug
+CONFIG += release
 
 # In order to avoid warnings with the parser
-QMAKE_CXXFLAGS          += -Wno-write-strings -Wall
-QMAKE_CXXFLAGS_WARN_ON  += -Wno-reorder
+#QMAKE_CXXFLAGS          += -Wno-write-strings -Wall
+QMAKE_CXXFLAGS          += -Wall
+#QMAKE_CXXFLAGS_WARN_ON  += -Wno-reorder
 
 # Compilation/Application directory
 DESTDIR = dist
@@ -27,9 +30,12 @@ win32{
     MOC_DIR = tmp/moc/win
     CONFIG(release) {
         DESTDIR = ./bin/win/release
-        CONFIG -= console
+        CONFIG += windows
         message(Win32 release build!)
     }
+    # fix for https://github.com/uve-project/uve/issues/12
+    # include dlls needed by mingw 
+    QMAKE_LFLAGS += -static
 }
 unix{
     OBJECTS_DIR = tmp/obj/linux
@@ -38,8 +44,10 @@ unix{
 
 # QT components
 QT += xml
-QT += webkit
 QT += xmlpatterns
+QT += webkit
+QT += webkitwidgets
+#QT += webenginewidgets
 
 # Application name
 TARGET = uve
@@ -275,69 +283,71 @@ OTHER_FILES += \
 DEFINES += YY_NO_INPUT
 
 win32{
-FLEXSOURCES = src/parser/vhdl.lex
-BISONSOURCES = src/parser/vhdl.yacc
-flex.commands = flex ${QMAKE_FILE_IN} && move lex.yy.c src/parser/lex.yy.c
-flex.input = FLEXSOURCES
-flex.output = src/parser/lex.yy.c
-flex.variable_out = SOURCES
-flex.depends = src/parser/y.tab.h
-flex.name = flex
-flex.options += yylineno
-QMAKE_EXTRA_COMPILERS += flex
-bison.commands = bison \
-    -d \
-    -t \
-    -y \
-    ${QMAKE_FILE_IN} \
-    && move y.tab.c src/parser/y.tab.cpp && move y.tab.h src/parser/y.tab.h
-bison.input = BISONSOURCES
-bison.output = src/parser/y.tab.cpp
-bison.variable_out = SOURCES
-bison.name = bison
-QMAKE_EXTRA_COMPILERS += bison
-bisonheader.commands = @true
-bisonheader.input = BISONSOURCES
-bisonheader.output = src/parser/y.tab.h
-bisonheader.variable_out = HEADERS
-bisonheader.name = bison header
-bisonheader.depends = src/parser/y.tab.cpp
-QMAKE_EXTRA_COMPILERS += bisonheader
+    FLEXSOURCES = src/parser/vhdl.lex
+    BISONSOURCES = src/parser/vhdl.yacc
+    flex.commands = flex ${QMAKE_FILE_IN} && move lex.yy.c src/parser/lex.yy.c
+    flex.input = FLEXSOURCES
+    flex.output = src/parser/lex.yy.c
+    flex.variable_out = SOURCES
+    flex.depends = src/parser/y.tab.h
+    flex.name = flex
+    flex.options += yylineno
+    QMAKE_EXTRA_COMPILERS += flex
+    bison.commands = bison \
+        -d \
+        -t \
+        -y \
+        ${QMAKE_FILE_IN} \
+        && move y.tab.c src/parser/y.tab.cpp && move y.tab.h src/parser/y.tab.h
+    bison.input = BISONSOURCES
+    bison.output = src/parser/y.tab.cpp
+    bison.variable_out = SOURCES
+    bison.name = bison
+    QMAKE_EXTRA_COMPILERS += bison
+    bisonheader.commands = @true
+    bisonheader.input = BISONSOURCES
+    bisonheader.output = src/parser/y.tab.h
+    bisonheader.variable_out = HEADERS
+    bisonheader.name = bison header
+    bisonheader.depends = src/parser/y.tab.cpp
+    QMAKE_EXTRA_COMPILERS += bisonheader
+#    LEXSOURCES = src/parser/vhdl.lex
+#    YACCSOURCES = src/parser/vhdl.yacc
 }
 
 unix{
-FLEXSOURCES = src/parser/vhdl.lex
-BISONSOURCES = src/parser/vhdl.yacc
-flex.commands = flex \
-    ${QMAKE_FILE_IN} && mv lex.yy.c src/parser/lex.yy.c
-flex.input = FLEXSOURCES
-flex.output = src/parser/lex.yy.c
-flex.variable_out = SOURCES
-flex.depends = src/parser/y.tab.h
-flex.name = flex
-QMAKE_EXTRA_COMPILERS += flex
-bison.commands = bison \
-    -d \
-    -t \
-    -y \
-    ${QMAKE_FILE_IN} \
-    && \
-    mv \
-    y.tab.c \
-    src/parser/y.tab.cpp && mv y.tab.h src/parser/y.tab.h
-bison.input = BISONSOURCES
-bison.output = src/parser/y.tab.cpp
-bison.variable_out = SOURCES
-bison.name = bison
-QMAKE_EXTRA_COMPILERS += bison
-bisonheader.commands = @true
-bisonheader.input = BISONSOURCES
-bisonheader.output = src/parser/y.tab.h
-bisonheader.variable_out = HEADERS
-bisonheader.name = bison \
-    header
-bisonheader.depends = src/parser/y.tab.cpp
-QMAKE_EXTRA_COMPILERS += bisonheader
+    FLEXSOURCES = src/parser/vhdl.lex
+    BISONSOURCES = src/parser/vhdl.yacc
+    flex.commands = flex \
+        ${QMAKE_FILE_IN} && mv lex.yy.c src/parser/lex.yy.c
+    flex.input = FLEXSOURCES
+    flex.output = src/parser/lex.yy.c
+    flex.variable_out = SOURCES
+    flex.depends = src/parser/y.tab.h
+    flex.name = flex
+    QMAKE_EXTRA_COMPILERS += flex
+    bison.commands = bison \
+        -d \
+        -t \
+        -y \
+        ${QMAKE_FILE_IN} \
+        && \
+        mv \
+        y.tab.c \
+        src/parser/y.tab.cpp && mv y.tab.h src/parser/y.tab.h
+    bison.input = BISONSOURCES
+    bison.output = src/parser/y.tab.cpp
+    bison.variable_out = SOURCES
+    bison.name = bison
+    QMAKE_EXTRA_COMPILERS += bison
+    bisonheader.commands = @true
+    bisonheader.input = BISONSOURCES
+    bisonheader.output = src/parser/y.tab.h
+    bisonheader.variable_out = HEADERS
+    bisonheader.name = bison \
+        header
+    bisonheader.depends = src/parser/y.tab.cpp
+    QMAKE_EXTRA_COMPILERS += bisonheader
 }
 
 FORMS += \
@@ -351,3 +361,6 @@ FORMS += \
     src/widget/uvexmlvalidator.ui
 
 TRANSLATIONS    = uve_fr.ts
+
+DISTFILES += \
+    uve_qt_model.qmodel
