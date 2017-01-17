@@ -109,7 +109,7 @@ char* s;
 // Else it is automatically defined by flex
 #ifndef ECHO
 
-  // Well, ok, we do not really want any echo
+// Well, ok, we do not really want any echo
 #define ECHO
 //#define ECHO echo(yytext)
 //  static void echo(char *s)
@@ -294,7 +294,8 @@ static int find_mc(char *s)
 
 /* Suppresses the warning about yyunput declared but not used */
 %option nounput
-
+%option yylineno
+%option input
 
 upper_case_letter 	  [A-Z]
 digit 			  [0-9]

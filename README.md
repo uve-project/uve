@@ -24,7 +24,7 @@ For more information visit our homepage: __www.systemverilog.ch__
 Windows
 -------
 
-You can get the [latest UVE installer for windows form our homepage]
+You can get the [latest UVE installer for windows from our homepage]
 (http://www.systemverilog.ch/downloads/) our you can build the source yourself
 with the instructions below.
 
@@ -33,35 +33,23 @@ with the instructions below.
 This is the component used to build the code editing feature. It's already 
 present in the repository, but has to be installed
 manually. This is done by opening the Qt Console. You should find it in your
-START menu, it might be called something like _Qt 5.3 for Desktop (MinGW 4.8 32 bit)_.
+START menu, it might be called something like _Qt 5.4 for Desktop (<your compiler>)_.
 
 Inside the console you have to navigate to the folder 
 _dev\qscintilla\qscintilla_uve\Qt4Qt5_ in your repository. 
-If there exist the subfolders _release_ and _debug_, delete them.
-Then execute the following commands in this order in the command prompt:
-```
->qmake qscintilla.pro
->make
->make install 
-```
-   
-or in the MinGW version
-```
->qmake qscintilla.pro
->mingw32-make
->mingw32-make install
-```
+If there exist the sub-folders _release_ and _debug_, execute the *clean.bat* script.
+Then execute the *compile_msvc.bat* script or the *compile_mingw.bat* script, depending on your compiler. If there is a message about some file not found, adapt the path in the script.
 
-If an error like this _"Makefile.Debug:60: *** missing separator.  Stop."_
+If an error like _"Makefile.Debug:60: *** missing separator.  Stop."_
 appears, MinGW is not installed. On Qt Creator 2.4.1 or older
 ( _check Help->About Qt Creator..._ ) you can check if you have MinGW installed
 by going to _Help->Start Updater_ in the Qt Creator Menu. Then select Package
 Manager on the _Maintain Qt SDK_ dialog that opens. Upon clicking _Next_ you
 get to the _Select components_ screen where you should find
 _Miscellaneous-> MinGW x.x._ Put a tick in the box and continue the installation
-with _Next_. If you have a newer version of Qt Creator you can install minGW 
+with _Next_. If you have a newer version of Qt Creator you can install MinGW 
 with the [latest Windows installer from their website]
-(http://sourceforge.net/projects/mingw/files/Installer/mingw-get-inst/).
+(http://sourceforge.net/projects/mingw/files/Installer/mingw-get-inst/) or with the Qt Maintenance Tool.
 
 ### Flex and Bison 
 
