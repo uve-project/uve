@@ -156,7 +156,7 @@ QRectF UvmComponentView::placeAccessors(QRectF rect)
     if(!model->getOtherFiles().isEmpty())
         fileAccessors++;
 
-    if(!fileAccessors > 0)
+    if(fileAccessors == 0)
         return rect;
 
     if(model->getChildren().empty())

@@ -428,6 +428,10 @@ void testMessageOutput(QtMsgType type, const QMessageLogContext &/*context*/, co
          if (testVerbosity<=VERBOSITY_DEBUG)
              fprintf(stderr, "Debug: %s\n", msg.toLatin1().constData());
          break;
+     case QtInfoMsg:
+         if (testVerbosity<=VERBOSITY_INFO)
+             fprintf(stderr, "Critical: %s\n", msg.toLatin1().constData());
+         break;
      case QtWarningMsg:
          if (testVerbosity<=VERBOSITY_WARNING)
              fprintf(stderr, "Warning: %s\n", msg.toLatin1().constData());

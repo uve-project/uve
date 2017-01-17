@@ -22,9 +22,10 @@
 #include <QString>
 
 #define VERBOSITY_DEBUG    1
-#define VERBOSITY_WARNING  2
-#define VERBOSITY_CRITICAL 3
-#define VERBOSITY_FATAL    4
+#define VERBOSITY_INFO     2
+#define VERBOSITY_WARNING  3
+#define VERBOSITY_CRITICAL 4
+#define VERBOSITY_FATAL    5
 
 void testMessageOutput(QtMsgType type, const QMessageLogContext &context, const QString &msg);
 void setVerbosity(int verbosity);

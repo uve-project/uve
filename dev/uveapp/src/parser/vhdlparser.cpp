@@ -77,7 +77,7 @@ QList<PhysicalPort *> VHDLFileContent::getPorts(const QString &entityName,Physic
     for(int i=0; i<entity->nbPorts; i++)
     {
         QString str = entity->portRacine[i].mode;
-        PhysicalPort *port;
+        PhysicalPort *port = 0;
         if(str.compare("IN") == 0)
             port = UvmPort::newPhysicalPort(entity->portRacine[i].name, UvmPort::DUT, UvmPort::PORT_IN, entity->portRacine[i].type, parent);
         if(str.compare("OUT") == 0)

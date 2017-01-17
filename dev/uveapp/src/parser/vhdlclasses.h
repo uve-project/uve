@@ -19,6 +19,8 @@
 #ifndef VHDLCLASSES_H
 #define VHDLCLASSES_H
 
+#include <QString>
+#include <QStringList>
 
 /**
   Types

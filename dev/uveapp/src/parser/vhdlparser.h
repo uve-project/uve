@@ -37,52 +37,11 @@
 
 #include <QString>
 #include <iostream>
-#include "messagewidget.h"
+//#include "messagewidget.h"
+#include "vhdlutils.h"
 #include "../uvmmodel/uvmport.h"
 #include "../uvmmodel/uvmdesign.h"
 #include "vhdlclasses.h"
-
-
-class VHDLParserPrivate;
-
-class VHDLFileContent;
-
-/** Parse a VHDL file to fetch some data
-  Right now, this parser fetches :
-  \li The entity ports
-  \li The entity name
-  It supposes that the given VHDL file contains only one entity
-  */
-class VHDLParser
-{
-public:
-    //! This object is not a singleton, but it uses one
-    VHDLParser ();
-
-    /** Read and parse a VHDL file
-      The file will be parsed even if it's not a VHDL file, so be carefull.
-      @param file The file to read
-      @return The parser return code. No idea what it meant.
-      */
-    int read (const QString &file);
-
-    //! Return a string containing a description of the error (maybe)
-    QString errorString () const;
-
-    //! Returns the content of the VHDL file
-    //! This content is created every time the function is called, and so it is
-    //! The responsibility of the caller to delete the object after use
-    VHDLFileContent *getVHDLFileContent() const;
-
-private:
-    //THE instance of the parser
-    VHDLParserPrivate *_parser;
-    //Our errors
-    QString _errors;
-
-    QString curFileName;
-};
-
 
 
 
@@ -132,5 +91,43 @@ public:
         static VHDLParserPrivate *singleton;
         QMutex m_mutex;
 };
+
+
+/** Parse a VHDL file to fetch some data
+  Right now, this parser fetches :
+  \li The entity ports
+  \li The entity name
+  It supposes that the given VHDL file contains only one entity
+  */
+class VHDLParser
+{
+public:
+    //! This object is not a singleton, but it uses one
+    VHDLParser ();
+
+    /** Read and parse a VHDL file
+      The file will be parsed even if it's not a VHDL file, so be carefull.
+      @param file The file to read
+      @return The parser return code. No idea what it meant.
+      */
+    int read (const QString &file);
+
+    //! Return a string containing a description of the error (maybe)
+    QString errorString () const;
+
+    //! Returns the content of the VHDL file
+    //! This content is created every time the function is called, and so it is
+    //! The responsibility of the caller to delete the object after use
+    VHDLFileContent *getVHDLFileContent() const;
+
+private:
+    //THE instance of the parser
+    VHDLParserPrivate *_parser;
+    //Our errors
+    QString _errors;
+
+    QString curFileName;
+};
+
 
 #endif // VHDLPARSER_H

@@ -26,12 +26,18 @@
                  Departement TIC
  Date   : 28.07.11
 
+ Modifications : Yann Thoma
+ Date   : 09.03.2016
+ Description: Removed dependency on QtGui
+
  */
 
 #ifndef VHDLUTILS_H
 #define VHDLUTILS_H
 
-#include <QtGui>
+#include <QString>
+#include <QStringList>
+#include <QFile>
 
 class AnalyzerMessage
 {
